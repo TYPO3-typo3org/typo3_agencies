@@ -1,0 +1,120 @@
+html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}del,ins{text-decoration:none;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:baseline;}sub{vertical-align:baseline;}legend{color:#000;}input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}input,button,textarea,select{font-size:100%;}
+
+/* mac glow disable */
+
+input:focus { outline: none; }
+
+/* Custom stuff : Mozila button reset*/
+.bu::-moz-focus-inner,
+button::-moz-focus-inner,
+input::-moz-focus-inner 		{ padding: 0; border: none; }
+
+.htmlarea-content-body 		{ font: 12px/18px Arial, 'Helvetica Neue', Helvetica, sans-serif !important; }
+
+/* General content elements
+------------------------------ */
+
+h1,
+h2,
+h3,
+h4,
+legend			{ font: normal 24px sans-serif; margin: 22px 0 5px 0; }
+h1				{ color: #ff8700; margin-top: 0; margin-bottom: 20px; }
+h2				{ font-size: 20px; margin-bottom: 6px; }
+h3				{ font-size: 18px; color: #8c8c8c; margin-bottom: 6px; }
+h4				{ font-size: 16px; margin-bottom: 7px; }
+h5				{ font-size: 12px; font-weight: bold; margin-bottom: 5px; }
+
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child	{ margin-top: 0; }
+
+blockquote						{ color: #818181; font-size: 14px; line-height: 20px; font-style: italic; padding: 6px 0 0 36px; position: relative; background: url(../i/blockquote.png) no-repeat -23px 0; }
+.blockquote-indent				{ margin-left: -36px; }
+.quote-right					{ display: inline-block; width: 22px; height: 21px; vertical-align: text-top; margin: 5px 0 0 12px;  background: url(../i/blockquote.png) no-repeat 0 0;}
+p.author						{ text-align: right; font-size: 11px; line-height: 14px; }
+p.author strong,
+p.author b						{ color: #000; font-weight: bold; }
+
+pre, code, kbd, samp	{ padding: 0 1px; background-color: #eee; font-family: Arial, sans-serif; font-size: 12px; }
+pre						{ border: 1px solid #c8c8c8; padding: 10px 35px; background: #f7f7f7 url(../i/pre.png) repeat-y; margin: 0; white-space: pre; white-space: pre-wrap; white-space: -o-pre-wrap; white-space: -moz-pre-wrap; word-wrap: break-word; }
+b, strong				{ font-weight: bold; }
+i, em					{ font-style: italic; }
+dfn						{ font-style: italic; font-weight: bold; }
+del						{ text-decoration: line-through; }
+sup, sub				{ position: relative; font-size: 0.8em; }
+sup						{ top: -0.4em; }
+sub						{ bottom: -0.3em; }
+small					{ font-size: 0.8em; }
+
+p, ul, ol, dl, table, caption, blockquote, address, pre, hr, .hr { margin-bottom: 17px; }
+
+a 					{ color: #f58006 !important; }
+a:visited 			{ }
+a:hover  			{ text-decoration: none; }
+a:active 			{ }
+
+/* Unordered List
+------------------------------ */
+
+ul 				{ margin-left: 0; }
+ul li			{ padding-left: 20px; background: url(../i/i-arrows.png) no-repeat -1152px -235px; }
+
+/* Arrow List
+------------------------------ */
+
+ul.arrow-list li { background-position: -1192px -195px; }
+
+/* Simple list
+--------------------------------------- */
+
+ul.simple-list			{  }
+ul.simple-list li	{ margin: 0; background: none; padding: 0 0 5px 0; }
+
+/* Check list
+--------------------------------------- */
+ul.check-list					{  }
+ul.check-list li				{ position: relative; padding: 0 0 5px 26px; background: none; }
+ul.check-list li:before,
+ul.check-list .icon				{ content: ''; width: 18px; height: 14px; position: absolute; left: 0; top: 1px; background: url(../i/s-icons.png) no-repeat -18px -23px; }
+ul.check-list li.checked:before,
+ul.check-list .checked .icon	{ background-position: 0 -23px; }
+li.checked						{ }
+
+/* Ordered List
+------------------------------ */
+
+ol				{ margin-left: 20px; }
+ol li			{ position: relative; list-style: decimal; }
+
+/* Buttons
+------------------------------ */
+
+a.bu	{ height: 23px; color: #FFF !important; line-height: 23px; font-size: 11px; background: transparent url(../i/s-buttons.png) no-repeat 0 0; padding: 0 12px; cursor: pointer; text-decoration: none !important; display: inline-block; vertical-align: middle; border: 1px solid #e87c0c; }
+
+/* Tables
+---------------------------------------- */
+
+table p,
+table td,
+table th 			{ font: 12px/18px Arial, 'Helvetica Neue', Helvetica, sans-serif !important; }
+table.featured,
+table				{ border-collapse: collapse; width: 100%; margin-bottom: 28px; }
+table caption		{ text-align: center; font: 12px/18px Arial, 'Helvetica Neue', Helvetica, sans-serif !important; }
+table th,	
+table td				{ border: 1px solid #ccc; padding: 6px 10px 5px; vertical-align: top; }
+table th,
+table th p				{ background: #e6e6e6; font-weight: normal; text-align: left; font-weight: bold !important; }
+table td				{ }
+table.featured .tr-even td	{ background: #f3f3f3 }
+table.featured th			{ background: #ff8700 url(../i/featured.png) repeat-x 0 0; border-color: #e87c0c; color: #FFF; }
+table p 			{ margin: 0px; }
+
+/* Left, center, right and justify alignment of text in block elements*/
+p.align-left, td.align-left, th.align-left, h1.align-left, h2.align-left, h3.align-left, h4.align-left, h5.align-left, h6.align-left, div.align-left, address.align-left { text-align: left; }
+p.align-center, td.align-center, th.align-center, h1.align-center, h2.align-center, h3.align-center, h4.align-center, h5.align-center, h6.align-center, div.align-center, address.align-center { text-align: center; }
+p.align-right, td.align-right, th.align-right, h1.align-right, h2.align-right, h3.align-right, h4.align-right, h5.align-right, h6.align-right, div.align-right, address.align-right { text-align: right; }
+p.align-justify, td.align-justify, th.align-justify, h1.align-justify, h2.align-justify, h3.align-justify, h4.align-justify, h5.align-justify, h6.align-justify, div.align-justify, address.align-justify { text-align: justify; }

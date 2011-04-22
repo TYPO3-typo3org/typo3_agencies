@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'typo3_agencies'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tx_typo3agencies_domain_model_reference">TYPO3 Reference</label>
+			<label index="tx_typo3agencies_domain_model_reference.select">Please select</label>
+			<label index="tx_typo3agencies_domain_model_reference.general_sheet">General</label>
+			<label index="tx_typo3agencies_domain_model_reference.title">Headline</label>
+			<label index="tx_typo3agencies_domain_model_reference.description">About the project</label>
+			<label index="tx_typo3agencies_domain_model_reference.link">Link</label>
+			<label index="tx_typo3agencies_domain_model_reference.pages">Number of pages</label>
+			<label index="tx_typo3agencies_domain_model_reference.pages0">&lt;100</label>
+			<label index="tx_typo3agencies_domain_model_reference.pages1">100-499</label>
+			<label index="tx_typo3agencies_domain_model_reference.pages2">500-1000</label>
+			<label index="tx_typo3agencies_domain_model_reference.pages3">&gt;1000</label>
+			<label index="tx_typo3agencies_domain_model_reference.languages">Number of languages</label>
+			<label index="tx_typo3agencies_domain_model_reference.category">Category</label>
+			<label index="tx_typo3agencies_domain_model_reference.category0">Intranet</label>
+			<label index="tx_typo3agencies_domain_model_reference.category1">Internet</label>
+			<label index="tx_typo3agencies_domain_model_reference.category2">Extranet</label>
+			<label index="tx_typo3agencies_domain_model_reference.category3">Microsite</label>
+			<label index="tx_typo3agencies_domain_model_reference.category4">Application</label>
+			<label index="tx_typo3agencies_domain_model_reference.category_other">Other Category</label>
+			<label index="tx_typo3agencies_domain_model_reference.tags">Tags</label>
+			<label index="tx_typo3agencies_domain_model_reference.industry">Industry</label>
+			<label index="tx_typo3agencies_domain_model_reference.industry0">Automotive</label>
+			<label index="tx_typo3agencies_domain_model_reference.industry1">Insurance and Finance</label>
+			<label index="tx_typo3agencies_domain_model_reference.industry2">Services</label>
+			<label index="tx_typo3agencies_domain_model_reference.industry3">NGO</label>
+			<label index="tx_typo3agencies_domain_model_reference.industry_other">Other Industry</label>
+			<label index="tx_typo3agencies_domain_model_reference.screenshot">Screenshot</label>
+			<label index="tx_typo3agencies_domain_model_reference.screenshot_gallery">Screenshot for gallery</label>
+			<label index="tx_typo3agencies_domain_model_reference.casestudy">Casestudy</label>
+			<label index="tx_typo3agencies_domain_model_reference.company">Company</label>
+			<label index="tx_typo3agencies_domain_model_reference.size">Company size</label>
+			<label index="tx_typo3agencies_domain_model_reference.size0">&lt;1Mio</label>
+			<label index="tx_typo3agencies_domain_model_reference.size1">1-49Mio</label>
+			<label index="tx_typo3agencies_domain_model_reference.size2">50-500Mio</label>
+			<label index="tx_typo3agencies_domain_model_reference.size3">&gt;500Mio</label>
+			<label index="tx_typo3agencies_domain_model_reference.country">Company country</label>
+			<label index="tx_typo3agencies_domain_model_reference.listed">The company is listed in the Fortune1000</label>
+			<label index="tx_typo3agencies_domain_model_reference.about">About the company</label>
+			<label index="tx_typo3agencies_domain_model_reference.conclusion">Conclusion</label>
+			<label index="tx_typo3agencies_domain_model_reference.deactivated">Deactivated</label>
+			<label index="tx_typo3agencies_domain_model_agency">Reference agency</label>
+			<label index="tx_typo3agencies_domain_model_agency.name">Company Name</label>
+			<label index="tx_typo3agencies_domain_model_agency.logo">Logo</label>
+			<label index="tx_typo3agencies_domain_model_agency.link">Link</label>
+			<label index="tx_typo3agencies_domain_model_agency.training_service">Training Service</label>
+			<label index="tx_typo3agencies_domain_model_agency.hosting_service">Hosting Service</label>
+			<label index="tx_typo3agencies_domain_model_agency.development_service">Development Service</label>
+			<label index="tx_typo3agencies_domain_model_agency.administrator">Administrator</label>
+			<label index="tx_typo3agencies_domain_model_agency.about">About the agency</label>
+			<label index="tx_typo3agencies_domain_model_agency.salutation">Salutation</label>
+			<label index="tx_typo3agencies_domain_model_agency.first_name">First Name</label>
+			<label index="tx_typo3agencies_domain_model_agency.last_name">Last Name</label>
+			<label index="tx_typo3agencies_domain_model_agency.email">Email</label>
+			<label index="tx_typo3agencies_domain_model_agency.address">Address</label>
+			<label index="tx_typo3agencies_domain_model_agency.zip">Zip</label>
+			<label index="tx_typo3agencies_domain_model_agency.city">City</label>
+			<label index="tx_typo3agencies_domain_model_agency.latitude">Latitude</label>
+			<label index="tx_typo3agencies_domain_model_agency.longitude">Longitude</label>
+			<label index="tx_typo3agencies_domain_model_agency.country">Country</label>
+			<label index="tx_typo3agencies_domain_model_agency.member">TYPO3 Association Member</label>
+			<label index="tx_typo3agencies_domain_model_agency.member.1">Bronze member</label>
+			<label index="tx_typo3agencies_domain_model_agency.member.2">Silver member</label>
+			<label index="tx_typo3agencies_domain_model_agency.member.3">Gold member</label>
+			<label index="tx_typo3agencies_domain_model_agency.member.4">Platenium member</label>
+		</languageKey>
+	</data>
+</T3locallang>

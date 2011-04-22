@@ -1,0 +1,83 @@
+<f:layout name="default" />
+<f:section name="content">
+	<div class="single">
+		<div>
+			<h3>{reference.title}</h3>
+			<p><strong><f:translate key="conclusion">Conclusion</f:translate></strong> {reference.conclusion}</p>
+			<f:if condition="{reference.screenshot}">
+				<div class="image"><img src="{uploadPath}/{reference.screenshot}" rel="lightbox[gallery]"/></div>
+				<f:if condition="{galleryImages}">
+					<a rel="lightbox[gallery]" href="{uploadPath}/{reference.screenshot}">Gallery</a>
+				</f:if>
+				<f:for each="{galleryImages}" as="image">
+					<a rel="lightbox[gallery]" href="{uploadPath}/{image}"><img rel="lightbox[gallery]" src="{uploadPath}/{image}" style="height:0px;"/></a>
+				</f:for>
+			</f:if>
+			<p class="description"><strong><f:translate key="aboutProject">About the Project</f:translate>:</strong> <f:format.nl2br>{reference.description}</f:format.nl2br></p>
+			<p class="company"><strong><f:translate key="aboutCompany">About the company</f:translate>:</strong> <f:format.nl2br>{reference.about}</f:format.nl2br></p>
+			<a href="{reference.link}" target="_blank"><f:translate key="openWebsite">Open website</f:translate></a>
+			<f:if condition="{reference.casestudy}">
+				<a href="{uploadPath}/{reference.casestudy}" >Download this case study as PDF Dokument</a>
+			</f:if>
+			<div class="facts">
+				<f:translate key="projectFacts">Project facts</f:translate><br/>
+				<f:if condition="{reference.listed}">
+					<f:translate key="listed">Company is listed in the Fortune1000</f:translate><br/>
+				</f:if>
+				<f:translate key="size">Company size</f:translate>:	<f:translate key="size{reference.size}">Company size</f:translate> <f:translate key="employees"> employees</f:translate><br/>
+				<f:translate key="pages">Number of pages</f:translate>: <f:translate key="page{reference.pages}">Company size</f:translate><br/>
+				<f:translate key="languages">Languages</f:translate>: {reference.languages}<br/>
+				<f:translate key="country">Country</f:translate>: {reference.country}<br/>
+				<hr/>
+				<f:translate key="industry">Industry</f:translate>: 
+				<f:if condition="{reference.industryOther}">
+					<f:then>
+						{reference.industryOther}
+					</f:then>
+					<f:else>
+						<f:translate key="industry{reference.industry}">Industry</f:translate>
+					</f:else>
+				</f:if>
+				<br/>
+				<f:translate key="category">Category</f:translate>: 
+				<f:if condition="{reference.categoryOther}">
+					<f:then>
+						{reference.categoryOther}
+					</f:then>
+					<f:else>
+						<f:translate key="category{reference.category}">Category</f:translate>
+					</f:else>
+				</f:if>
+				<br/>
+				<f:translate key="tags">Tags</f:translate>: {reference.tags}<br/>
+			</div>
+		</div>
+		<f:render partial="referenceActions" arguments="{reference: reference, administrator : administrator}" />
+		<hr/>
+		<div class="agency">
+			<f:translate key="agency">Agency</f:translate>:
+			<f:if condition="{reference.agency.member}==0">
+				<f:then>
+					The agency who did this project is not a TYPO3 Association member yet. Please support the TYPO3 Association and get your membership now.
+					<br/>
+					<form action="http://association.typo3.org/" method="POST">
+						<input type="submit" value="become a member"/>
+					</form>
+				</f:then>
+				<f:else>
+					<f:if condition="{reference.agency.logo}">
+						<div class="logo"><img src="{uploadPath}/{reference.agency.logo}" /></div>
+					</f:if>
+					<h3>{reference.agency.name}</h3>
+					<a href="{reference.agency.link}" class="url">{reference.agency.link}</a>
+					<p><strong><f:translate key="aboutAgency">About the agency</f:translate>.</strong> {reference.agency.about}</p>
+					<f:link.action action="show" controller="Agency" arguments="{agency : reference.agency}">
+						<span class="learnMore">Learn more about {reference.agency.name} and see other {reference.agency.name} projects.</span>
+					</f:link.action>
+				</f:else>
+			</f:if>
+		</div>
+	</div>
+	<hr/>
+	<a href="javascript:history.back()"><f:translate key="backToList">back to the list</f:translate></a>
+</f:section>

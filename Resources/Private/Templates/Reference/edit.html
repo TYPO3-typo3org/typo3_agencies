@@ -1,0 +1,67 @@
+<f:layout name="default" />
+
+<f:section name="content">
+	<div class="edit">
+		<f:if condition="{reference}">
+			<f:then>
+				<f:if condition="{administrator} == {reference.agency.administrator}">
+					<f:then>
+						<h1><f:translate key="editProject">Edit your project</f:translate></h1>
+						<f:render partial="formErrors" arguments="{for: 'reference'}" />
+						
+						<f:form method="post" controller="Reference" action="update" name="reference" object="{reference}" enctype="multipart/form-data">
+							<label for="headline"><f:translate key="headline">Headline</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.textbox property="title" /><br />
+							<label for="description"><f:translate key="aboutProject">About the project</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.textarea property="description" rows="8" cols="46" /><br />
+							<label for="conclusion"><f:translate key="conclusion">Conclusion</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.textarea property="conclusion" rows="8" cols="46" /><br />
+							<label for="link"><f:translate key="link">Link</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.textbox property="link" /><br />
+							<label for="pages"><f:translate key="pages">Number of pages</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.select property="pages" value="{pages}" options="{pagesList}"></f:form.select><br />
+							<label for="languages"><f:translate key="languages">Number of languages</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.textbox property="languages" /><br />
+							<label for="category"><f:translate key="category">Industry</f:translate></label><f:form.select property="category" value="{category}" options="{categories}"></f:form.select><br />
+							<label for="categoryOther"><f:translate key="other">other</f:translate>: </label><f:form.textbox property="categoryOther" /><br />
+							<label for="tags"><f:translate key="tags">Tags</f:translate>: </label><f:form.textbox property="tags" /><br />
+							<label for="industry"><f:translate key="industry">Industry</f:translate></label><f:form.select property="industry" value="{industry}" options="{industries}"></f:form.select><br />
+							<label for="industryOther"><f:translate key="other">other</f:translate>: </label><f:form.textbox property="industryOther" /><br />
+							<f:if condition="{reference.casestudy}">
+								<f:then>
+									<a href="{uploadPath}/{reference.casestudy}" ><f:translate key="casestudy">Casestudy</f:translate></a><br/>
+									<f:form.hidden property="casestudy" />
+								</f:then>
+								<f:else>
+									<f:translate key="casestudy">Casestudy</f:translate><f:form.upload property="casestudy" /><br />
+								</f:else>
+							</f:if>
+							<f:if condition="{reference.screenshot}">
+								<f:then>
+									<label for="screenshot"><f:translate key="screenshot">Screenshot</f:translate>: <f:image src="{uploadPath}/{reference.screenshot}" alt="" maxHeight="24"/>
+									<f:link.action controller="Reference" action="edit" arguments="{reference : reference, screenshot : 1}" ><f:translate key="remove">remove</f:translate></f:link.action><br/>
+								</f:then>
+								<f:else>
+									<label for="screenshot"><f:translate key="screenshot">Screenshot</f:translate>: <span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.upload property="screenshot" /><br />
+								</f:else>
+							</f:if>
+							<label><f:translate key="screenshotGallery">Screenshot gallery</f:translate>: 
+							<f:for each="{galleryImages}" as="image">
+								<f:image src="{uploadPath}/{image}" alt="" maxHeight="24"/>
+								<f:link.action controller="Reference" action="edit" arguments="{reference : reference, screenshot : image}" ><f:translate key="remove">remove</f:translate></f:link.action><br/>
+							</f:for>
+							<f:form.upload property="screenshotGallery1" /><br/>
+							<hr/>
+							<label for="about"><f:translate key="aboutCompany">About the company</f:translate></label><f:form.textarea property="about" rows="8" cols="46" /><br />
+							<label for="size"><f:translate key="size">Company size</f:translate></label><f:form.select property="size" value="{size}" options="{companySizes}"></f:form.select><br />
+							<label for="country"><f:translate key="country">Country</f:translate></label><f:form.textbox property="country" /><br />
+							<f:form.checkbox property="{listed}" value="1"/> <f:translate key="listed">Company is listed in the Fortune1000</f:translate><br />
+							<f:form.submit class="submit" value="Submit"/>
+							<f:link.action controller="Reference" action="index"><f:translate key="cancel">cancel</f:translate></f:link.action>
+						</f:form>
+					</f:then>
+					<f:else>
+						<f:translate key="notAllowed">You are not allowed to perform this action!</f:translate>
+					</f:else>
+				</f:if>
+			</f:then>
+			<f:else>
+				<f:translate key="noReference">No reference key!</f:translate>
+			</f:else>
+		</f:if>
+	</div>
+</f:section>

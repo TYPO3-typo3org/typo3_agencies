@@ -1,0 +1,16 @@
+<f:if condition="{administrator}">
+	<f:if condition="{administrator} == {reference.agency.administrator}">
+		<div class="action <f:if condition="{reference.deactivated}">deactivated</f:if>">
+			<f:link.action controller="Reference" action="edit" arguments="{reference : reference, administrator : administrator}"><f:translate key="edit">Edit</f:translate></f:link.action>
+			<f:link.action controller="Reference" action="delete" arguments="{reference : reference, administrator : administrator}"><f:translate key="delete">Delete</f:translate></f:link.action>
+			<f:if condition="{reference.deactivated}">
+				<f:then>
+					<f:link.action controller="Reference" action="reactivate" arguments="{reference : reference, administrator : administrator}"><f:translate key="reactivate">Reactivate</f:translate></f:link.action>
+				</f:then>
+				<f:else>
+					<f:link.action controller="Reference" action="deactivate" arguments="{reference : reference, administrator : administrator}"><f:translate key="deactivate">Deactivate</f:translate></f:link.action>
+				</f:else>
+			</f:if>
+		</div>
+	</f:if>
+</f:if>

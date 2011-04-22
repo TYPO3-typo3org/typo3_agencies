@@ -1,0 +1,298 @@
+{namespace agency=Tx_Typo3Agencies_ViewHelpers}
+<f:layout name="default" />
+<f:section name="content">
+
+	<div class="s d index" id="section">
+
+		<div id="map_canvas"></div><!-- #map_canvas -->
+
+		<agency:script>
+
+			// global variables comes here
+			var imagePath = '{imagePath}';
+			var doRenderMap = 1;
+
+			// <![CDATA[
+			(function($) {
+				$(function() {
+					$(document).ready(function(){
+
+						/*
+						 * Whenever the user update the input, this should refresh the list of agencies
+						 */
+						$('.tx-agencies-form-field').change(function() {
+						
+							// should refresh the map
+							doRenderMap = 1;
+							$('#tx-agencies-input-pager-page').val('0');
+							$('#tx-agencies-form').submit();
+						});
+
+						/*
+						 * Action when event sumbit is fired on form #tx-agencies-form
+						 */
+						$('#tx-agencies-form').submit(function() {
+							var members;
+							members = new Array();
+							// set wating message
+							$('#tx-agencies-ajax-result').addClass('tx-agencies-box-waiting');
+
+							// "member" case
+							if ($('#s-filter-platinum:checked').length) {
+								members.push('4');
+							}
+							if ($('#s-filter-gold:checked').length) {
+								members.push('3');
+							}
+							if ($('#s-filter-silver:checked').length) {
+								members.push('2');
+							}
+							if ($('#s-filter-bronze:checked').length) {
+								members.push('1');
+							}
+
+							$('#tx-agencies-input-filter-member').val(members.toString());
+							
+							// "service" case
+							$('#tx-agencies-input-filter-trainingservice').val($('#s-filter-training:checked').length)
+							$('#tx-agencies-input-filter-hostingservice').val($('#s-filter-hosting:checked').length)
+							$('#tx-agencies-input-filter-developmentservice').val($('#s-filter-development:checked').length)
+
+							// "country" case
+							$('#tx-agencies-input-filter-country').val($('#s-filter-country').val())
+
+							$(this).ajaxSubmit(function (data) {
+								// debug message
+								if (window.console && window.console.log) {
+									//console.log(data);
+								}
+								if (data) {
+									// Update the GUI
+									$('#tx-agencies-ajax-result').removeClass('tx-agencies-box-waiting').removeClass('tx-agencies-box-waiting-firstload');
+									$('#tx-agencies-ajax-result').html(data);
+
+									// Render Google Map
+									if (doRenderMap) {
+										try {
+											renderMap();
+										}
+										catch (e) {
+											if (window.console && window.console.log) {
+												console.log(e)
+											}
+										}
+										doRenderMap = 0;
+									}
+
+									// Add action when a pager link is clicked
+									$('.tx-agencies-link-pager').click(function() {
+										$('#tx-agencies-input-pager-page').val($.trim($(this).html()));
+										$('#tx-agencies-form').submit();
+										return false;
+									});
+								}
+							});
+
+							// return false to prevent normal browser submit
+							return false;
+						});
+
+						/*
+						 * Load the list of agencies whenever the DOM is ready
+						 */
+						$('#tx-agencies-form').submit();
+
+					}); // end DOM ready
+				}); // end of clausure
+			})(jQuery);
+
+
+			/*
+			 * Render Google Map
+			 */
+			function renderMap() {
+				var myOptions = {
+					zoom: 10,
+					center: new google.maps.LatLng(0, 0),
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				}
+				var map = new google.maps.Map(
+					document.getElementById("map_canvas"),
+					myOptions
+				);
+				
+				if (typeof(locations) != 'object') {
+					throw 'Exception thrown by "typo3_agencies": locations variable has not been initialized. Check the XHR request is OK';
+				}
+				setMarkers(map, locations);
+			}
+
+
+			/*
+			 * Set Markers on the Map
+			 */
+			function setMarkers(map, locations) {
+
+				var shape = {
+				  coord: [1, 1, 1, 20, 18, 20, 18 , 1],
+				  type: 'poly'
+				};
+				var bounds = new google.maps.LatLngBounds();
+				for (var i = 0; i < locations.length; i++) {
+
+					var beach = locations[i];
+
+					var image = getImage();
+					if (beach[4] == 2) {
+						image.url = imagePath + 'membership/silver-marker.png';
+					}
+					else {
+						image.url = imagePath + 'membership/gold-marker.png';
+					}
+
+					var myLatLng = new google.maps.LatLng(beach[1], beach[2]);
+					var marker = new google.maps.Marker({
+						position: myLatLng,
+						map: map,
+						icon: image,
+						shape: shape,
+						title: beach[0],
+						zIndex: beach[3]
+					});
+					bounds.extend(myLatLng);
+					map.fitBounds(bounds);
+				}
+			}
+
+			/*
+			 * Get an object image
+			 */
+			function getImage() {
+				var image = new google.maps.MarkerImage(null,
+
+						  // This marker is 20 pixels wide by 32 pixels tall.
+						  new google.maps.Size(45, 51),
+
+						  // The origin for this image is 0,0.
+						  new google.maps.Point(0,0),
+
+						  // The anchor for this image is the base of the flagpole at 0,32.
+						  new google.maps.Point(0, 51));
+
+				return image;
+			}
+
+		// ]]>
+		</agency:script>
+
+		<f:form controller="Agency" action="list" id="tx-agencies-form" method="get" name="filter" enctype="multipart/form-data">
+			<f:form.hidden id="tx-agencies-input-filter-member" property="member" />
+			<f:form.hidden id="tx-agencies-input-filter-trainingservice" property="trainingService" />
+			<f:form.hidden id="tx-agencies-input-filter-hostingservice" property="hostingService" />
+			<f:form.hidden id="tx-agencies-input-filter-developmentservice" property="developmentService" />
+			<f:form.hidden id="tx-agencies-input-filter-country" property="country" />
+			
+			<f:form.hidden id="tx-agencies-input-pager-page" name="page" value="1"/>
+
+			<input type="hidden" name="type" value="12536" />
+		</f:form>
+<!--
+		<f:for each="{countries}" as="country">
+			
+		</f:for>-->
+		<div class="cl">
+			<div class="s-sidebar">
+
+				<div class="b-box specialist-filter">
+					<form action="#" method="post">
+						<h3>Filter Options</h3>
+						<h4>Country</h4>
+						<p class="form-row tx-agencies-form-field">
+							<select id="s-filter-country">
+								<option value="">Select country</option>
+
+								<f:for each="{countries}" as="country">
+									<option value="{country.country}"><agency:country countryCode="{country.country}" /></option>
+								</f:for>
+
+							</select>
+						</p>
+						<h4>Membership type</h4>
+						<ul class="s-filter-list">
+							<li>
+								<label for="s-filter-platinum">
+									<f:image src="{f:uri.resource(path:'Media/Images/membership/platinum-filter.jpg')}" alt="" />
+								</label>
+								<input id="s-filter-platinum" class="tx-agencies-form-field" type="checkbox" value="" checked="checked" />
+							</li>
+							<li>
+								<label for="s-filter-gold">
+									<f:image src="{f:uri.resource(path:'Media/Images/membership/gold-filter.jpg')}" alt="" />
+								</label>
+								<input id="s-filter-gold" class="tx-agencies-form-field" type="checkbox" value=""  checked="checked"/>
+							</li>
+							<li>
+								<label for="s-filter-silver">
+									<f:image src="{f:uri.resource(path:'Media/Images/membership/silver-filter.jpg')}" alt="" />
+								</label>
+								<input id="s-filter-silver" class="tx-agencies-form-field" type="checkbox" value="" />
+							</li>
+							<li>
+								<label for="s-filter-bronze">
+									<f:image src="{f:uri.resource(path:'Media/Images/membership/bronze-filter.jpg')}" alt="" />
+								</label>
+								<input id="s-filter-bronze" class="tx-agencies-form-field" type="checkbox" value="" />
+							</li>
+						</ul><!-- .s-filter-list -->
+						<h4>Services</h4>
+						<ul class="s-filter-list">
+							<li>
+								<label for="s-filter-training"><span class="ico i-training"></span>Training</label>
+								<input id="s-filter-training" class="tx-agencies-form-field" type="checkbox" name="s-filter-service[]" value="" />
+							</li>
+							<li>
+								<label for="s-filter-hosting"><span class="ico i-hosting"></span>Hosting</label>
+								<input id="s-filter-hosting" class="tx-agencies-form-field" type="checkbox" name="s-filter-service[]" value="" />
+							</li>
+							<li>
+								<label for="s-filter-development"><span class="ico i-development"></span>Development</label>
+								<input id="s-filter-development" class="tx-agencies-form-field" type="checkbox" name="s-filter-service[]" value=""/>
+							</li>
+						</ul><!-- .s-filter-list -->
+					</form>
+				</div><!-- b-box -->
+
+			</div><!-- s-sidebar -->
+
+			<div class="s-body">
+
+<!--				<div class="speacialist-search">
+					<form method="post" action="#">
+						<label class="text s-input" for="s-search">
+							<span>Enter location</span>
+							<input type="text" id="s-search" value="" name="s-search">
+						</label>
+						<button class="bu">Search</button>
+					</form>
+				</div> .speacialis-search -->
+
+
+<!--				<form class="sort-search" method="post" action="#">
+					<label for="order-by">Order by:</label>
+					<select id="order-by">
+						<option value="member">Membership type</option>
+						<option value="name">Agency name</option>
+						<option value="10">Distance</option>
+					</select>
+				</form>-->
+				<div class="hgroup">
+					<h2>List of Specialists</h2>
+				</div>
+
+				<div id="tx-agencies-ajax-result" class="tx-agencies-box-waiting tx-agencies-box-waiting-firstload">&nbsp;</div>
+
+			</div><!-- s-body -->
+		</div><!-- cl -->
+	</div>
+	
+</f:section>

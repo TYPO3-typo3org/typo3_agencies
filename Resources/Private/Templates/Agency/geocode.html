@@ -1,0 +1,105 @@
+{namespace agency=Tx_Typo3Agencies_ViewHelpers}
+<f:layout name="default" />
+<f:section name="content">
+
+
+	<!--
+		new key can be obtained
+		http://code.google.com/intl/fr/apis/maps/signup.html
+	-->
+
+	<!-- key for relaunch.local -->
+	<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAI8h9wp9zHObSISxQvh-vPxSo8EnW8AKoLXqLvL-qXcC2LypMvBS6BRiIkAGbVo_izK4SeLFoCzHpxg" type="text/javascript"></script>
+
+
+	<style>
+		#tx-agencies-rawdata {
+			line-height: 4px;
+		}
+
+		.tx-agencies-address {
+			font-size: 3pt;
+		}
+	</style>
+	<div class="geocode">
+			
+		<script type="text/javascript">
+
+			// global variables comes here
+			var imagePath = '{imagePath}';
+
+			// <![CDATA[
+			(function($) {
+				$(function() {
+					$(document).ready(function(){
+
+					/**
+					 * Loops around the Raw Data
+					 */
+					$('.tx-agencies-address').each(function(index) {
+						// stopper
+						//if (index > 3) {
+						//	return;
+						//}
+						var uid, parts, time;
+						parts = $(this).html().split('###');
+						uid = $.trim(parts[0])
+						time = index * 1000 + 1000;
+						setTimeout("writeAddress(" + uid + ")", time);
+
+					});
+
+					}); // end DOM ready
+				}); // end of clausure
+			})(jQuery);
+
+			/**
+			 * Write the result in the Dom
+			 */
+			function writeAddress(uid) {
+				var parts, address;
+				parts = $('#tx-agencies-address-' + uid).html().split('###');
+				address = $.trim(parts[1]);
+
+				// create a new Geocoder
+				var geo = new GClientGeocoder();
+				geo.getLatLng(address, function (point) {
+					if (point) {
+						$('#tx-agencies-resultdata').append('<tr><td>' + uid + '</td><td>' + point.lat() + '</td><td>' + point.lng() + '</td><td style="display: none">' + address + '</td></tr>');
+						$('#tx-agencies-sqldata').append('UPDATE tx_typo3agencies_domain_model_agency SET latitude = ' + point.lat() + ', longitude = ' + point.lng() + ' WHERE uid = ' + uid + '; <br/>');
+					}
+
+				});
+			}
+		// ]]>
+		</script>
+
+		<div><strong>Result data:</strong></div>
+
+		<table>
+			<thead>
+				<tr>
+					<th style="width: 100px">Uid</th>
+					<th style="width: 100px">Latitude</th>
+					<th style="width: 100px">Longitude</th>
+					<th style="width: 200px">Address</th>
+				</tr>
+			</thead>
+			<tbody id="tx-agencies-resultdata">
+			</tbody>
+		</table>
+
+		<div><strong>SQL data:</strong></div>
+		<div id="tx-agencies-sqldata"> </div>
+
+		<div><strong>Row data:</strong></div>
+		<div id="tx-agencies-rawdata">
+			<f:for each="{agencies}" as="agency">
+				<f:if condition="{agency.city}">
+					<div class="tx-agencies-address" id="tx-agencies-address-{agency.uid}">{agency.uid} ### {agency.address}, {agency.zip} {agency.city}, <agency:country countryCode="{agency.country}" /></div>
+				</f:if>
+			</f:for>
+		</div>
+	</div>
+	
+</f:section>

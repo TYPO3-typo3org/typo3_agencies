@@ -1,0 +1,77 @@
+<f:layout name="default" />
+
+<f:section name="content">
+	<div class="new">
+		<f:if condition="{administrator}">
+			<f:then>
+				<f:if condition="{referenceMaxReached}">
+					<f:then>
+						<f:translate key="referenceMaxReached">You have reached the maximum amount of references you are allowed to present. Please update your member status to add more.</f:translate>
+						<a href="javascript:history.back()"><f:translate key="cancel">cancel</f:translate></a>
+					</f:then>
+					<f:else>
+						<h1><f:translate key="aNewProject">Add a new project</f:translate></h1>
+						
+						<f:form method="post" controller="Reference" action="create" name="newReference" object="{newReference}" enctype="multipart/form-data">
+							<label for="headline"><f:translate key="headline">Headline</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.textbox property="title" /><br />
+							<label for="description"><f:translate key="aboutProject">About the project</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.textarea property="description" rows="8" cols="46" /><br />
+							<label for="conclusion"><f:translate key="conclusion">Conclusion</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.textarea property="conclusion" rows="8" cols="46" /><br />
+							<label for="link"><f:translate key="link">Link</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.textbox property="link" /><br />
+							<label for="pages"><f:translate key="pages">Number of pages</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.select property="pages" value="{pages}" options="{pagesList}"></f:form.select><br />
+							<label for="languages"><f:translate key="languages">Number of languages</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.textbox property="languages" /><br />
+							<label for="category"><f:translate key="category">Industry</f:translate></label><f:form.select property="category" value="{category}" options="{categories}"></f:form.select><br />
+							<label for="categoryOther"><f:translate key="other">other</f:translate>: </label><f:form.textbox property="categoryOther" /><br />
+							<label for="tags"><f:translate key="tags">Tags</f:translate>: </label><f:form.textbox property="tags" /><br />
+							<label for="industry"><f:translate key="industry">Industry</f:translate></label><f:form.select property="industry" value="{industry}" options="{industries}"></f:form.select><br />
+							<label for="industryOther"><f:translate key="other">other</f:translate>: </label><f:form.textbox property="industryOther" /><br />
+							<label for="casestudy"><f:translate key="casestudy">Casestudy</f:translate>: 
+							<f:if condition="{newReference.casestudy}">
+								<f:then>
+									<a href="{uploadPath}/{newReference.casestudy}" ><f:translate key="casestudy">Casestudy</f:translate></a><br/>
+									<f:form.hidden property="casestudy" />
+								</f:then>
+								<f:else>
+									<f:form.upload property="casestudy" /><br />
+								</f:else>
+							</f:if>
+							<label for="screenshot"><f:translate key="screenshot">Screenshot</f:translate>: 
+							<f:if condition="{newReference.screenshot}">
+								<f:then>
+									<f:image src="{uploadPath}/{newReference.screenshot}" alt="" maxHeight="24"/><br/>
+									<f:form.hidden property="screenshot" />
+								</f:then>
+								<f:else>
+									<span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.upload property="screenshot" /><br />
+								</f:else>
+							</f:if>
+							<label><f:translate key="screenshotGallery">Screenshot gallery</f:translate>: <br/>
+							<f:if condition="{galleryImages}">
+								<f:then>
+									<f:for each="{galleryImages}" as="image">
+										<f:image src="{uploadPath}/{image}" alt="" maxHeight="24"/>
+										<f:form.hidden property="screenshotGallery" />
+									</f:for>
+								</f:then>
+								<f:else>
+									<f:form.upload property="screenshotGallery1" /><br />
+									<f:form.upload property="screenshotGallery2" /><br />
+								</f:else>
+							</f:if>
+							<hr/>
+							<label for="about"><f:translate key="aboutCompany">About the company</f:translate></label><f:form.textarea property="about" rows="8" cols="46" /><br />
+							<label for="size"><f:translate key="size">Company size</f:translate></label><f:form.select property="size" value="{size}" options="{companySizes}"></f:form.select><br />
+							<label for="country"><f:translate key="country">Country</f:translate></label><f:form.textbox property="country" /><br />
+							<f:form.checkbox property="{listed}" value="1"/> <f:translate key="listed">Company is listed in the Fortune1000</f:translate><br />
+							<f:form.submit class="preview" value="Preview" name="preview"/>
+							<f:form.submit class="submit" value="Submit without preview" />
+							<a href="javascript:history.back()"><f:translate key="cancel">cancel</f:translate></a>
+						</f:form>
+					</f:else>
+				</f:if>
+			</f:then>
+			<f:else>
+				<f:translate key="notAllowed">You are not allowed to perform this action!</f:translate>
+			</f:else>
+		</f:if>
+	</div>
+</f:section>

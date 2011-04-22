@@ -1,0 +1,130 @@
+################################
+# Plugin configuration
+################################
+plugin.tx_typo3agencies {
+	settings {
+		uploadPath = {$plugin.tx_typo3agencies.settings.uploadPath}
+		
+		normalMax = {$plugin.tx_typo3agencies.settings.normalMax}
+		premiumMax = {$plugin.tx_typo3agencies.settings.premiumMax}
+		platinMax = {$plugin.tx_typo3agencies.settings.platinMax}
+		
+		pageBrowser {
+			itemsPerPage = {$plugin.tx_typo3agencies.settings.pageBrowser.itemsPerPage}
+		}
+	}
+	persistence {
+		storagePid = {$plugin.tx_typo3agencies.persistence.storagePid}
+	}
+	view {
+		templateRootPath = {$plugin.tx_typo3agencies.view.templateRootPath}
+		partialRootPath = {$plugin.tx_typo3agencies.view.partialRootPath}
+		layoutRootPath = {$plugin.tx_typo3agencies.view.layoutRootPath}
+	}
+}
+
+################################
+# JavaScript + CSS inclusion
+################################
+[IP = 127.0.0.1]
+
+	page.includeCSS.file1 = EXT:typo3_agencies/Resources/Public/Media/StyleSheets/grid.css
+	page.includeCSS.file2 = EXT:typo3_agencies/Resources/Public/Media/StyleSheets/main.css
+
+	page.includeJS.file1 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/jquery-1.5.1.min.js
+	page.includeJS.file2 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/css_browser_selector.js
+	page.includeJS.file3 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/jquery.tools.js
+	page.includeJS.file4 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/cufon.js
+	page.includeJS.file6 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/prettyCheckboxes.js
+	#page.includeJS.file7 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/main.js
+[end]
+
+page.includeJSFooter.jquery_form = EXT:typo3_agencies/Resources/Public/JavaScript/Plugin/jquery.form.js
+
+
+################################
+# CSS Styles
+################################
+plugin.tx_typo3agencies._CSS_DEFAULT_STYLE (
+
+	.tx-agencies-box-waiting {
+		background-image: url('/typo3conf/ext/typo3_agencies/Resources/Public/Media/Icons/loading_big.gif');
+		background-repeat:no-repeat;
+		background-position: 50% center;
+
+
+		/* for IE */
+		filter:alpha(opacity=40);
+		/* CSS3 standard */
+		opacity:0.4;
+	}
+
+	.tx-agencies-box-waiting-firstload {
+		height: 50px;
+	}
+
+)
+
+################################
+# AJAX
+################################
+
+#@todo this configuration needs to be changed to meet extbase 1.3
+
+ajax123 = PAGE
+ajax123 {
+		# You don't need to change this typeNum
+	typeNum = 124
+	10 = USER
+	10 {
+		userFunc = tx_extbase_dispatcher->dispatch
+		pluginName = Pi1
+		extensionName = Typo3Agencies
+		controller = Reference
+		switchableControllerActions {
+			1 {
+				controller = Album
+				actions = categories
+			}
+		}
+		action = categories
+		settings =< plugin.tx_typo3agencies.settings
+		persistence =< plugin.tx_typo3agencies.persistence
+		view =< plugin.tx_typo3agencies.view
+	}
+	config {
+		disableAllHeaderCode = 1
+		additionalHeaders = Content-type:text/x-json
+		xhtml_cleaning = 0
+		admPanel = 0
+	}
+}
+
+
+ajax12536 = PAGE
+ajax12536 {
+	# You don't need to change this typeNum
+	typeNum = 12536
+	10 = COA_INT
+    10 {
+        10 = USER_INT
+        10 {
+            userFunc = tx_extbase_core_bootstrap->run
+            extensionName = Typo3Agencies
+            pluginName = Pi1
+
+			# LIMIT CONTROLLER / ACTION
+			switchableControllerActions {
+				Agency {
+					1 = list
+				}
+			}
+        }
+    }
+	config {
+		disableAllHeaderCode = 1
+		additionalHeaders = Content-type:text/html
+		xhtml_cleaning = 0
+		admPanel = 0
+	}
+}

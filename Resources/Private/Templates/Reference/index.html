@@ -1,0 +1,168 @@
+<f:layout name="default" />
+<f:section name="content">
+	<div class="index">
+		<strong>Search and filter</strong><br/>
+		<f:render partial="formErrors" arguments="{for: 'filter'}" />
+		<f:form method="post" controller="Reference" action="index" name="filter" object="{filter}" >
+			<f:form.textbox property="searchTerm" value="{filter.searchTerm}"/><f:form.submit class="submit" value="go" name="submitSearchTerm"/>
+			<f:form.checkbox property="listed" value="1"/> <f:translate key="listed">Search or filter only companies within the Fortune1000</f:translate><br />
+			<f:form.select property="category" value="{filter.category}" options="{categories}"></f:form.select>
+			<f:form.select property="industry" value="{filter.industry}" options="{industries}"></f:form.select>
+			<f:form.select property="companySize" value="{filter.companySize}" options="{companySizes}"></f:form.select>
+			<f:form.submit class="submit" value="Set filter"/>
+			<f:link.action controller="Reference" action="index">Reset</f:link.action>
+		</f:form>
+		<script type="text/javascript">
+			var categorySelector = document.getElementsByName("tx_typo3agencies_pi1[filter][category]")[0];
+			var industrySelector = document.getElementsByName("tx_typo3agencies_pi1[filter][industry]")[0];
+			var sizeSelector = document.getElementsByName("tx_typo3agencies_pi1[filter][companySize]")[0];
+
+			var url = "{ajaxUrl}";
+			var options = {};
+			options['method'] = "get";
+			options['onComplete'] = updateOptions;
+
+			var selectedOption = "";
+			
+			function update(el){
+				selectedOption = el.currentTarget.name;
+				var pars = {};
+				
+				pars['tx_typo3agencies_pi1[action]']='categories';
+				pars['tx_typo3agencies_pi1[controller]']='reference';
+				pars['tx_typo3agencies_pi1[type]']='category';
+				pars['no_cache']=1;
+				addSelected(pars, categorySelector.options, 'category');
+				addSelected(pars, industrySelector.options, 'industry');
+				addSelected(pars, sizeSelector.options, 'companySize');
+				options['parameters'] = pars
+				var myAjax = new Ajax.Request(url, options);
+			}
+			
+			categorySelector.onchange = update;
+			industrySelector.onchange = update;
+			sizeSelector.onchange = update;
+			
+			function updateOptions(orgRequest) {
+			   var json = orgRequest.responseText.evalJSON();
+
+			   if(selectedOption!="tx_typo3agencies_pi1[filter][category]"){
+				   var selectedCategory = "";
+				   for(i=categorySelector.options.length-1;i>-1;i--){
+					   if(categorySelector.options[i].selected){
+						   selectedCategory = categorySelector.options[i].value;
+					   }
+				   }
+				   for(i=categorySelector.options.length-1;i>-1;i--){
+					   categorySelector.remove(i);
+				   }
+				   for(i=0;i < json[0].length; i++){
+					   addOption(categorySelector,json[0][i]['optionDisplay'],json[0][i]['optionValue'],json[0][i]['optionValue']==selectedCategory);
+				   }
+			   }
+			   if(selectedOption!="tx_typo3agencies_pi1[filter][industry]"){
+				   var selectedIndustry = "";
+				   for(i=industrySelector.options.length-1;i>-1;i--){
+					   if(industrySelector.options[i].selected){
+						   selectedIndustry = industrySelector.options[i].value;
+					   }
+				   }
+				   for(i=industrySelector.options.length-1;i>-1;i--){
+					   industrySelector.remove(i);
+				   }
+				   for(i=0;i < json[1].length; i++){
+					   addOption(industrySelector,json[1][i]['optionDisplay'],json[1][i]['optionValue'],json[1][i]['optionValue']==selectedIndustry);
+				   }
+			   }
+			   if(selectedOption!="tx_typo3agencies_pi1[filter][companySize]"){
+				   var selectedSize = "";
+				   for(i=sizeSelector.options.length-1;i>-1;i--){
+					   if(sizeSelector.options[i].selected){
+						   selectedSize = sizeSelector.options[i].value;
+					   }
+				   }
+				   for(i=sizeSelector.options.length-1;i>-1;i--){
+					   sizeSelector.remove(i);
+				   }
+				   for(i=0;i < json[2].length; i++){
+					   addOption(sizeSelector,json[2][i]['optionDisplay'],json[2][i]['optionValue'],json[2][i]['optionValue']==selectedSize);
+				   }
+			   }
+			    			    
+			}
+
+			function addOption(selectbox,text,value,selected )
+			{
+				var optn = document.createElement("OPTION");
+				optn.text = text;
+				optn.value = value;
+				optn.selected = selected;
+				selectbox.options.add(optn);
+			}
+
+			function addSelected(pars, options, name){
+				var len = options.length;
+				for (var i = 0; i < len; i++) {
+					if(options[i].selected){
+						pars['tx_typo3agencies_pi1['+name+']']=options[i].value;
+					}
+				}
+			}
+
+			eval("[{optionValue:0,optionDisplay:'Category'},]");
+						
+		</script>
+		<f:if condition="{filter.resultCount}">
+			<f:translate key="results">Results</f:translate>: {filter.resultCount} <f:translate key="caseStudies">case studies</f:translate><br/>
+		</f:if>
+		
+		<f:if condition="{administrator}">
+			<f:link.action action="new" controller="Reference"	arguments="{reference : reference}">
+				<f:translate key="newProject">Add new project</f:translate>
+			</f:link.action>
+			<f:link.action action="edit" controller="Agency"	arguments="{agency : agency}">
+				<f:translate key="editAgency">Edit your agency profile</f:translate>
+			</f:link.action>
+		</f:if>
+		<f:if condition="{references}">
+			<f:then>
+				<f:for each="{references}" as="reference">
+					<f:render partial="reference" arguments="{reference: reference, administrator : administrator, uploadPath : uploadPath, controller : 'Reference'}" />
+				</f:for>
+				<f:if condition="{pager.displayItems}">
+					<f:if condition="{pager.page} != 1">
+						<f:then>
+							<f:link.action controller="Reference" action="index" arguments="{reference : reference, page : 1}"><f:translate key="first">First</f:translate></f:link.action>
+							<f:link.action controller="Reference" action="index" arguments="{reference : reference, page : pager.previousPage}"><f:translate key="previous">Previous</f:translate></f:link.action>
+						</f:then>
+						<f:else>
+							<span class="currentPage"><f:translate key="first">First</f:translate></span>
+						</f:else>
+					</f:if>
+				</f:if>
+				<f:for each="{pager.displayItems}" as="pageItem">
+					<f:if condition="{pageItem.key} == {pager.page}">
+						<f:then>
+							<span class="currentPage">{pageItem.value}</span>
+						</f:then>
+						<f:else>
+							<f:link.action controller="Reference" action="index" arguments="{reference : reference, page : pageItem.key}">{pageItem.value}</f:link.action>
+						</f:else>
+					</f:if>
+				</f:for>
+				<f:if condition="{pager.displayItems}">
+					<f:if condition="{pager.page} != {pager.LastPage}">
+						<f:then>
+							<f:link.action controller="Reference" action="index" arguments="{reference : reference, page : pager.nextPage}"><f:translate key="next">Next</f:translate></f:link.action>
+							<f:link.action controller="Reference" action="index" arguments="{reference : reference, page : pager.lastPage}"><f:translate key="last">Last</f:translate></f:link.action>
+						</f:then>
+						<f:else>
+							<span class="currentPage"><f:translate key="last">Last</f:translate></span>
+						</f:else>
+					</f:if>
+					
+				</f:if>
+			</f:then>
+		</f:if>
+	</div>
+</f:section>

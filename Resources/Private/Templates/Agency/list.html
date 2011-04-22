@@ -1,0 +1,97 @@
+{namespace agency=Tx_Typo3Agencies_ViewHelpers}
+<f:layout name="default" />
+<f:section name="content">
+
+	<script type="text/javascript">
+
+	var locations = new Array();
+
+	<f:for each="{allAgencies}" as="agency" iteration="iterator">
+		<f:if condition="{agency.latitude} > 0">
+			<f:if condition="{agency.longitude} > 0">
+				locations.push(['<agency:escape>{agency.name}</agency:escape>', {agency.latitude}, {agency.longitude}, 1, {agency.member}]);
+			</f:if>
+		</f:if>
+	</f:for>
+
+	</script>
+	<div class="list">
+		<table class="specialist-list">
+			<thead>
+				<tr>
+					<th class="s-membership">Membership</th>
+					<th>Name</th>
+					<th class="s-services">Services</th>
+					<th class="s-location">Location</th>
+				</tr>
+			</thead>
+			<tbody>
+				<f:for each="{agencies}" as="agency">
+					<tr>
+						<td class="s-membership">
+							<f:image src="{f:uri.resource(path:'Media/Images/membership/{agency.member}-small.png')}" alt="" />
+						</td>
+						<td>
+							<p>
+								<f:if condition="{agency.name}">
+									<f:then>
+										{agency.name}
+									</f:then>
+									<f:else>
+										{agency.firstName} {agency.lastName}
+									</f:else>
+								</f:if>
+							</p>
+							<p>
+								<f:link.external uri="{agency.link}" target="_blank">{agency.link}</f:link.external>
+							</p>
+						</td>
+						<td class="s-services">
+							<span class="ico i-training <f:if condition="{agency.trainingService} == 0">disabled</f:if>"></span>
+							<span class="ico i-hosting <f:if condition="{agency.hostingService} == 0">disabled</f:if>"></span>
+							<span class="ico i-development <f:if condition="{agency.developmentService} == 0">disabled</f:if>"></span>
+						</td>
+						<td class="s-location">
+
+							<f:link.action controller="Agency" action="show" arguments="{agency : agency}" class="s-location-link">
+								<span class="ico i-arr-right"></span>
+							</f:link.action>
+							<p>
+								{agency.city}<f:if condition="{agency.country}"><f:if condition="{agency.city}">,</f:if></f:if>
+								<agency:country countryCode="{agency.country}" />
+							</p>
+						</td>
+					</tr>
+				</f:for>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="4">
+						<span>Legend:</span> <span class="ico i-training"></span> Training <span class="ico i-hosting"></span> Hosting <span class="ico i-development"></span> Development
+					</td>
+				</tr>
+			</tfoot>
+		</table><!-- .specialist-list -->
+
+		<f:if condition="{agencies}">
+			<f:then>
+				<ul class="b-pager">
+					<f:for each="{pager.displayItems}" as="pageItem">
+						<f:if condition="{pageItem.key} == {pager.page}">
+							<f:then>
+								<li class="cur">{pageItem.value}</li>
+							</f:then>
+							<f:else>
+								<li>
+									<f:link.action controller="Agency" action="list" arguments="{agency : agency, page : pageItem.key}" class="tx-agencies-link-pager">
+										{pageItem.value}
+									</f:link.action>
+								</li>
+							</f:else>
+						</f:if>
+					</f:for>
+				</ul>
+			</f:then>
+		</f:if>
+	</div>
+</f:section>

@@ -1,0 +1,32 @@
+<f:layout name="default" />
+<f:section name="content">
+	<div class="editAgency">
+		<f:if condition="{agency}">
+			<f:then>
+				<f:if condition="{administrator} == {agency.administrator}">
+					<f:then>
+						<h1><f:translate key="editAgency">Edit your agency profile</f:translate></h1>
+						<f:render partial="formErrors" arguments="{for: 'agency'}" />
+						
+						<f:form method="post" controller="Agency" action="update" name="agency" object="{agency}" enctype="multipart/form-data">
+							<label for="name"><f:translate key="agencyName">Agency name</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.textbox property="name" /><br />
+							<label for="about"><f:translate key="agencyAbout">About the agency</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.textarea property="about" rows="8" cols="46" /><br />
+							<label for="link"><f:translate key="link">Link</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.textbox property="link" /><br />
+							<f:if condition="{agency.logo}">
+								<f:then>
+									<label for="logo"><f:translate key="logo">Logo (jpg/png, max size 200x100px)</f:translate>: <f:image src="{uploadPath}/{agency.logo}" alt="" maxHeight="100" maxWidth="200"/>
+									<f:link.action controller="Agency" action="edit" arguments="{agency : agency, logo : 1}" ><f:translate key="remove">remove</f:translate></f:link.action><br/>
+								</f:then>
+								<f:else>
+									<label for="logo"><f:translate key="logo">Logo (jpg/png, max size 200x100px)</f:translate>: <span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.upload property="logo" /><br />
+								</f:else>
+							</f:if>
+							<f:form.submit class="submit" value="Submit"/>
+							<f:link.action controller="Agency" action="show" arguments="{agency : agency}"><f:translate key="cancel">cancel</f:translate></f:link.action>
+						</f:form>
+					</f:then>
+				</f:if>
+			</f:then>
+		</f:if>
+	</div>
+</f:section>

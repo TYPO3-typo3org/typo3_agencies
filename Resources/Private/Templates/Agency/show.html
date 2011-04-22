@@ -1,0 +1,67 @@
+<f:layout name="default" />
+<f:section name="content">
+
+	<div class="agency">
+
+		<div class="cl">
+			<div class="s-body">
+
+				<h2>
+					<f:if condition="{agency.name}">
+						<f:then>
+							{agency.name}
+						</f:then>
+						<f:else>
+							{agency.firstName} {agency.lastName}
+						</f:else>
+					</f:if>
+				</h2>
+				<div class="b-project">
+					<f:if condition="{administrator}">
+						<p class="b-project-toolbar">
+							<f:link.action action="edit" controller="Agency" arguments="{agency : agency}">
+								<f:translate key="editProfile">Edit profile</f:translate>
+							</f:link.action>
+						</p>
+					</f:if>
+					<p class="b-project-link">
+						<f:link.external uri="{agency.link}" target="_blank"><strong>{agency.link}</strong></f:link.external>
+					</p>
+					<div class="hr"><hr /> </div>
+
+					<div class="b-agency">
+						<div class="agency-img">
+							<f:if condition="{agency.logo}">
+								<img src="{uploadPath}{agency.logo}" alt="" />
+							</f:if>
+							<f:image src="{f:uri.resource(path:'Media/Images/membership/{agency.member}-widen.jpg')}" alt="" />
+						</div>
+						<div class="agency-desc">
+							<p>{agency.about}</p>
+<!--							<p><a class="bu bu-mini">More information</a></p>-->
+						</div><!-- .agency-desc -->
+					</div><!-- .b-agency -->
+
+				</div><!-- b-project -->
+
+			</div><!-- s-body -->
+
+		</div><!-- cl -->
+
+
+	<f:if condition="{administrator}">
+		<f:then>
+			<f:link.action action="list" controller="Agency" arguments="{agency : agency}">
+				<f:translate key="updateProjects">Update your projects</f:translate>
+			</f:link.action>
+		</f:then>
+		<f:else>
+			<br style="clear:left;"/>
+			<hr/>
+			<a href="javascript: history.go(-1)">
+				<f:translate key="backToList">back to the list</f:translate>
+			</a>
+		</f:else>
+	</f:if>
+	
+</f:section>

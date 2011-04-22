@@ -1,0 +1,18 @@
+<f:layout name="default" />
+<f:section name="content">
+	<div class="delete">
+		<div class="actions">
+			<f:link.action controller="Reference" action="remove" name="remove" arguments="{reference : reference}"><f:translate key="deleteProject">Delete this project</f:translate></f:link.action>
+			<a href="javascript:history.back()"><f:translate key="cancel">cancel</f:translate></a>
+		</div>
+		<div>
+			<h3>{reference.title}</h3>
+			<p><strong><f:translate key="conclusion">Conclusion</f:translate></strong> {reference.conclusion}</p>
+			<f:if condition="{reference.screenshot}">
+				<div class="image"><img src="{uploadPath}/{reference.screenshot}"/></div>
+			</f:if>
+			<p class="description"><strong><f:translate key="aboutProject">About the Project</f:translate>:</strong> <f:format.nl2br>{reference.description}</f:format.nl2br></p>
+			<p class="company"><strong><f:translate key="aboutCompany">About the company</f:translate>:</strong> <f:format.nl2br>{reference.about}</f:format.nl2br></p>
+		</div>
+	</div>
+</f:section>

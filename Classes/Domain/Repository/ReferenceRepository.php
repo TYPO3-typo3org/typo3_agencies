@@ -1,0 +1,126 @@
+<?php
+
+/***************************************************************
+*  Copyright notice
+*
+*  (c) 2010 Mario Matzulla <mario@matzullas.de>
+*  All rights reserved
+*
+*  This script is part of the TYPO3 project. The TYPO3 project is
+*  free software; you can redistribute it and/or modify
+*  it under the terms of the GNU General Public License as published by
+*  the Free Software Foundation; either version 2 of the License, or
+*  (at your option) any later version.
+*
+*  The GNU General Public License can be found at
+*  http://www.gnu.org/copyleft/gpl.html.
+*
+*  This script is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  GNU General Public License for more details.
+*
+*  This copyright notice MUST APPEAR in all copies of the script!
+***************************************************************/
+
+/**
+ * A repository for references
+ */
+class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_Persistence_Repository {
+
+	/**
+	 * Finds all references by the specified agency
+	 *
+	 * @param Tx_Typo3Agencies_Domain_Model_Agency $agency The company the references must refer to
+	 * @return array The references
+	 */
+	public function findAllByAgency(Tx_Typo3Agencies_Domain_Model_Agency $agency, $includeDeactivated = false) {
+		$query = $this->createQuery();
+		if($includeDeactivated){
+			$query->matching($query->equals('agency', $agency));
+		} else {
+			$query->matching($query->logicalAnd($query->equals('agency', $agency),$query->equals('deactivated',0)));
+		}
+		return $query->execute();
+	}
+	
+	public function findAllByRange($offset, $rowsPerPage, $includeDeactivated = false){
+		if($includeDeactivated){
+			$deactivated = '1=1';
+		} else {
+			$deactivated = 'deactivated = 0';
+		}
+		$query = $this->createQuery();
+		$query->statement('SELECT * FROM tx_typo3agencies_domain_model_reference WHERE ' . $deactivated.$GLOBALS['TSFE']->sys_page->enableFields('tx_typo3agencies_domain_model_reference') . ' LIMIT ' . $offset . ', ' . $rowsPerPage);
+		return $query->execute();
+	}
+	
+	/**
+	 * Finds all references by the specified filter
+	 *
+	 * @param Tx_Typo3Agencies_Domain_Model_Filter $filter The filter the references must apply to
+	 * @return array The references
+	 */
+	public function findAllByFilter(Tx_Typo3Agencies_Domain_Model_Filter $filter, $offset = null, $rowsPerPage = null, $justCount = false, $includeDeactivated = false) {
+		$query = $this->createQuery();
+		$where = Array();
+		if($includeDeactivated){
+			$where[] = '1=1';
+		} else {
+			$where[] = 'deactivated = 0';
+		}
+		if($filter->getSearchTerm() != ''){
+			$where[] = '(about LIKE \'%' . $filter->getSearchTerm() . '%\' OR title LIKE \'%' . $filter->getSearchTerm() . '%\' OR description LIKE \'%' . $filter->getSearchTerm() . '%\' OR tags LIKE \'%' . $filter->getSearchTerm() . '%\' OR conclusion LIKE \'%' . $filter->getSearchTerm() . '%\')';
+		}
+		if($filter->getCategory() > 0){
+			$where[] = 'category = ' . $filter->getCategory();
+		}
+		if($filter->getIndustry() > 0){
+			$where[] = 'industry = ' . $filter->getIndustry();
+		}
+		if($filter->getCompanySize() > 0){
+			$where[] = 'size = ' . $filter->getCompanySize();
+		}
+		if($filter->isListed()){
+			$where[] = 'listed = 1';
+		}
+		
+		$limit = ' LIMIT ' . $offset . ', ' . $rowsPerPage;
+		if($justCount || $offset == null || $rowsPerPage == null){
+			$limit = '';
+		}
+		$query->statement('SELECT * FROM tx_typo3agencies_domain_model_reference WHERE ' . implode(' AND ',$where) . $GLOBALS['TSFE']->sys_page->enableFields('tx_typo3agencies_domain_model_reference').$limit);
+		$result = $query->execute();
+		
+		if($justCount){
+			return count($result);
+		}
+		return $result;
+	}
+	
+	/**
+	 *
+	 */
+	public function countByOption($selectedCategory=0, $selectedIndustry = 0, $selectedCompanySize = 0, $includeDeactivated = false) {
+		$query = $this->createQuery();
+		
+		if($includeDeactivated){
+			$where[] = '1=1';
+		} else {
+			$where[] = 'deactivated = 0';
+		}
+		if($selectedCategory > 0){
+			$where[] = 'category = ' . $selectedCategory;
+		}
+		if($selectedIndustry > 0){
+			$where[] = 'industry = ' . $selectedIndustry;
+		}
+		if($selectedCompanySize > 0){
+			$where[] = 'size = ' . $selectedCompanySize;
+		}
+		$query->statement('SELECT * FROM tx_typo3agencies_domain_model_reference WHERE ' . implode(' AND ',$where) . $GLOBALS['TSFE']->sys_page->enableFields('tx_typo3agencies_domain_model_reference'));
+		$result = count($query->execute());
+		return $result;
+	}
+}
+?>

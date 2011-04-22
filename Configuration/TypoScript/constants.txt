@@ -1,0 +1,34 @@
+plugin.tx_typo3agencies {
+	view {
+		# cat=plugin.tx_typo3agencies/file; type=string; label=Path to template root (FE)
+		templateRootPath = EXT:typo3_agencies/Resources/Private/Templates/
+		
+		# cat=plugin.tx_typo3agencies/file; type=string; label=Path to template partials (FE)
+		partialRootPath = EXT:typo3_agencies/Resources/Private/Partials/
+		
+		# cat=plugin.tx_typo3agencies/file; type=string; label=Path to template layouts (FE)
+		layoutRootPath = EXT:typo3_agencies/Resources/Private/Layouts/
+	}
+	
+	persistence {
+		# cat=plugin.tx_typo3agencies//a; type=string; label=Default storage PIDs
+		storagePid =
+	}
+	
+	settings {
+		# cat=plugin.tx_typo3agencies//a; type=string; label=Path to store images in (same as in TCA)
+		uploadPath = uploads/tx_typo3_agencies/pics
+		
+		# cat=plugin.tx_typo3agencies//a; type=int+; label=Max references a member is allowed to create
+		normalMax = 4
+		
+		# cat=plugin.tx_typo3agencies//a; type=int+; label=Max references a premium member is allowed to create
+		premiumMax = 4
+		
+		# cat=plugin.tx_typo3agencies//a; type=int+; label=Max references a platin member is allowed to create
+		platinMax = 8
+		
+		# cat=plugin.tx_typo3agencies//a; type=int+; label=Max items to show per page
+		pageBrowser.itemsPerPage = 10
+	}
+}
