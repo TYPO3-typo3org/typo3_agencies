@@ -48,20 +48,19 @@
 
 		</div><!-- cl -->
 
-
-	<f:if condition="{administrator}">
-		<f:then>
-			<f:link.action action="list" controller="Agency" arguments="{agency : agency}">
-				<f:translate key="updateProjects">Update your projects</f:translate>
-			</f:link.action>
-		</f:then>
-		<f:else>
-			<br style="clear:left;"/>
-			<hr/>
-			<a href="javascript: history.go(-1)">
-				<f:translate key="backToList">back to the list</f:translate>
-			</a>
-		</f:else>
-	</f:if>
-	
+		<f:if condition="{administrator}">
+			<f:then>
+				<f:link.action action="list" controller="Agency" arguments="{agency : agency}">
+					<f:translate key="updateProjects">Update your projects</f:translate>
+				</f:link.action>
+			</f:then>
+			<f:else>
+				<br style="clear:left;"/>
+				<hr/>
+				<a href="javascript: history.go(-1)">
+					<f:translate key="backToList">back to the list</f:translate>
+				</a>
+			</f:else>
+		</f:if>
+	</div>
 </f:section>
