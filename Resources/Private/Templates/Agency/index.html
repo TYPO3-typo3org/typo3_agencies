@@ -1,3 +1,4 @@
+
 {namespace agency=Tx_Typo3Agencies_ViewHelpers}
 <f:layout name="default" />
 <f:section name="content">
@@ -19,7 +20,7 @@
 						 * Whenever the user update the input, this should refresh the list of agencies
 						 */
 						$('.tx-agencies-form-field').change(function() {
-						
+
 							// should refresh the map
 							doRenderMap = 1;
 							$('#tx-agencies-input-pager-page').val('0');
@@ -50,7 +51,7 @@
 							}
 
 							$('#tx-agencies-input-filter-member').val(members.toString());
-							
+
 							// "service" case
 							$('#tx-agencies-input-filter-trainingservice').val($('#s-filter-training:checked').length)
 							$('#tx-agencies-input-filter-hostingservice').val($('#s-filter-hosting:checked').length)
@@ -118,7 +119,7 @@
 					document.getElementById("map_canvas"),
 					myOptions
 				);
-				
+
 				if (typeof(locations) != 'object') {
 					throw 'Exception thrown by "typo3_agencies": locations variable has not been initialized. Check the XHR request is OK';
 				}
@@ -136,30 +137,39 @@
 				  type: 'poly'
 				};
 				var bounds = new google.maps.LatLngBounds();
-				for (var i = 0; i < locations.length; i++) {
 
-					var beach = locations[i];
+				if(locations.length) {
 
-					var image = getImage();
-					if (beach[4] == 2) {
-						image.url = imagePath + 'membership/silver-marker.png';
+					for (var i = 0; i < locations.length; i++) {
+
+						var beach = locations[i];
+
+						var image = getImage();
+						if (beach[4] == 2) {
+							image.url = imagePath + 'membership/silver-marker.png';
+						}
+						else {
+							image.url = imagePath + 'membership/gold-marker.png';
+						}
+
+						var myLatLng = new google.maps.LatLng(beach[1], beach[2]);
+						var marker = new google.maps.Marker({
+							position: myLatLng,
+							map: map,
+							icon: image,
+							shape: shape,
+							title: beach[0],
+							zIndex: beach[3]
+						});
+						bounds.extend(myLatLng);
 					}
-					else {
-						image.url = imagePath + 'membership/gold-marker.png';
-					}
-
-					var myLatLng = new google.maps.LatLng(beach[1], beach[2]);
-					var marker = new google.maps.Marker({
-						position: myLatLng,
-						map: map,
-						icon: image,
-						shape: shape,
-						title: beach[0],
-						zIndex: beach[3]
-					});
-					bounds.extend(myLatLng);
-					map.fitBounds(bounds);
+				} else {
+					// show the whole flattened globe
+					bounds.extend(new google.maps.LatLng(-90,-180));
+					bounds.extend(new google.maps.LatLng(90,180));
 				}
+
+				map.fitBounds(bounds);
 			}
 
 			/*
@@ -189,14 +199,14 @@
 			<f:form.hidden id="tx-agencies-input-filter-hostingservice" property="hostingService" />
 			<f:form.hidden id="tx-agencies-input-filter-developmentservice" property="developmentService" />
 			<f:form.hidden id="tx-agencies-input-filter-country" property="country" />
-			
+
 			<f:form.hidden id="tx-agencies-input-pager-page" name="page" value="1"/>
 
 			<input type="hidden" name="type" value="12536" />
 		</f:form>
 <!--
 		<f:for each="{countries}" as="country">
-			
+
 		</f:for>-->
 		<div class="cl">
 			<div class="s-sidebar">
@@ -291,5 +301,5 @@
 
 			</div><!-- s-body -->
 		</div><!-- cl -->
-	
-</f:section>
+
+</f:section> 
