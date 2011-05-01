@@ -168,10 +168,10 @@
 
 					for (var i = 0; i < locations.length; i++) {
 
-						var beach = locations[i];
+						var location = locations[i];
 						var image = getImage();
 
-						switch(beach[4]) {
+						switch(location[4]) {
 							case 1: // bronze
 								image.url = imagePath + 'membership/bronze-marker.png';
 								break;
@@ -187,14 +187,14 @@
 								break;
 						}
 
-						var myLatLng = new google.maps.LatLng(beach[1], beach[2]);
+						var myLatLng = new google.maps.LatLng(location[1], location[2]);
 						var marker = new google.maps.Marker({
 							position: myLatLng,
 							map: map,
 							icon: image,
 							shape: shape,
-							title: beach[0],
-							zIndex: beach[3]
+							title: location[0],
+							zIndex: location[3]
 						});
 						bounds.extend(myLatLng);
 					}
