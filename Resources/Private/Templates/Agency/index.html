@@ -10,6 +10,7 @@
 			// global variables comes here
 			var imagePath = '{imagePath}';
 			var doRenderMap = 1;
+			var latestAgencyRequestId = null;
 
 			// <![CDATA[
 			(function($) {
@@ -33,6 +34,10 @@
 						$('#tx-agencies-form').submit(function() {
 							var members;
 							members = new Array();
+
+							var requestId = (new Date()).getTime();
+							latestAgencyRequestId = requestId;
+
 							// set wating message
 							$('#tx-agencies-ajax-result').addClass('tx-agencies-box-waiting');
 
@@ -61,35 +66,7 @@
 							$('#tx-agencies-input-filter-country').val($('#s-filter-country').val())
 
 							$(this).ajaxSubmit(function (data) {
-								// debug message
-								if (window.console && window.console.log) {
-									//console.log(data);
-								}
-								if (data) {
-									// Update the GUI
-									$('#tx-agencies-ajax-result').removeClass('tx-agencies-box-waiting').removeClass('tx-agencies-box-waiting-firstload');
-									$('#tx-agencies-ajax-result').html(data);
-
-									// Render Google Map
-									if (doRenderMap) {
-										try {
-											renderMap();
-										}
-										catch (e) {
-											if (window.console && window.console.log) {
-												console.log(e)
-											}
-										}
-										doRenderMap = 0;
-									}
-
-									// Add action when a pager link is clicked
-									$('.tx-agencies-link-pager').click(function() {
-										$('#tx-agencies-input-pager-page').val($.trim($(this).html()));
-										$('#tx-agencies-form').submit();
-										return false;
-									});
-								}
+								handleResponse(data, requestId);
 							});
 
 							// return false to prevent normal browser submit
@@ -105,13 +82,54 @@
 				}); // end of clausure
 			})(jQuery);
 
+			/**
+			 * Handles an AJAX response.
+			 * Response data is only handled if the given requestId equals global
+			 * variable "latestAgencyRequestId" which is always overwritten by the
+			 * latest AJAX request.
+			 */
+			function handleResponse(data, requestId) {
+
+				if (typeof data !== 'undefined' && requestId === latestAgencyRequestId) {
+
+					// Update the GUI
+					$('#tx-agencies-ajax-result').removeClass('tx-agencies-box-waiting').removeClass('tx-agencies-box-waiting-firstload');
+					$('#tx-agencies-ajax-result').html(data);
+
+					// Render Google Map
+					if (doRenderMap) {
+						try {
+							renderMap();
+						}
+						catch (e) {
+							if (window.console && window.console.log) {
+								console.log(e)
+							}
+						}
+						doRenderMap = 0;
+					}
+
+					// Add action when a pager link is clicked
+					$('.tx-agencies-link-pager').click(function() {
+						$('#tx-agencies-input-pager-page').val($.trim($(this).html()));
+						$('#tx-agencies-form').submit();
+						return false;
+					});
+				}
+			}
 
 			/*
 			 * Render Google Map
 			 */
 			function renderMap() {
+
+				var defaultZoom = 10;
+				var minZoom     = 1;
+				var maxZoom     = 11;
+				var appliedZoom = 0;
+
 				var myOptions = {
-					zoom: 10,
+					zoom: defaultZoom,
 					center: new google.maps.LatLng(0, 0),
 					mapTypeId: google.maps.MapTypeId.ROADMAP
 				}
@@ -124,6 +142,14 @@
 					throw 'Exception thrown by "typo3_agencies": locations variable has not been initialized. Check the XHR request is OK';
 				}
 				setMarkers(map, locations);
+
+				// adjust zoom factor
+				appliedZoom = map.getZoom();
+				if(appliedZoom < minZoom) {
+					map.setZoom(minZoom);
+				} else if(appliedZoom > maxZoom) {
+					map.setZoom(maxZoom);
+				}
 			}
 
 
@@ -143,13 +169,22 @@
 					for (var i = 0; i < locations.length; i++) {
 
 						var beach = locations[i];
-
 						var image = getImage();
-						if (beach[4] == 2) {
-							image.url = imagePath + 'membership/silver-marker.png';
-						}
-						else {
-							image.url = imagePath + 'membership/gold-marker.png';
+
+						switch(beach[4]) {
+							case 1: // bronze
+								image.url = imagePath + 'membership/bronze-marker.png';
+								break;
+							case 2: // silver
+								image.url = imagePath + 'membership/silver-marker.png';
+								break;
+							case 3: // gold
+								image.url = imagePath + 'membership/gold-marker.png';
+								break;
+							case 4: // platinum
+								// @todo: provide marker image for platinum partners
+								image.url = imagePath + 'membership/gold-marker.png';
+								break;
 						}
 
 						var myLatLng = new google.maps.LatLng(beach[1], beach[2]);
@@ -167,6 +202,7 @@
 					// show the whole flattened globe
 					bounds.extend(new google.maps.LatLng(-90,-180));
 					bounds.extend(new google.maps.LatLng(90,180));
+					map.setCenter(new google.maps.LatLng(0, 0));
 				}
 
 				map.fitBounds(bounds);
@@ -302,4 +338,4 @@
 			</div><!-- s-body -->
 		</div><!-- cl -->
 
-</f:section> 
+</f:section>
