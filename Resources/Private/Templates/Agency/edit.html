@@ -5,24 +5,99 @@
 			<f:then>
 				<f:if condition="{administrator} == {agency.administrator}">
 					<f:then>
-						<h1><f:translate key="editAgency">Edit your agency profile</f:translate></h1>
+						<h1><f:translate key="editAgency">Edit/Create Agency Profile</f:translate></h1>
 						<f:render partial="formErrors" arguments="{for: 'agency'}" />
 						
 						<f:form method="post" controller="Agency" action="update" name="agency" object="{agency}" enctype="multipart/form-data">
-							<label for="name"><f:translate key="agencyName">Agency name</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.textbox property="name" /><br />
-							<label for="about"><f:translate key="agencyAbout">About the agency</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.textarea property="about" rows="8" cols="46" /><br />
-							<label for="link"><f:translate key="link">Link</f:translate><span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.textbox property="link" /><br />
-							<f:if condition="{agency.logo}">
-								<f:then>
-									<label for="logo"><f:translate key="logo">Logo (jpg/png, max size 200x100px)</f:translate>: <f:image src="{uploadPath}/{agency.logo}" alt="" maxHeight="100" maxWidth="200"/>
-									<f:link.action controller="Agency" action="edit" arguments="{agency : agency, logo : 1}" ><f:translate key="remove">remove</f:translate></f:link.action><br/>
-								</f:then>
-								<f:else>
-									<label for="logo"><f:translate key="logo">Logo (jpg/png, max size 200x100px)</f:translate>: <span class="required">(<f:translate key="required">required</f:translate>)</span></label><f:form.upload property="logo" /><br />
-								</f:else>
-							</f:if>
-							<f:form.submit class="submit" value="Submit"/>
-							<f:link.action controller="Agency" action="show" arguments="{agency : agency}"><f:translate key="cancel">cancel</f:translate></f:link.action>
+							<div class="b-form b-form-edit">
+								<div class="b-form-row">
+									<label for="form-name"><f:translate key="agencyName">Agency name</f:translate></label>
+									<div class="b-form-inputs">
+										<f:form.textbox property="name" id="form-name"/>
+									</div><!-- b-form-inputs -->
+								</div><!-- b-form-row -->
+								<div class="b-form-row">
+									<label for="form-about-project"><f:translate key="agencyAbout">Description</f:translate></label>
+									<div class="b-form-inputs">
+										<f:form.textarea cols="20" rows="5" property="about" id="form-about-project" />
+									</div><!-- b-form-inputs -->
+								</div><!-- b-form-row -->
+								<div class="b-form-row">
+									<label for="form-about-project">Upload logo</label>
+									<div class="b-form-inputs">
+										<div class="b-form-file">
+											<input type="file" maxlength="1" class="multi-file" />
+											<span class="form-file-main-text">Choose file</span> <span class="form-file-secondary-text">Limits: jpg/png, 600x480px, 500KB</span>
+										</div><!-- .b-form-file -->
+									</div><!-- b-form-inputs -->
+								</div><!-- b-form-row -->
+								<div class="b-form-row">
+									<label for="form-link"><f:translate key="link">Link</f:translate></label>
+									<div class="b-form-inputs">
+										<f:form.textfield property="link" id="form-link"/>
+									</div><!-- b-form-inputs -->
+								</div><!-- b-form-row -->
+								<div class="b-form-row">
+									<label for="form-training-service"><f:translate key="trainingService">Training Service</f:translate></label>
+									<div class="b-form-inputs">
+										<f:form.checkbox property="trainingService" value="1" id="form-training-service" />
+									</div><!-- b-form-inputs -->
+								</div><!-- b-form-row -->
+								<div class="b-form-row">
+									<label for="form-hosting-service"><f:translate key="hostingService">Hosting Service</f:translate></label>
+									<div class="b-form-inputs">
+										<f:form.checkbox property="hostingService" value="1" id="form-hosting-service" />
+									</div><!-- b-form-inputs -->
+								</div><!-- b-form-row -->
+								<div class="b-form-row">
+									<label for="form-development-service"><f:translate key="developmentService">Development Service</f:translate></label>
+									<div class="b-form-inputs">
+										<f:form.checkbox property="developmentService" value="1" id="form-development-service" />
+									</div><!-- b-form-inputs -->
+								</div><!-- b-form-row -->
+								<div class="b-form-row">
+									<label for="form-address">Address</label>
+									<div class="b-form-inputs">
+										<f:form.textfield property="address" id="form-address"/>
+									</div><!-- b-form-inputs -->
+								</div><!-- b-form-row -->
+								<div class="b-form-row">
+									<label for="form-city">City</label>
+									<div class="b-form-inputs">
+										<f:form.textfield property="city" id="form-city"/>
+									</div><!-- b-form-inputs -->
+								</div><!-- b-form-row -->
+								<div class="b-form-row">
+									<label for="form-country">Country:</label>
+									<div class="b-form-inputs">
+										<f:form.select property="country" value="{country}" options="{countries}" id="form-country"></f:form.select>
+									</div><!-- b-form-inputs -->
+								</div><!-- b-form-row -->
+								<div class="b-form-row">
+									<label for="form-zip">Zip:</label>
+									<div class="b-form-inputs">
+										<f:form.textfield property="zip" id="form-zip"/>
+									</div><!-- b-form-inputs -->
+								</div><!-- b-form-row -->	
+								<div class="b-form-row">
+									<label for="form-contact-person">Contact Person:</label>
+									<div class="b-form-inputs">
+										<input id="form-contact-person" type="text" />
+									</div><!-- b-form-inputs -->
+								</div><!-- b-form-row -->	
+								<div class="b-form-row">
+									<label for="form-email">Email:</label>
+									<div class="b-form-inputs">
+										<f:form.textfield property="email" id="form-email"/>
+									</div><!-- b-form-inputs -->
+								</div><!-- b-form-row -->	
+								<div class="b-form-row">
+									<div class="b-form-inputs">
+										<f:form.submit class="bu bu-confirm" value="Submit"/>
+										<f:link.action controller="Agency" action="show" arguments="{agency : agency}" class="bu bu-secondary"><f:translate key="cancel">Cancel</f:translate></f:link.action>
+									</div><!-- b-form-inputs -->
+								</div><!-- b-form-row -->
+							</div><!-- b-form -->
 						</f:form>
 					</f:then>
 				</f:if>

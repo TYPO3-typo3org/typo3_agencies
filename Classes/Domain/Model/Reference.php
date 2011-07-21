@@ -140,7 +140,6 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	 * A short conclusion of the reference
 	 *
 	 * @var string
-	 * @validate NotEmpty
 	 */
 	protected $conclusion = '';
 	

@@ -23,6 +23,8 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
+require_once('GeneralFunctions.php');
+
 /**
  * The agency controller for the Reference package
  *
@@ -38,7 +40,11 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 	/**
 	 * @var Tx_Typo3Agencies_Domain_Model_ReferenceRepository
 	 */
-	protected $referenceRepository;
+	public $referenceRepository;
+	/**
+	 * @var Tx_Typo3Agencies_Domain_Model_CountryRepository
+	 */
+	protected $countryRepository;
 	/**
 	 * @var Tx_Typo3Agencies_Domain_Model_Administrator
 	 */
@@ -56,12 +62,12 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 	/**
 	 * @var Tx_Extbase_Utility_Localization
 	 */
-	protected $localization;
-
+	public $localization;
+	
 	/**
-	 * @var boolean Show editable
+	 * @var boolean Show deactivated references
 	 */
-	protected $showEditable;
+	public $showDeactivated;
 
 	/**
 	 * Initializes the current action
@@ -72,19 +78,19 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 		$this->agencyRepository = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Repository_AgencyRepository');
 		$this->referenceRepository = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Repository_ReferenceRepository');
 		$this->localization = t3lib_div::makeInstance('Tx_Extbase_Utility_Localization');
-		$this->showEditable = false;
+		$this->countryRepository = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Repository_CountryRepository');
+		$this->showDeactivated = false;
 		if($GLOBALS['TSFE']->loginUser){
 			$uid = intval($GLOBALS['TSFE']->fe_user->user['uid']);
 			$result = $this->agencyRepository->findByAdministrator($uid);
 			if(count($result) > 0){
 				$this->administrator = $uid;
-				$this->agency = current($result);
+				$this->agency = $result->getFirst();
 				if($this->agency->getAdministrator() == $this->administrator){
-					$this->showEditable = true;
+					$this->showDeactivated = true;
 				}
 			}
 		}
-		
 	}
 
 	/**
@@ -99,7 +105,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 
 		$this->view->assign('countries', $this->agencyRepository->findAllCountries());
 		$this->view->assign('imagePath', t3lib_extMgm::extRelPath('typo3_agencies') . 'Resources/Public/Media/Images/');
-
+		$this->view->assign('redirect','index');
 	}
 
 	/**
@@ -126,15 +132,27 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 			$agency = $this->agency;
 		}
 
-//		$showDeactivated = false;
-//		if ($agency->getAdministrator() == $this->administrator) {
-//			$showDeactivated = true;
-//		}
-//		$references = $this->referenceRepository->findAllByAgency($agency, $showDeactivated);
-//		$agency->setReferences($references);
+		$showDeactivated = false;
+		if ($agency->getAdministrator() == $this->administrator) {
+			$showDeactivated = true;
+		}
+		$references = $this->referenceRepository->findAllByAgency($agency, $showDeactivated);
+		$agency->setReferences($references);
 		$this->view->assign('agency', $agency);
 		$this->view->assign('uploadPath', $this->settings['uploadPath']);
 		$this->view->assign('administrator', $this->administrator);
+		$this->view->assign('redirect','show');
+		$this->view->assign('redirectController','Agency');
+		
+		$allowedCategories = GeneralFunctions::getCategories($this, $this->extensionName);
+		$allowedIndustries = GeneralFunctions::getIndustries($this, $this->extensionName);
+		$allowedCompanySizes = GeneralFunctions::getCompanySizes($this, $this->extensionName);
+		
+		GeneralFunctions::removeNotSet($this, $this->request, $allowedCategories, $allowedIndustries, $allowedCompanySizes);
+		
+		$this->view->assign('categories', $allowedCategories);
+		$this->view->assign('industries', $allowedIndustries);
+		$this->view->assign('companySizes', $allowedCompanySizes);
 	}
 
 	/**
@@ -156,6 +174,14 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 			$this->view->assign('agency', $agency);
 			$this->view->assign('uploadPath', $this->settings['uploadPath']);
 			$this->view->assign('administrator', $this->administrator);
+			
+			$countries = $this->countryRepository->findAll();
+			$availableCountries = Array();
+			foreach($countries as $country){
+				$availableCountries[$country->getCnShortEn()] = $country->getCnShortEn();
+			}
+
+			$this->view->assign('countries', $availableCountries);
 		} else {
 			$this->redirect('index', 'Reference');
 		}
@@ -173,7 +199,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 			$this->agencyRepository->update($agency);
 			$this->flashMessages->add(str_replace('%NAME%', $agency->getName(), $this->localization->translate('agencyUpdated', $this->extensionName)));
 		}
-		$this->redirect('index', 'Reference');
+		$this->redirect('show', 'Agency',null,Array('agency'=>$agency));
 	}
 
 	/**

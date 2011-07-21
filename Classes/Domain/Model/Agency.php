@@ -142,25 +142,25 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	protected $country = '';
 
 	/**
-	 * TrainingService status: 0 = no trainingService, 1 = with trainingService
+	 * TrainingService
 	 *
-	 *  @var integer
+	 *  @var boolean
 	 */
-	protected $trainingService = 0;
+	protected $trainingService = false;
 
 	/**
-	 * HostingService status: 0 = no hostingService, 1 = with hostingService
+	 * HostingService
 	 *
-	 *  @var integer
+	 *  @var boolean
 	 */
-	protected $hostingService = 0;
+	protected $hostingService = false;
 
 	/**
-	 * DevelopmentService status: 0 = no developmentService, 1 = with developmentService
+	 * DevelopmentService
 	 *
-	 *  @var integer
+	 *  @var boolean
 	 */
-	protected $developmentService = 0;
+	protected $developmentService = false;
 
 	/**
 	 * Latitude
@@ -320,7 +320,7 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	/**
 	 * Sets the trainingService status
 	 *
-	 * @param int $trainingService
+	 * @param boolean $trainingService
 	 * @return void
 	 */
 	public function setTrainingService($trainingService) {
@@ -330,7 +330,7 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	/**
 	 * Returns the trainingService status
 	 *
-	 * @return int
+	 * @return boolean
 	 */
 	public function getTrainingService() {
 		return $this->trainingService;
@@ -339,7 +339,7 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	/**
 	 * Sets the hostingService status
 	 *
-	 * @param int $hostingService
+	 * @param boolean $hostingService
 	 * @return void
 	 */
 	public function setHostingService($hostingService) {
@@ -349,7 +349,7 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	/**
 	 * Returns the hostingService status
 	 *
-	 * @return int
+	 * @return boolean
 	 */
 	public function getHostingService() {
 		return $this->hostingService;
@@ -358,7 +358,7 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	/**
 	 * Sets the developmentService status
 	 *
-	 * @param int $developmentService
+	 * @param boolean $developmentService
 	 * @return void
 	 */
 	public function setDevelopmentService($developmentService) {
@@ -368,7 +368,7 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	/**
 	 * Returns the developmentService status
 	 *
-	 * @return int
+	 * @return boolean
 	 */
 	public function getDevelopmentService() {
 		return $this->developmentService;

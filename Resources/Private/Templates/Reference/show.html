@@ -1,83 +1,141 @@
 <f:layout name="default" />
 <f:section name="content">
-	<div class="single">
-		<div>
-			<h3>{reference.title}</h3>
-			<p><strong><f:translate key="conclusion">Conclusion</f:translate></strong> {reference.conclusion}</p>
-			<f:if condition="{reference.screenshot}">
-				<div class="image"><img src="{uploadPath}/{reference.screenshot}" rel="lightbox[gallery]"/></div>
-				<f:if condition="{galleryImages}">
-					<a rel="lightbox[gallery]" href="{uploadPath}/{reference.screenshot}">Gallery</a>
-				</f:if>
-				<f:for each="{galleryImages}" as="image">
-					<a rel="lightbox[gallery]" href="{uploadPath}/{image}"><img rel="lightbox[gallery]" src="{uploadPath}/{image}" style="height:0px;"/></a>
-				</f:for>
-			</f:if>
-			<p class="description"><strong><f:translate key="aboutProject">About the Project</f:translate>:</strong> <f:format.nl2br>{reference.description}</f:format.nl2br></p>
-			<p class="company"><strong><f:translate key="aboutCompany">About the company</f:translate>:</strong> <f:format.nl2br>{reference.about}</f:format.nl2br></p>
-			<a href="{reference.link}" target="_blank"><f:translate key="openWebsite">Open website</f:translate></a>
-			<f:if condition="{reference.casestudy}">
-				<a href="{uploadPath}/{reference.casestudy}" >Download this case study as PDF Dokument</a>
-			</f:if>
-			<div class="facts">
-				<f:translate key="projectFacts">Project facts</f:translate><br/>
-				<f:if condition="{reference.listed}">
-					<f:translate key="listed">Company is listed in the Fortune1000</f:translate><br/>
-				</f:if>
-				<f:translate key="size">Company size</f:translate>:	<f:translate key="size{reference.size}">Company size</f:translate> <f:translate key="employees"> employees</f:translate><br/>
-				<f:translate key="pages">Number of pages</f:translate>: <f:translate key="page{reference.pages}">Company size</f:translate><br/>
-				<f:translate key="languages">Languages</f:translate>: {reference.languages}<br/>
-				<f:translate key="country">Country</f:translate>: {reference.country}<br/>
-				<hr/>
-				<f:translate key="industry">Industry</f:translate>: 
-				<f:if condition="{reference.industryOther}">
-					<f:then>
-						{reference.industryOther}
-					</f:then>
-					<f:else>
-						<f:translate key="industry{reference.industry}">Industry</f:translate>
-					</f:else>
-				</f:if>
-				<br/>
-				<f:translate key="category">Category</f:translate>: 
-				<f:if condition="{reference.categoryOther}">
-					<f:then>
-						{reference.categoryOther}
-					</f:then>
-					<f:else>
-						<f:translate key="category{reference.category}">Category</f:translate>
-					</f:else>
-				</f:if>
-				<br/>
-				<f:translate key="tags">Tags</f:translate>: {reference.tags}<br/>
-			</div>
-		</div>
-		<f:render partial="referenceActions" arguments="{reference: reference, administrator : administrator}" />
-		<hr/>
-		<div class="agency">
-			<f:translate key="agency">Agency</f:translate>:
-			<f:if condition="{reference.agency.member}==0">
-				<f:then>
-					The agency who did this project is not a TYPO3 Association member yet. Please support the TYPO3 Association and get your membership now.
-					<br/>
-					<form action="http://association.typo3.org/" method="POST">
-						<input type="submit" value="become a member"/>
-					</form>
-				</f:then>
-				<f:else>
-					<f:if condition="{reference.agency.logo}">
-						<div class="logo"><img src="{uploadPath}/{reference.agency.logo}" /></div>
-					</f:if>
-					<h3>{reference.agency.name}</h3>
-					<a href="{reference.agency.link}" class="url">{reference.agency.link}</a>
-					<p><strong><f:translate key="aboutAgency">About the agency</f:translate>.</strong> {reference.agency.about}</p>
-					<f:link.action action="show" controller="Agency" arguments="{agency : reference.agency}">
-						<span class="learnMore">Learn more about {reference.agency.name} and see other {reference.agency.name} projects.</span>
-					</f:link.action>
-				</f:else>
-			</f:if>
-		</div>
+	<div class="hgroup">
+		<h1>{reference.title}</h1>
 	</div>
-	<hr/>
-	<a href="javascript:history.back()"><f:translate key="backToList">back to the list</f:translate></a>
+					
+	<div class="cl">
+		<div class="s-sidebar">
+			
+			<h4>Project Facts</h4>
+			<div class="b-box b-stat">
+				<ul class="linear-list">
+					<li>
+						<p class="n-m"><strong><f:translate key="size">Company size</f:translate>:</strong></p>
+						<p class="n-m"><f:translate key="employees"> employees</f:translate></p>
+					</li>
+					<li>
+						<p class="n-m"><strong><f:translate key="pages">Number of pages</f:translate>:</strong></p>
+						<p class="n-m"><f:translate key="page{reference.pages}">appr. 1000</f:translate></p>
+					</li>
+					<li>
+						<p class="n-m"><strong><f:translate key="languages">Languages</f:translate>:</strong> {reference.languages}</p>
+					</li>
+					<li>
+						<p class="n-m"><strong><f:translate key="country">Country</f:translate>:</strong> {reference.country}</p>
+					</li>
+				</ul>
+				<p><f:link.external uri="{reference.link}" class="bu"><i class="ico i-arr-right-big"></i>Open Site</f:link.external></p>
+			</div><!-- b-box -->
+			
+			<f:if condition="{reference.casestudy}">
+				<h4>Download Case Study</h4>
+				<div class="b-box">
+					<p class="n-m"><img src="{f:uri.resource(path:'Media/Images/folders.png')}" alt="" /></p>
+					<p>Download this case study as PDF Dokument</p>
+					<p><a href="{uploadPath}/{reference.casestudy}" class="bu"><i class="ico i-arr-down"></i>Download</a></p>
+				</div><!-- b-box -->
+			</f:if>
+			
+
+		</div><!-- s-sidebar -->
+		<div class="s-body">
+
+			<div class="b-project">
+				<p class="b-project-toolbar">
+					<f:render partial="referenceActions" arguments="{reference: reference, administrator : administrator, controller : controller, redirectController : redirectController, redirect : redirect}" />
+				</p>
+				<p class="b-project-cat">
+					<f:translate key="industry">Industry</f:translate>: 
+					<f:if condition="{reference.industryOther}">
+						<f:then>
+							<f:link.action action="index" controller="Reference" arguments="{filter : null, filterString : 'industry#{reference.industryOther}'}">
+								{reference.industryOther}
+							</f:link.action>
+						</f:then>
+						<f:else>
+							<f:link.action action="index" controller="Reference" arguments="{filter : null, filterString : 'industry#{reference.industry}'}">
+								<f:translate key="industry{reference.industry}">Industry</f:translate>
+							</f:link.action>
+						</f:else>
+					</f:if>
+					 <span class="sep">|</span> 
+					<f:translate key="category">Category</f:translate>: 
+					<f:if condition="{reference.categoryOther}">
+						<f:then>
+							<f:link.action action="index" controller="Reference"	arguments="{filterString : 'category#{reference.categoryOther}'}">
+								{reference.categoryOther}
+							</f:link.action>
+						</f:then>
+						<f:else>
+							<f:link.action action="index" controller="Reference"	arguments="{filterString : 'category#{reference.category}'}">
+								<f:translate key="category{reference.category}">Category</f:translate>
+							</f:link.action>
+						</f:else>
+					</f:if>
+				</p>
+				
+				<div class="hr"><hr /> </div>
+				<p class="pic">
+					<f:if condition="{reference.screenshot}">
+						<img src="{uploadPath}/{reference.screenshot}" width="515" height="264" alt="pic" />
+					</f:if>
+				</p>
+				<f:if condition="{galleryImages}">
+					<p class="b-project-gallery"><a rel="lightbox[gallery]" href="{uploadPath}/{reference.screenshot}">Open screenshot gallery</a></p>
+					<f:for each="{galleryImages}" as="image">
+						<a rel="lightbox[gallery]" href="{uploadPath}/{image}"><img rel="lightbox[gallery]" src="{uploadPath}/{image}" style="height:0px;"/></a>
+					</f:for>
+				</f:if>
+			</div><!-- b-project -->
+		
+			<div class="hgroup">
+				<h2>Description</h2>
+			</div>
+			
+			<p><f:format.nl2br>{reference.description}</f:format.nl2br></p>
+			
+			<h2>
+				<f:if condition="{reference.agency.name}">
+					<f:then>
+						{reference.agency.name}
+					</f:then>
+					<f:else>
+						{reference.agency.firstName} {reference.agency.lastName}
+					</f:else>
+				</f:if>
+			</h2>
+			<div class="b-project">
+				<p class="b-project-toolbar">
+					<f:if condition="{administrator}">
+						<f:if condition="{administrator} == {reference.agency.administrator}">
+							<f:link.action action="edit" controller="Agency" arguments="{agency : reference.agency}">
+								<f:translate key="editProfile">Edit profile</f:translate>
+							</f:link.action>
+						</f:if>
+					</f:if>
+				</p>
+				<p class="b-project-link">
+					<f:link.external uri="{reference.agency.link}" target="_blank"><strong>{reference.agency.link}</strong></f:link.external>
+				</p>
+				<div class="hr"><hr /> </div>
+				
+				<div class="b-agency">
+					<div class="agency-img">
+						<f:if condition="{reference.agency.logo}">
+							<img src="{uploadPath}/{reference.agency.logo}" alt="" style="width:178px;"/>
+						</f:if>
+						<f:image src="{f:uri.resource(path:'Media/Images/membership/{reference.agency.member}-widen.jpg')}" alt="" />
+					</div><!-- .agency-img -->
+					<div class="agency-desc">
+						<p><f:format.nl2br>{reference.agency.about}</f:format.nl2br></p>
+						<p><f:link.action action="show" controller="Agency" arguments="{agency : reference.agency}">More information</f:link.action></p>
+					</div><!-- .agency-desc -->
+				</div><!-- .b-agency -->
+
+			</div><!-- b-project -->
+			
+		</div><!-- s-body -->
+		
+	</div><!-- cl -->
 </f:section>

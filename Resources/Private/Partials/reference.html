@@ -1,31 +1,51 @@
-<div class="reference">
+<div class="pic">
 	<f:if condition="{reference.screenshot}">
-		<div class="image">
-			<f:link.action action="show" controller="Reference"	arguments="{reference : reference}">
-				<img src="{uploadPath}/{reference.screenshot}" />
-			</f:link.action>
-		</div>
-	</f:if>
-	<h3>{reference.title}</h3>
-	<p class="description"><f:format.nl2br><f:format.crop maxCharacters="50">{reference.description}</f:format.crop></f:format.nl2br></p>
-	<span class="industry"><f:translate key="industry">Industry</f:translate>: <f:translate key="industry{reference.industry}"></f:translate></span><br/>
-	<span class="category"><f:translate key="category">Category</f:translate>: <f:translate key="category{reference.category}"></f:translate></span><br/>
-	<f:link.action action="show" controller="Reference"	arguments="{reference : reference}">
-		details
-	</f:link.action>
-	<hr/>
-	<f:if condition="{reference.agency.member} == 0">
-		<f:then>
-			<f:translate key="noMember">The agency of this client is not a TYPO3 Association member.</f:translate>
-		</f:then>
-		<f:else>
-			<span class="agency">Agency:<img src="{uploadPath}/{reference.agency.logo}" /></span>
-			<f:link.action action="show" controller="Agency" arguments="{agency : reference.agency}">
-				<span class="learnMore">Learn more about {reference.agency.name} and see other {reference.agency.name} projects.</span>
-			</f:link.action>
-		</f:else>
-	</f:if>
-	<br/><hr/>
-	<f:render partial="referenceActions" arguments="{reference: reference, administrator : administrator, controller : controller}" />
-	<br style="clear:left;"/>
+		<img src="{uploadPath}/{reference.screenshot}" width="149" height="120" alt="pic" />
+	</f:if> 
+	
+	<f:render partial="referenceActions" arguments="{reference: reference, administrator : administrator, controller : controller, redirectController : redirectController, redirect : redirect}" />
 </div>
+<div class="b-project-body" style="min-height: 200px;">
+	
+	<h4>{reference.title}</h4>
+	
+	<p class="b-project-cat">
+		<f:translate key="category">Category</f:translate>:
+		<f:link.action action="index" controller="Reference"	arguments="{filterString : 'category#{reference.category}'}">
+			<f:translate key="category{reference.category}"></f:translate>
+		</f:link.action>
+		<span class="sep">|</span> 
+		<f:translate key="industry">Industry</f:translate>:
+		<f:link.action action="index" controller="Reference" arguments="{filter : null, filterString : 'industry#{reference.industry}'}">
+			<f:translate key="industry{reference.industry}"></f:translate>
+		</f:link.action>
+	</p>
+	<div class="hr">
+		<hr />
+	</div>
+	<p>
+		<f:format.nl2br><f:format.crop maxCharacters="150">{reference.description}</f:format.crop></f:format.nl2br>
+	</p>
+	<p class="b-project-created">
+		Created by: 
+		<f:link.external uri="{reference.agency.link}" target="_blank" class="b-project-created-by" > 
+			<strong> 
+				<f:if condition="{reference.agency.name}">
+					<f:then>
+						{reference.agency.name}
+					</f:then>
+					<f:else>
+						{reference.agency.firstName} {reference.agency.lastName}
+					</f:else>
+				</f:if> 
+			</strong>
+		</f:link.external>
+		(<f:link.action action="show" controller="Agency" arguments="{agency : reference.agency}">See all projects</f:link.action>)
+	</p>
+	<p>
+		<f:link.action action="show" controller="Reference"	arguments="{reference : reference}">
+			<f:translate key="readMore">Read more</f:translate>
+		</f:link.action>
+	</p>
+</div>
+<!-- b-project-body -->

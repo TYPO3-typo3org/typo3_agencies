@@ -249,7 +249,6 @@ $TCA['tx_typo3agencies_domain_model_reference'] = array(
 			'label'   => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.conclusion',
 			'config'  => array(
 				'type' => 'text',
-				'eval' => 'required',
 				'rows' => 30,
 				'cols' => 80,
 			)

@@ -257,7 +257,7 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 		),
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid, hidden, salutation, first_name, last_name, email, name, address, zip, city, country, logo, link, about, size, country, latitude, longitude, listed, administrator, member, training_service, hosting_service, development_service')
+		'1' => array('showitem' => 'sys_language_uid, hidden, salutation, first_name, last_name, email, name, address, zip, city, country, logo, link, about, size, latitude, longitude, listed, administrator, member, training_service, hosting_service, development_service')
 	),
 	'palettes' => array(
 		'1' => array('showitem' => '')

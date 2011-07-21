@@ -14,7 +14,17 @@ plugin.tx_typo3agencies {
 		}
 	}
 	persistence {
-		storagePid = {$plugin.tx_typo3agencies.persistence.storagePid}
+		storagePid = 0,{$plugin.tx_typo3agencies.persistence.storagePid}
+		
+		classes {
+			Tx_Typo3Agencies_Domain_Model_Country {
+				mapping {
+					tableName = static_countries
+					columns {
+					}
+				}
+			}
+		}
 	}
 	view {
 		templateRootPath = {$plugin.tx_typo3agencies.view.templateRootPath}
@@ -28,18 +38,18 @@ plugin.tx_typo3agencies {
 ################################
 [IP = 127.0.0.1]
 
-	page.includeCSS.file1 = EXT:typo3_agencies/Resources/Public/Media/StyleSheets/grid.css
-	page.includeCSS.file2 = EXT:typo3_agencies/Resources/Public/Media/StyleSheets/main.css
+#	page.includeCSS.file1 = EXT:typo3_agencies/Resources/Public/Media/StyleSheets/grid.css
+#	page.includeCSS.file2 = EXT:typo3_agencies/Resources/Public/Media/StyleSheets/main.css
 
-	page.includeJS.file1 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/jquery-1.5.1.min.js
-	page.includeJS.file2 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/css_browser_selector.js
-	page.includeJS.file3 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/jquery.tools.js
-	page.includeJS.file4 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/cufon.js
-	page.includeJS.file6 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/prettyCheckboxes.js
-	#page.includeJS.file7 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/main.js
+#	page.includeJS.file1 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/jquery-1.5.1.min.js
+#	page.includeJS.file2 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/css_browser_selector.js
+#	page.includeJS.file3 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/jquery.tools.js
+#	page.includeJS.file4 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/cufon.js
+#	page.includeJS.file6 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/prettyCheckboxes.js
+#	#page.includeJS.file7 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/main.js
 [end]
 
-page.includeJSFooter.jquery_form = EXT:typo3_agencies/Resources/Public/JavaScript/Plugin/jquery.form.js
+# page.includeJSFooter.jquery_form = EXT:typo3_agencies/Resources/Public/JavaScript/Plugin/jquery.form.js
 
 
 ################################

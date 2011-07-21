@@ -7,6 +7,7 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="details">Details</label>
+			<label index="readMore">Read more</label>
 			<label index="industry">Industry</label>
 			<label index="industry1">Automotive</label>
 			<label index="industry2">Insurance and Finance</label>
@@ -29,7 +30,7 @@
 			<label index="page3">500-1000</label>
 			<label index="page4">&gt;1000</label>
 			<label index="aboutAgency">About the agency</label>
-			<label index="projectsOf">Projects of</label>
+			<label index="projectsOf">Project List</label>
 			<label index="onlyFortune">Search or filter only companies within the Fortune1000</label>
 			<label index="conclusion">Conclusion</label>
 			<label index="openWebsite">Open website</label>
@@ -47,11 +48,11 @@
 			<label index="employees">employees</label>
 			<label index="backToList">back to the list</label>
 			<label index="noMember">The agency of this client is not a TYPO3 Association member.</label>
-			<label index="newProject">Add new project</label>
-			<label index="aNewProject">Add a new project</label>
+			<label index="newProject">Add your project</label>
+			<label index="aNewProject">Edit/Create Project</label>
 			<label index="required">required</label>
 			<label index="headline">Headline</label>
-			<label index="other">other</label>
+			<label index="other">Other</label>
 			<label index="notAllowed">You are not allowed to perform this action!</label>
 			<label index="edit">Edit</label>
 			<label index="delete">Delete</label>
@@ -78,10 +79,11 @@
 			<label index="previous">Previous</label>
 			<label index="next">Next</label>
 			<label index="agencyProfile">Your agency profile</label>
-			<label index="editAgency">Edit your agency profile</label>
-			<label index="agencyName">Agency name</label>
+			<label index="editAgency">Edit/Create Agency Profile</label>
+			<label index="agencyName">Name</label>
 			<label index="agencyLogo">Logo (jpg/png, max size 200x100px)</label>
 			<label index="agencyUpdated">Agency %NAME% has been updated.</label>
+			<label index="agencyAbout">Description</label>
 			<label index="results">Results</label>
 			<label index="caseStudies">case studies</label>
 			<label index="deactivate">Deactivate</label>
@@ -99,7 +101,7 @@
 			<label index="activated">activated</label>
 			<label index="deactivated">deactivated</label>
 			<label index="deactivate">Deactivate</label>
-			<label index="reactivate">Reactivate</label>
+			<label index="activate">Activate</label>
 			<label index="editProjectList">Edit your project list</label>
 			<label index="yourStatus">This is your status</label>
 			<label index="upgradeStatus">Upgrade your status</label>
