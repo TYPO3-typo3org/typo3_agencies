@@ -8,7 +8,8 @@
 						<h1><f:translate key="editAgency">Edit/Create Agency Profile</f:translate></h1>
 						<f:render partial="formErrors" arguments="{for: 'agency'}" />
 						
-						<f:form method="post" controller="Agency" action="update" name="agency" object="{agency}" enctype="multipart/form-data">
+						<f:form method="post" controller="Agency" action="update" name="agency" object="{agency}" enctype="multipart/form-data" >
+							<f:form.hidden name="submit" value="true"/>
 							<div class="b-form b-form-edit">
 								<div class="b-form-row">
 									<label for="form-name"><f:translate key="agencyName">Agency name</f:translate></label>
@@ -23,13 +24,26 @@
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 								<div class="b-form-row">
-									<label for="form-about-project">Upload logo</label>
-									<div class="b-form-inputs">
-										<div class="b-form-file">
-											<input type="file" maxlength="1" class="multi-file" />
-											<span class="form-file-main-text">Choose file</span> <span class="form-file-secondary-text">Limits: jpg/png, 600x480px, 500KB</span>
-										</div><!-- .b-form-file -->
-									</div><!-- b-form-inputs -->
+									<f:if condition="{agency.logo}">
+										<f:then>
+											<label for="form-about-project">Logo</label>
+											<div class="b-form-inputs">
+												<div class="b-form-file">
+													<f:image src="{uploadPath}/{agency.logo}" alt="" id="form-about-project"/>
+													<f:link.action controller="Agency" action="edit" arguments="{agency : agency, logo : 1}" noCacheHash="false" ><f:translate key="remove">remove</f:translate></f:link.action><br/>
+												</div><!-- .b-form-file -->
+											</div><!-- b-form-inputs -->
+										</f:then>
+										<f:else>
+											<label for="form-about-project">Upload logo</label>
+											<div class="b-form-inputs">
+												<div class="b-form-file">
+													<f:form.upload property="logo" class="multi-file max-1"/>
+													<span class="form-file-main-text">Choose file</span> <span class="form-file-secondary-text"><f:translate key="limits">Limits: jpg/png, 600x480px, 500KB</f:translate></span>
+												</div><!-- .b-form-file -->
+											</div><!-- b-form-inputs -->
+										</f:else>
+									</f:if>
 								</div><!-- b-form-row -->
 								<div class="b-form-row">
 									<label for="form-link"><f:translate key="link">Link</f:translate></label>

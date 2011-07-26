@@ -11,14 +11,14 @@
 	
 	<p class="b-project-cat">
 		<f:translate key="category">Category</f:translate>:
-		<f:link.action action="index" controller="Reference"	arguments="{filterString : 'category#{reference.category}'}">
+		<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'category#{reference.category}'}}">
 			<f:translate key="category{reference.category}"></f:translate>
-		</f:link.action>
+		</f:link.page>
 		<span class="sep">|</span> 
 		<f:translate key="industry">Industry</f:translate>:
-		<f:link.action action="index" controller="Reference" arguments="{filter : null, filterString : 'industry#{reference.industry}'}">
+		<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'industry#{reference.industry}'}}">
 			<f:translate key="industry{reference.industry}"></f:translate>
-		</f:link.action>
+		</f:link.page>
 	</p>
 	<div class="hr">
 		<hr />
@@ -40,12 +40,12 @@
 				</f:if> 
 			</strong>
 		</f:link.external>
-		(<f:link.action action="show" controller="Agency" arguments="{agency : reference.agency}">See all projects</f:link.action>)
+		(<f:link.page pageUid="{settings.agenciesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'show',controller:'Agency',agency:reference.agency.uid}}">See all projects</f:link.page>)
 	</p>
 	<p>
-		<f:link.action action="show" controller="Reference"	arguments="{reference : reference}">
+		<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'show',controller:'Reference',reference:reference}}">
 			<f:translate key="readMore">Read more</f:translate>
-		</f:link.action>
+		</f:link.page>
 	</p>
 </div>
 <!-- b-project-body -->

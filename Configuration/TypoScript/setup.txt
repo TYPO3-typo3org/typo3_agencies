@@ -12,9 +12,15 @@ plugin.tx_typo3agencies {
 		pageBrowser {
 			itemsPerPage = {$plugin.tx_typo3agencies.settings.pageBrowser.itemsPerPage}
 		}
+		
+		agenciesPid = {$plugin.tx_typo3agencies.settings.agenciesPid}
+		referencesPid = {$plugin.tx_typo3agencies.settings.referencesPid}
+
 	}
 	persistence {
-		storagePid = 0,{$plugin.tx_typo3agencies.persistence.storagePid}
+		storagePid = {$plugin.tx_typo3agencies.persistence.storagePid},0
+
+		enableAutomaticCacheClearing = 1
 		
 		classes {
 			Tx_Typo3Agencies_Domain_Model_Country {
@@ -33,6 +39,22 @@ plugin.tx_typo3agencies {
 	}
 }
 
+[globalVar = GP:tx_typo3agencies_pi1|action = edit] && [globalVar = GP:tx_typo3agencies_pi1|controller = Agency]
+tt_content.list.20.typo3agencies_pi1 = USER_INT
+plugin.tx_typo3agencies = USER_INT
+[end]
+
+[globalVar = GP:tx_typo3agencies_pi1|action = update] && [globalVar = GP:tx_typo3agencies_pi1|controller = Agency]
+tt_content.list.20.typo3agencies_pi1 = USER_INT
+plugin.tx_typo3agencies = USER_INT
+tt_content.list.20.typo3agencies_pi1.switchableControllerActions.Agency.nonCacheableActions := addToList(update)
+[end]
+
+[globalVar = GP:tx_typo3agencies_pi1|action = create] || [globalVar = GP:tx_typo3agencies_pi1|action = delete] || [globalVar = GP:tx_typo3agencies_pi1|action = update]
+tt_content.list.20.typo3agencies_pi1 = USER_INT
+plugin.tx_typo3agencies = USER_INT
+[end]
+
 ################################
 # JavaScript + CSS inclusion
 ################################
@@ -49,7 +71,7 @@ plugin.tx_typo3agencies {
 #	#page.includeJS.file7 = EXT:typo3_agencies/Resources/Public/JavaScript/Temp/main.js
 [end]
 
-# page.includeJSFooter.jquery_form = EXT:typo3_agencies/Resources/Public/JavaScript/Plugin/jquery.form.js
+page.includeJSFooter.jquery_form = EXT:typo3_agencies/Resources/Public/JavaScript/Plugin/jquery.form.js
 
 
 ################################

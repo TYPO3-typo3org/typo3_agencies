@@ -109,9 +109,9 @@
 				<p class="b-project-toolbar">
 					<f:if condition="{administrator}">
 						<f:if condition="{administrator} == {reference.agency.administrator}">
-							<f:link.action action="edit" controller="Agency" arguments="{agency : reference.agency}">
+							<f:link.page additionalParams="{tx_typo3agencies_pi1:{action:'edit',controller:'Agency',agency:reference.agency}}" noCacheHash="true">
 								<f:translate key="editProfile">Edit profile</f:translate>
-							</f:link.action>
+							</f:link.page>
 						</f:if>
 					</f:if>
 				</p>
@@ -129,7 +129,7 @@
 					</div><!-- .agency-img -->
 					<div class="agency-desc">
 						<p><f:format.nl2br>{reference.agency.about}</f:format.nl2br></p>
-						<p><f:link.action action="show" controller="Agency" arguments="{agency : reference.agency}">More information</f:link.action></p>
+						<p><f:link.page pageUid="{settings.agenciesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'show',controller:'Agency',agency:reference.agency}}">More information</f:link.page></p>
 					</div><!-- .agency-desc -->
 				</div><!-- .b-agency -->
 

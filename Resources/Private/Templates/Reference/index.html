@@ -1,3 +1,4 @@
+{namespace fed=Tx_Fed_ViewHelpers}
 <f:layout name="default" />
 <f:section name="content">
 	<div class="cl">
@@ -8,18 +9,117 @@
 					<p class="form-row"><f:form.select property="category" value="{filter.category}" options="{categories}"></f:form.select></p>
 					<p class="form-row"><f:form.select property="industry" value="{filter.industry}" options="{industries}"></f:form.select></p>
 					<p class="form-row"><f:form.select property="companySize" value="{filter.companySize}" options="{companySizes}"></f:form.select></p>
-					<p><f:form.submit class="bu bu-mini" value="Submit"/></p>
+					<p><f:form.submit class="bu bu-mini" value="Submit"/>
+					<f:if condition="{filter.category} > 0">
+						<f:then>
+							<f:link.action controller="Reference" action="index" class="bu bu-mini">Clear</f:link.action>
+						</f:then>
+						<f:else>
+							<f:if condition="{filter.industry} > 0">
+								<f:then>
+									<f:link.action controller="Reference" action="index" class="bu bu-mini">Clear</f:link.action>
+								</f:then>
+								<f:else>
+									<f:if condition="{filter.companySize} > 0">
+										<f:link.action controller="Reference" action="index" class="bu bu-mini">Clear</f:link.action>
+									</f:if>
+								</f:else>
+							</f:if>
+						</f:else>
+					</f:if>
+					</p>
 				</f:form>
 			</div><!-- b-box -->
+			
+			<h4>Tag cloud</h4>
+			<ul class="b-tag-cloud">
+				<li><fed:tagCloud mode="html" tags="{tagCloud}" fontSizeMin="10" fontSizeMax="20" divider="</li><li>"/></li>
+			</ul><!-- b-tag-cloud -->
+			<f:if condition="{filterString}">
+				<f:link.action controller="Reference" action="index">Show all</f:link.action>
+			</f:if>
 		</div><!-- s-sidebar -->
 		
 		<div class="s-body">
-			<p class="b-project-add">
-				<f:link.action action="new" controller="Reference"	arguments="{reference : reference}">
-					<f:translate key="newProject">Add your project</f:translate>
-				</f:link.action>
-			</p>
+			<f:if condition="{administrator}">
+				<p class="b-project-add">
+					<f:link.action action="new" controller="Reference"	arguments="{reference : reference}">
+						<f:translate key="newProject">Add your project</f:translate>
+					</f:link.action>
+				</p>
+			</f:if>
 			<h1>Case Studies</h1>
+			
+			<f:if condition="{topReference}">
+				<div class="b-project">
+					<h2>{topReference.title}</h2>
+					<p class="b-project-toolbar">
+						<f:render partial="referenceActions" arguments="{reference: topReference, administrator : administrator, controller : controller, redirectController : redirectController, redirect : redirect}" />
+					</p>
+					<p class="b-project-cat">
+						<f:translate key="industry">Industry</f:translate>: 
+						<f:if condition="{topReference.industryOther}">
+							<f:then>
+								<f:link.action action="index" controller="Reference" arguments="{filter : null, filterString : 'industry#{topReference.industryOther}'}">
+									{topReference.industryOther}
+								</f:link.action>
+							</f:then>
+							<f:else>
+								<f:link.action action="index" controller="Reference" arguments="{filter : null, filterString : 'industry#{topReference.industry}'}">
+									<f:translate key="industry{topReference.industry}">Industry</f:translate>
+								</f:link.action>
+							</f:else>
+						</f:if>
+						 <span class="sep">|</span> 
+						<f:translate key="category">Category</f:translate>: 
+						<f:if condition="{topReference.categoryOther}">
+							<f:then>
+								<f:link.action action="index" controller="Reference"	arguments="{filterString : 'category#{topReference.categoryOther}'}">
+									{topReference.categoryOther}
+								</f:link.action>
+							</f:then>
+							<f:else>
+								<f:link.action action="index" controller="Reference"	arguments="{filterString : 'category#{topReference.category}'}">
+									<f:translate key="category{topReference.category}">Category</f:translate>
+								</f:link.action>
+							</f:else>
+						</f:if>
+					</p>
+					
+					<div class="hr"><hr /> </div>
+					<p class="pic">
+						<f:if condition="{topReference.screenshot}">
+							<img src="{uploadPath}/{topReference.screenshot}" width="515" height="264" alt="pic" />
+						</f:if>
+					</p>
+					<p class="b-project-created">
+						Created by: 
+						<f:link.external uri="{topReference.agency.link}" target="_blank" class="b-project-created-by" > 
+							<strong> 
+								<f:if condition="{topReference.agency.name}">
+									<f:then>
+										{topReference.agency.name}
+									</f:then>
+									<f:else>
+										{topReference.agency.firstName} {topReference.agency.lastName}
+									</f:else>
+								</f:if> 
+							</strong>
+						</f:link.external>
+						(<f:link.page pageUid="{settings.agenciesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'show',controller:'Agency',agency:reference.agency.uid}}">See all projects</f:link.page>)
+					</p>
+					<p>
+						<f:format.nl2br><f:format.crop maxCharacters="150">{topReference.description}</f:format.crop></f:format.nl2br>
+					</p>
+					<p>
+						<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'show',controller:'Reference',reference:reference}}" class="bu">
+							<f:translate key="readDetails">Read details</f:translate>
+						</f:link.page>
+					</p>
+				</div><!-- b-project -->
+				
+				<h3>Recently Added</h3>
+			</f:if>
 
 			<div class="b-projects-list">
 				<f:for each="{references}" as="reference">

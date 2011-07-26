@@ -104,6 +104,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 	 * @dontvalidate $filter
 	 */
 	public function indexAction(Tx_Typo3Agencies_Domain_Model_Filter $filter = null, $filterString = null) {
+
 		if($this->settings['showAgencyIfLoggedIn']==1 && $this->administrator>0){
 			 $this->redirect('show','Agency');
 		} else {
@@ -134,27 +135,56 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 				if(strpos($filterString,'category#')!==false){
 					$filter->setCategory(substr($filterString,9));
 				}
+				if(strpos($filterString,'tag#')!==false){
+					$filter->setSearchTerm(substr($filterString,4));
+					$this->view->assign('filterString', true);
+				}
 			}
 	
 			$this->pager->setItemsPerPage($this->settings['pageBrowser']['itemsPerPage']);
 			$offset = ($this->pager->getPage() - 1) * $this->pager->getItemsPerPage();
 			$count = 0;
 			if($filter == null){
+				$ignore = 0;
+				if($this->settings['topReferences'] != ''){
+					$topReferences = t3lib_div::trimExplode(',',$this->settings['topReferences'],1);
+					$rand = rand(0,count($topReferences)-1);
+					$ignore = $topReferences[$rand];
+					$this->view->assign('topReference', $this->referenceRepository->findByUid($ignore));
+				}
 				$this->filter = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Filter');
-				$references = $this->referenceRepository->findAllByFilter($this->filter,null,null,false,$this->showDeactivated);
-				$count = count($references);
-				$this->view->assign('references', $this->referenceRepository->findAllByRange($offset, $this->pager->getItemsPerPage(), $this->showDeactivated));
+				$count = $this->referenceRepository->countRecentlyAdded($this->showDeactivated);
+				$references = $this->referenceRepository->findRecentlyAdded($offset, $this->pager->getItemsPerPage(), $this->showDeactivated, $ignore);
 			} else {
 				$this->filter = $filter;
 				$references = $this->referenceRepository->findAllByFilter($this->filter,null,null,false,$this->showDeactivated);
 				$count = count($references);
 				$this->filter->setResultCount($count);
-				$this->view->assign('references', $this->referenceRepository->findAllByFilter($this->filter, $offset, $this->pager->getItemsPerPage(), false, $this->showDeactivated));
+				$references = $this->referenceRepository->findAllByFilter($this->filter, $offset, $this->pager->getItemsPerPage(), false, $this->showDeactivated);
 			}
 			
 			$this->pager->setCount($count);
 			$this->view->assign('pager', $this->pager);
 			$this->view->assign('filter', $this->filter);
+			$this->view->assign('references', $references);
+			
+			$tagArray = Array();
+			
+			foreach ($references->toArray() as $reference){
+				$tags = t3lib_div::trimExplode(',',$reference->getTags(),1);
+				foreach ($tags as $tag){
+					$tagArray[$tag][] = 1;
+				}
+			}
+			
+			$tagCloudArray = Array();
+			foreach($tagArray as $tag => $values){
+				
+				$tagCloudArray[] = Array('tag'=>$tag.' ', 'occurrences' => count($values), 'href'=>$this->uriBuilder->uriFor('index',Array('filterString'=>'tag#'.$tag),'Reference'), 'title'=>null, 'style'=>null);
+			}
+			$this->view->assign('tagCloud', $tagCloudArray);
+			
+			
 			$request = t3lib_div::makeInstance('Tx_Extbase_MVC_Web_Request');
 			$request->setBaseUri($_SERVER['HTTP_HOST']);
 			$request->setFormat('json');
@@ -164,7 +194,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 //			$uri = $builder->setTargetPageType(124)->buildFrontendUri();
 			$uri = '';
 
-			$this->view->assign('ajaxUrl', $uri);
+			$this->view->assign('ajaxUrl', '');
 			$this->view->assign('administrator', $this->administrator);
 			$this->view->assign('agency', $this->agency);
 			$this->view->assign('uploadPath', $this->settings['uploadPath']);
@@ -316,6 +346,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 			$this->view->assign('administrator', $this->administrator);
 			$this->view->assign('uploadPath', $this->settings['uploadPath']);
 			$this->view->assign('galleryImages', t3lib_div::trimExplode(',',$reference->getScreenshotGallery(),1));
+			$GLOBALS['TSFE']->clearPageCacheContent_pidList($GLOBALS['TSFE']->id);
 		} else {
 			$this->redirect('index');
 		}

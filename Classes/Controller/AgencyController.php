@@ -143,7 +143,10 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 		$this->view->assign('administrator', $this->administrator);
 		$this->view->assign('redirect','show');
 		$this->view->assign('redirectController','Agency');
-		
+		$this->addFilterOptions();
+	}
+
+	private function addFilterOptions(){
 		$allowedCategories = GeneralFunctions::getCategories($this, $this->extensionName);
 		$allowedIndustries = GeneralFunctions::getIndustries($this, $this->extensionName);
 		$allowedCompanySizes = GeneralFunctions::getCompanySizes($this, $this->extensionName);
@@ -154,52 +157,78 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 		$this->view->assign('industries', $allowedIndustries);
 		$this->view->assign('companySizes', $allowedCompanySizes);
 	}
+	
+	private function addCountries(){
+		$countries = $this->countryRepository->findAll();
+		$availableCountries = Array();
+		foreach($countries as $country){
+			$availableCountries[$country->getCnShortEn()] = $country->getCnShortEn();
+		}
+
+		$this->view->assign('countries', $availableCountries);
+	}
 
 	/**
 	 * Edits an existing reference
 	 *
 	 * @param Tx_Typo3Agencies_Domain_Model_Agency $agency The agency to be edited. This might also be a clone of the original agency already containing modifications if the edit form has been submitted, contained errors and therefore ended up in this action again.
 	 * @param boolean $logo Delete the logo
+	 * @param boolean $submit Form got submitted
 	 * @return string Form for editing the existing agency
 	 * @dontvalidate $agency
 	 * @dontvalidate $logo
 	 */
-	public function editAction(Tx_Typo3Agencies_Domain_Model_Agency $agency, $logo = false) {
+	public function editAction(Tx_Typo3Agencies_Domain_Model_Agency $agency, $logo = false, $submit = false) {
 		if ($agency->getAdministrator() == $this->administrator) {
 			if ($logo == 1) {
 				$agency->setLogo('');
 				$this->agencyRepository->update($agency);
+				$this->flashMessages->add($this->localization->translate('logoRemoved', $this->extensionName));
 			}
+			$GLOBALS['TSFE']->clearPageCacheContent_pidList($GLOBALS['TSFE']->id);
 			$this->handleFiles($agency);
+			if($submit){
+				$this->agencyRepository->update($agency);
+				$GLOBALS['TSFE']->clearPageCacheContent_pidList($GLOBALS['TSFE']->id);
+				$this->flashMessages->add(str_replace('%NAME%', $agency->getName(), $this->localization->translate('agencyUpdated', $this->extensionName)));
+			}
 			$this->view->assign('agency', $agency);
 			$this->view->assign('uploadPath', $this->settings['uploadPath']);
 			$this->view->assign('administrator', $this->administrator);
+			$this->addCountries();
 			
-			$countries = $this->countryRepository->findAll();
-			$availableCountries = Array();
-			foreach($countries as $country){
-				$availableCountries[$country->getCnShortEn()] = $country->getCnShortEn();
-			}
-
-			$this->view->assign('countries', $availableCountries);
 		} else {
-			$this->redirect('index', 'Reference');
+			$this->redirect('show', 'Agency',null,Array('agency'=>$agency));
 		}
 	}
-
+	
 	/**
-	 * Updates an existing agency
+	 * Edits an existing reference
 	 *
-	 * @param Tx_Typo3Agencies_Domain_Model_Agency $agency A not yet persisted clone of the original agency containing the modifications
-	 * @return void
+	 * @param Tx_Typo3Agencies_Domain_Model_Agency $agency The agency to be edited. This might also be a clone of the original agency already containing modifications if the edit form has been submitted, contained errors and therefore ended up in this action again.
+	 * @param boolean $logo Delete the logo
+	 * @param boolean $submit Form got submitted
+	 * @return string Form for editing the existing agency
+	 * @dontvalidate $agency
+	 * @dontvalidate $logo
 	 */
-	public function updateAction(Tx_Typo3Agencies_Domain_Model_Agency $agency) {
+	public function updateAction(Tx_Typo3Agencies_Domain_Model_Agency $agency, $logo = false, $submit = false) {
 		if ($agency->getAdministrator() == $this->administrator) {
 			$this->handleFiles($agency);
 			$this->agencyRepository->update($agency);
 			$this->flashMessages->add(str_replace('%NAME%', $agency->getName(), $this->localization->translate('agencyUpdated', $this->extensionName)));
+			
+			$references = $this->referenceRepository->findAllByAgency($agency, $showDeactivated);
+			$agency->setReferences($references);
+			$this->view->assign('agency', $agency);
+			$this->view->assign('uploadPath', $this->settings['uploadPath']);
+			$this->view->assign('administrator', $this->administrator);
+			$this->addFilterOptions();
+			
+			$GLOBALS['TSFE']->clearPageCacheContent_pidList($GLOBALS['TSFE']->id);
+		} else {
+			$this->redirect('show', 'Agency',null,Array('agency'=>$agency));
 		}
-		$this->redirect('show', 'Agency',null,Array('agency'=>$agency));
 	}
 
 	/**
@@ -257,6 +286,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 	}
 
 	private function handleFiles(&$agency) {
+
 		if (is_array($_FILES['tx_typo3agencies_pi1'])) {
 
 			$fileFunc = t3lib_div::makeInstance('t3lib_basicFileFunctions');

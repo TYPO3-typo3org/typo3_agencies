@@ -1,0 +1,110 @@
+<f:layout name="default" />
+<f:section name="content">
+	<div class="editAgency">
+		<f:if condition="{agency}">
+			<f:then>
+				<f:if condition="{administrator} == {agency.administrator}">
+					<f:then>
+					<div class="agency">
+		
+						<h1>
+							<f:if condition="{agency.name}">
+								<f:then>
+									{agency.name}
+								</f:then>
+								<f:else>
+									{agency.firstName} {agency.lastName}
+								</f:else>
+							</f:if>
+						</h1>
+						
+						<div class="cl">
+							<div class="s-sidebar">
+								<f:if condition="{administrator}">
+								<h4>Your credit status</h4>
+								<div class="b-box b-stat">
+									<ul class="linear-list">
+										<li>
+											<p class="linear-list-status"><img src="{f:uri.resource(path:'Media/Images/membership/{agency.member}-membership-small.png')}" width="108" height="38" alt="pic" /></p>
+										</li>
+										<li><span class="b-stat-info">24</span>Number of credits:</li>
+										<li><span class="b-stat-info">5</span>Available credits:</li>
+										<li><span class="b-stat-info">15</span>Used credits:</li>
+										<li><a href="#">Buy more credits</a></li>
+									</ul>
+									<p><button class="bu bu-mini">Upgrade account</button></p>
+								</div><!-- b-box -->
+								</f:if>
+								
+								<div class="b-box">
+									<h3>Filter Options</h3>
+									<f:form method="post" controller="Reference" action="index" name="filter" object="{filter}" >
+										<p class="form-row"><f:form.select property="category" value="{filter.category}" options="{categories}"></f:form.select></p>
+										<p class="form-row"><f:form.select property="industry" value="{filter.industry}" options="{industries}"></f:form.select></p>
+										<p class="form-row"><f:form.select property="companySize" value="{filter.companySize}" options="{companySizes}"></f:form.select></p>
+										<p><f:form.submit class="bu bu-mini" value="Submit"/></p>
+									</f:form>
+								</div><!-- b-box -->
+				
+							</div><!-- s-sidebar -->
+							<div class="s-body">
+								<div class="b-project">
+									<f:if condition="{administrator}">
+										<f:if condition="{administrator} == {agency.administrator}">
+											<p class="b-project-toolbar">
+												<f:link.action action="edit" controller="Agency" arguments="{agency : agency}" noCacheHash="false">
+													<f:translate key="editProfile">Edit profile</f:translate>
+												</f:link.action>
+											</p>
+										</f:if>
+									</f:if>
+									<p class="b-project-link">
+										<f:link.external uri="{agency.link}" target="_blank"><strong>{agency.link}</strong></f:link.external>
+									</p>
+									<div class="hr"><hr /> </div>
+				
+									<div class="b-agency">
+										<div class="agency-img">
+											<f:if condition="{agency.logo}">
+												<img src="{uploadPath}/{agency.logo}" alt="" style="width:178px"/>
+											</f:if>
+											<f:image src="{f:uri.resource(path:'Media/Images/membership/{agency.member}-widen.jpg')}" alt="" />
+										</div><!-- .agency-img -->
+										<div class="agency-desc">
+											<p>{agency.about}</p>
+										</div><!-- .agency-desc -->
+									</div><!-- .b-agency -->
+								</div><!-- b-project -->
+								<h2><strong><f:translate key="projectsOf">Project List</f:translate></strong></h2>
+					
+								<f:if condition="{agency.references}">
+									<div class="b-projects-list">
+									<f:for each="{agency.references}" as="reference">
+										<f:if condition="{reference.deactivated} == 0">
+										<div class="b-project">
+											<f:render partial="reference" arguments="{reference: reference, administrator : administrator, uploadPath : uploadPath, controller : 'Reference', redirectController : redirectController, redirect : redirect}" />
+										</div><!-- b-project -->
+										</f:if>
+									</f:for>
+									<f:if condition="{administrator}">
+										<f:for each="{agency.references}" as="reference">
+											<f:if condition="{reference.deactivated} == 1">
+											<div class="b-project disabled">
+												<f:render partial="reference" arguments="{reference: reference, administrator : administrator, uploadPath : uploadPath, controller : 'Reference', redirectController : redirectController, redirect : redirect}" />
+											</div><!-- b-project disabled -->
+											</f:if>
+										</f:for>
+									</f:if>
+									</div><!-- b-projects-list -->
+								</f:if>
+				
+							</div><!-- s-body -->
+					
+						</div><!-- cl -->
+					</div>				
+					</f:then>
+				</f:if>
+			</f:then>
+		</f:if>
+	</div>
+</f:section>

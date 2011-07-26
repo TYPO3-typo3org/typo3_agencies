@@ -30,5 +30,8 @@ plugin.tx_typo3agencies {
 		
 		# cat=plugin.tx_typo3agencies//a; type=int+; label=Max items to show per page
 		pageBrowser.itemsPerPage = 10
+		
+		agenciesPid = 128
+		referencesPid = 435
 	}
 }

@@ -333,7 +333,7 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	 * @return boolean
 	 */
 	public function getTrainingService() {
-		return $this->trainingService;
+		return (boolean) $this->trainingService;
 	}
 	
 	/**
@@ -352,7 +352,7 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	 * @return boolean
 	 */
 	public function getHostingService() {
-		return $this->hostingService;
+		return (boolean) $this->hostingService;
 	}
 
 	/**
@@ -371,7 +371,7 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	 * @return boolean
 	 */
 	public function getDevelopmentService() {
-		return $this->developmentService;
+		return (boolean) $this->developmentService;
 	}
 
 	/**

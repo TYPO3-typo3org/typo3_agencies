@@ -1,14 +1,14 @@
 <f:if condition="{administrator}">
 	<f:if condition="{administrator} == {reference.agency.administrator}">
 		<p class="b-project-toolbar">
-			<f:link.action controller="Reference" action="delete" arguments="{reference : reference, redirectController : redirectController, redirect : redirect}" class="ico i-del"><f:translate key="delete">Delete</f:translate></f:link.action>
-			<f:link.action controller="Reference" action="edit" arguments="{reference : reference}"><f:translate key="edit">Edit</f:translate></f:link.action> <span class="sep">|</span> 
+			<f:link.page additionalParams="{tx_typo3agencies_pi1:{action:'delete',controller:'Reference',reference:reference,redirectController: redirectController, redirect : redirect}}" class="ico i-del" noCacheHash="true"><f:translate key="delete">Delete</f:translate></f:link.page>
+			<f:link.page additionalParams="{tx_typo3agencies_pi1:{action:'edit',controller:'Reference',reference:reference}}" noCacheHash="true"><f:translate key="edit">Edit</f:translate></f:link.page> <span class="sep">|</span> 
 			<f:if condition="{reference.deactivated}">
 				<f:then>
-					<f:link.action controller="Reference" action="reactivate" arguments="{reference : reference, redirectController : redirectController, redirect : redirect}"><f:translate key="activate">Activate</f:translate></f:link.action>
+					<f:link.page additionalParams="{tx_typo3agencies_pi1:{action:'reactivate',controller:'Reference',reference:reference, redirectController : redirectController, redirect : redirect}}" noCacheHash="true"><f:translate key="activate">Activate</f:translate></f:link.page>
 				</f:then>
 				<f:else>
-					<f:link.action controller="Reference" action="deactivate" arguments="{reference : reference, redirectController : redirectController, redirect : redirect}"><f:translate key="deactivate">Deactivate</f:translate></f:link.action>
+					<f:link.page additionalParams="{tx_typo3agencies_pi1:{action:'deactivate',controller:'Reference',reference:reference, redirectController : redirectController, redirect : redirect}}" noCacheHash="true"><f:translate key="deactivate">Deactivate</f:translate></f:link.page>
 				</f:else>
 			</f:if>
 		</p>

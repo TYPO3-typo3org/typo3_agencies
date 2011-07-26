@@ -83,6 +83,7 @@
 			<label index="agencyName">Name</label>
 			<label index="agencyLogo">Logo (jpg/png, max size 200x100px)</label>
 			<label index="agencyUpdated">Agency %NAME% has been updated.</label>
+			<label index="logoRemoved">The logo has been removed.</label>
 			<label index="agencyAbout">Description</label>
 			<label index="results">Results</label>
 			<label index="caseStudies">case studies</label>
