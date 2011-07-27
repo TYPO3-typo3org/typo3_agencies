@@ -31,7 +31,7 @@
 											<div class="b-form-inputs">
 												<div class="b-form-file">
 													<f:image src="{uploadPath}/{agency.logo}" alt="" id="form-about-project"/>
-													<f:link.action controller="Agency" action="edit" arguments="{agency : agency, logo : 1}" noCacheHash="false" ><f:translate key="remove">remove</f:translate></f:link.action><br/>
+													<f:link.action controller="Agency" action="edit" arguments="{agency : agency, logo : 1, redirectController:redirectController, redirect:redirect}" noCacheHash="false" ><f:translate key="remove">remove</f:translate></f:link.action><br/>
 												</div><!-- .b-form-file -->
 											</div><!-- b-form-inputs -->
 										</f:then>

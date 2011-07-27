@@ -321,11 +321,15 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 	 *
 	 * @param Tx_Typo3Agencies_Domain_Model_Reference $reference The reference to be edited. This might also be a clone of the original reference already containing modifications if the edit form has been submitted, contained errors and therefore ended up in this action again.
 	 * @param boolean $screenshot Delete the screenshot
+	 * @param string $redirectController	The controller to redirect to
+	 * @param string $redirect	The agency action to redirect to
 	 * @return string Form for editing the existing reference
 	 * @dontvalidate $reference
 	 * @dontvalidate $screenshot
 	 */
-	public function editAction(Tx_Typo3Agencies_Domain_Model_Reference $reference, $screenshot = false) {
+	public function editAction(Tx_Typo3Agencies_Domain_Model_Reference $reference, $screenshot = false, $redirectController = null, $redirect = null) {
+		$this->view->assign('redirectController', $redirectController);
+		$this->view->assign('redirect', $redirect);
 		if($this->agency && $reference->getAgency()->getUid() == $this->agency->getUid()){
 			if($screenshot == 1){
 				$reference->setScreenshot('');
@@ -334,9 +338,11 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 			} else if(is_string($screenshot)){
 				$newGallery = str_replace($screenshot, '', $reference->getScreenshotGallery());
 				$reference->setScreenshotGallery(implode(',',t3lib_div::trimExplode(',',$newGallery,1)));
+				$this->flashMessages->add($this->localization->translate('screenshotRemoved', $this->extensionName),'',t3lib_message_AbstractMessage::OK);
 			}
 			$this->handleFiles($reference);
 			$this->view->assign('reference', $reference);
+			$this->view->assign('maxFiles', 3 - count(t3lib_div::trimExplode(',',$reference->getScreenshotGallery(),1)));
 			$this->view->assign('categories', GeneralFunctions::getCategories($this, $this->extensionName, false));
 			$this->view->assign('industries', GeneralFunctions::getIndustries($this, $this->extensionName, false));
 			$this->view->assign('companySizes', GeneralFunctions::getCompanySizes($this, $this->extensionName, false));
@@ -362,15 +368,22 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 	 * Updates an existing reference
 	 *
 	 * @param Tx_Typo3Agencies_Domain_Model_Reference $reference A not yet persisted clone of the original reference containing the modifications
+	 * @param string $redirectController	The controller to redirect to
+	 * @param string $redirect	The agency action to redirect to
 	 * @return void
 	 */
-	public function updateAction(Tx_Typo3Agencies_Domain_Model_Reference $reference) {
+	public function updateAction(Tx_Typo3Agencies_Domain_Model_Reference $reference, $redirectController = null, $redirect = null) {
 		if($this->agency && $reference->getAgency()->getUid() == $this->agency->getUid()){
 			$this->handleFiles($reference);
 			$this->referenceRepository->update($reference);
 			$this->flashMessages->add(str_replace('%NAME%', $reference->getTitle(), $this->localization->translate('referenceUpdated',$this->extensionName)),'',t3lib_message_AbstractMessage::OK);
+			$GLOBALS['TSFE']->clearPageCacheContent_pidList($GLOBALS['TSFE']->id);
 		}
-		$this->redirect('index');
+		if(isset($redirect) && isset($redirectController)){
+			$this->redirect($redirect,$redirectController);
+		} else {
+			$this->redirect('list');
+		}
 	}
 	
 	/**

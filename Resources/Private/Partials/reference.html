@@ -2,10 +2,9 @@
 	<f:if condition="{reference.screenshot}">
 		<img src="{uploadPath}/{reference.screenshot}" width="149" height="120" alt="pic" />
 	</f:if> 
-	
 	<f:render partial="referenceActions" arguments="{reference: reference, administrator : administrator, controller : controller, redirectController : redirectController, redirect : redirect}" />
 </div>
-<div class="b-project-body" style="min-height: 200px;">
+<div class="b-project-body">
 	
 	<h4>{reference.title}</h4>
 	
@@ -43,7 +42,7 @@
 		(<f:link.page pageUid="{settings.agenciesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'show',controller:'Agency',agency:reference.agency.uid}}">See all projects</f:link.page>)
 	</p>
 	<p>
-		<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'show',controller:'Reference',reference:reference}}">
+		<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'show',controller:'Reference',reference:reference}}" class="bu bu-mini">
 			<f:translate key="readMore">Read more</f:translate>
 		</f:link.page>
 	</p>
