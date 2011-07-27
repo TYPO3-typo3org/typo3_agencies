@@ -14,8 +14,8 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 		'Reference' => 'index,show,new,search,create,preview,remove,delete,edit,update,deactivate,reactivate,categories',	// The first controller and its first action will be the default
 		),
 	array(																			// An array of non-cachable controller-action-combinations (they must already be enabled)
-		'Agency' => 'edit,update,list,show,geocode',
-		'Reference' => 'index,show,new,search,create,preview,remove,delete,edit,update,deactivate,reactivate,categories',
+		'Agency' => '',
+		'Reference' => '',
 		)
 );
 
