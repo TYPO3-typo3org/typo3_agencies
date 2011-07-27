@@ -83,6 +83,8 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 			} else {
 				$query->matching($query->logicalAnd($query->equals('deactivated',0),$query->logicalNot($query->equals('uid',$ignore))));
 			}
+		} else {
+			$query->matching($query->logicalNot($query->equals('uid',$ignore)));
 		}
 		$query->getQuerySettings()->setRespectEnableFields(TRUE);
 		$query->setLimit(intval($rowsPerPage));

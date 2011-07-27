@@ -3,8 +3,7 @@
 <f:layout name="default" />
 <f:section name="content">
 		<h1>Professional Services</h1>
-		<p class="bodytext">The list of consultancies includes web agencies, freelancers and web hosting companies, as well as consultancies that have a proven track record of some professional installations and solutions.</p>
-
+		
 		<div id="map_canvas"></div><!-- #map_canvas -->
 
 		<agency:script>
@@ -28,6 +27,17 @@
 							doRenderMap = 1;
 							$('#tx-agencies-input-pager-page').val('0');
 							$('#tx-agencies-form').submit();
+						});
+						
+						/*
+						 * Action when event sumbit is fired on form #tx-agencies-form
+						 */
+						$('#speacialist-search-form').submit(function() {
+							doRenderMap = 1;
+							$('#tx-agencies-input-pager-page').val('0');
+							$('#tx-agencies-input-filter-location').val($('#s-search').val());
+							$('#tx-agencies-form').submit();
+							return false;
 						});
 
 						/*
@@ -97,6 +107,7 @@
 					// Update the GUI
 					$('#tx-agencies-ajax-result').removeClass('tx-agencies-box-waiting').removeClass('tx-agencies-box-waiting-firstload');
 					$('#tx-agencies-ajax-result').html(data);
+					sortDropDownListByText();
 
 					// Render Google Map
 					if (doRenderMap) {
@@ -227,6 +238,29 @@
 
 				return image;
 			}
+			
+			function sortDropDownListByText() {
+			    // Loop for each select element on the page.
+			    $("select").each(function() {
+			
+			        // Keep track of the selected option.
+			        var selectedValue = $(this).val();
+			        
+			        $(this).children("option[value=]").remove();
+
+			
+			        // Sort all the options by text. I could easily sort these by val.
+			        $(this).html($("option", $(this)).sort(function(a, b) {
+			            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
+			        }));
+			        
+			        $(this).prepend($("<option></option>").attr("value", "").text("Select country"));
+			
+			        // Select one option.
+			        $(this).val(selectedValue);
+			    });
+			}
+						
 
 		// ]]>
 		</agency:script>
@@ -237,6 +271,7 @@
 			<f:form.hidden id="tx-agencies-input-filter-hostingservice" property="hostingService" />
 			<f:form.hidden id="tx-agencies-input-filter-developmentservice" property="developmentService" />
 			<f:form.hidden id="tx-agencies-input-filter-country" property="country" />
+			<f:form.hidden id="tx-agencies-input-filter-location" property="location" />
 
 			<f:form.hidden id="tx-agencies-input-pager-page" name="page" value="1"/>
 
@@ -312,15 +347,15 @@
 
 			<div class="s-body">
 
-<!--				<div class="speacialist-search">
-					<form method="post" action="#">
+				<div class="speacialist-search">
+					<form method="post" action="#" id="speacialist-search-form">
 						<label class="text s-input" for="s-search">
 							<span>Enter location</span>
 							<input type="text" id="s-search" value="" name="s-search">
 						</label>
 						<button class="bu">Search</button>
 					</form>
-				</div> .speacialis-search -->
+				</div>
 
 
 <!--				<form class="sort-search" method="post" action="#">

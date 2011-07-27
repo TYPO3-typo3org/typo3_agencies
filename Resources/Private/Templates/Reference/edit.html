@@ -1,4 +1,3 @@
-{namespace agency=Tx_Typo3Agencies_ViewHelpers}
 <f:layout name="default" />
 
 <f:section name="content">
@@ -53,7 +52,7 @@
 									<label for="form-about-project">Upload other screens</label>
 									<div class="b-form-inputs">
 										<div class="b-form-file">
-											<agency:form.upload property="screenshotGallery" name="screenshotGallery" maxlength="3" class="multi-file"/>
+											<input type="file" maxlength="3" class="multi-file" name="tx_typo3agencies_pi1[reference][screenshotGallery][]"/>
 											<span class="form-file-main-text">Choose file</span> <span class="form-file-secondary-text">Limits: jpg/png, 600x480px, 500KB</span>
 										</div><!-- .b-form-file -->
 									</div><!-- b-form-inputs -->

@@ -207,8 +207,8 @@ $TCA['tx_typo3agencies_domain_model_reference'] = array(
 				'max_size'      => 3000,
 				'uploadfolder'  => 'uploads/tx_typo3_agencies/pics',
 				'show_thumbs'   => 1,
-				'size'          => 1,
-				'maxitems'      => 5,
+				'size'          => 3,
+				'maxitems'      => 3,
 				'minitems'      => 0
 			)
 		),

@@ -82,10 +82,11 @@
 					</f:if>
 				</p>
 				<f:if condition="{galleryImages}">
-					<p class="b-project-gallery"><a rel="lightbox[gallery]" href="{uploadPath}/{reference.screenshot}">Open screenshot gallery</a></p>
+					<p class="b-project-gallery"><a rel="lightbox[gallery]" href="{uploadPath}/{galleryImages.0}">Open screenshot gallery</a>
 					<f:for each="{galleryImages}" as="image">
 						<a rel="lightbox[gallery]" href="{uploadPath}/{image}"><img rel="lightbox[gallery]" src="{uploadPath}/{image}" style="height:0px;"/></a>
 					</f:for>
+					</p>
 				</f:if>
 			</div><!-- b-project -->
 		

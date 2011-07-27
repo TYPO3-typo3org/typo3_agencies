@@ -183,14 +183,14 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 			if ($logo == 1) {
 				$agency->setLogo('');
 				$this->agencyRepository->update($agency);
-				$this->flashMessages->add($this->localization->translate('logoRemoved', $this->extensionName));
+				$this->flashMessages->add($this->localization->translate('logoRemoved', $this->extensionName),'',t3lib_message_AbstractMessage::OK);
 			}
 			$GLOBALS['TSFE']->clearPageCacheContent_pidList($GLOBALS['TSFE']->id);
 			$this->handleFiles($agency);
 			if($submit){
 				$this->agencyRepository->update($agency);
 				$GLOBALS['TSFE']->clearPageCacheContent_pidList($GLOBALS['TSFE']->id);
-				$this->flashMessages->add(str_replace('%NAME%', $agency->getName(), $this->localization->translate('agencyUpdated', $this->extensionName)));
+				$this->flashMessages->add(str_replace('%NAME%', $agency->getName(), $this->localization->translate('agencyUpdated', $this->extensionName)),'',t3lib_message_AbstractMessage::OK);
 			}
 			$this->view->assign('agency', $agency);
 			$this->view->assign('uploadPath', $this->settings['uploadPath']);
@@ -216,7 +216,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 		if ($agency->getAdministrator() == $this->administrator) {
 			$this->handleFiles($agency);
 			$this->agencyRepository->update($agency);
-			$this->flashMessages->add(str_replace('%NAME%', $agency->getName(), $this->localization->translate('agencyUpdated', $this->extensionName)));
+			$this->flashMessages->add(str_replace('%NAME%', $agency->getName(), $this->localization->translate('agencyUpdated', $this->extensionName)),'',t3lib_message_AbstractMessage::OK);
 			
 			$references = $this->referenceRepository->findAllByAgency($agency, $showDeactivated);
 			$agency->setReferences($references);
@@ -271,11 +271,57 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 		$pager->setItemsPerPage($this->settings['pageBrowser']['itemsPerPage']);
 		$offset = ($pager->getPage() - 1) * $pager->getItemsPerPage();
 		$count = 0;
+		
+		if($filter->getLocation() != ''){
+			//geocode the location
+			$url = 'http://maps.google.com/maps/geo?'.
+			$this->buildURL('q', $filter->getLocation()).
+			$this->buildURL('output', 'csv').
+			$this->buildURL('key', $this->settings['googleMapsKey']);
+
+			$csv = t3lib_div::getURL($url);
+			$csv = explode(',', $csv);
+			
+			switch($csv[0]) {
+				case 200:
+					/*
+					 * Geocoding worked!
+					 * 200:  OK
+					 */
+					if (TYPO3_DLOG) t3lib_div::devLog('Google: '.$filter->getLocation(), 'typo3_agencies', -1, $filter->getLocation());
+					if (TYPO3_DLOG) t3lib_div::devLog('Google Answer', 'typo3_agencies', -1, $csv);
+					$latlong['lat'] = $csv[2];
+					$latlong['long'] = $csv[3];
+					break;
+				case 500:
+				case 610:
+					/*
+					 * Geocoder can't run at all, so disable this service and
+					 * try the other geocoders instead.
+					 * 500: Undefined error.  Geocoding may be blocked.
+					 * 610: Bad API Key.
+					 */
+					if (TYPO3_DLOG) t3lib_div::devLog('Google: '.$csv[0].': '.$filter->getLocation().'. Disabling.', 'typo3_agencies', 3, $filter->getLocation());
+					$latlong = null;
+					break;
+				default:
+					/*
+					 * Something is wrong with this address. Might work for other
+					 * addresses though.
+					 * 601: No address to geocode.
+					 * 602: Unknown address.
+					 * 603: Can't geocode for contractual reasons.
+					 */
+					if (TYPO3_DLOG) t3lib_div::devLog('Google: '.$csv[0].': '.$filter->getLocation().'. Disabling.', 'typo3_agencies', 2, $filter->getLocation());
+					$latlong = null;
+					break;
+			}
+		}
 
 		// Query the repository
-		$agencies = $this->agencyRepository->findAllByFilter($filter, $order, $offset, $pager->getItemsPerPage());
-		$allAgencies = $this->agencyRepository->findAllByFilter($filter);
-		$count = $this->agencyRepository->countAllByFilter($filter);
+		$agencies = $this->agencyRepository->findAllByFilter($filter, $order, $offset, $pager->getItemsPerPage(), $latlong, $this->settings['nearbyAdditionalWhere']);
+		$allAgencies = $this->agencyRepository->findAllByFilter($filter, null, null, null, $latlong, $this->settings['nearbyAdditionalWhere']);
+		$count = $this->agencyRepository->countAllByFilter($filter, $latlong, $this->settings['nearbyAdditionalWhere']);
 		$pager->setCount($count);
 
 		// Assign values
@@ -283,6 +329,12 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 		$this->view->assign('allAgencies', $allAgencies);
 		$this->view->assign('pager', $pager);
 		$this->view->assign('filter', $filter);
+	}
+	
+	private function buildURL($name, $value){
+		if($value) {
+			return $name.'='.urlencode($value).'&';
+		}
 	}
 
 	private function handleFiles(&$agency) {

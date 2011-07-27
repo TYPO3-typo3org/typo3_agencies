@@ -115,6 +115,13 @@ class Tx_Typo3Agencies_Domain_Model_Filter extends Tx_Extbase_DomainObject_Abstr
 	 * @var string
 	 */
 	protected $country = 0;
+	
+	/**
+	 * A location to filter by
+	 *
+	 * @var string
+	 */
+	protected $location = '';
 
 	/**
 	 * Constructs a new Filter
@@ -274,6 +281,22 @@ class Tx_Typo3Agencies_Domain_Model_Filter extends Tx_Extbase_DomainObject_Abstr
 	 */
 	public function getSearchTerm() {
 		return $this->searchTerm;
+	}
+	
+	/**
+	 * Sets the filter location
+	 * @param string $location The filter location
+	 */
+	public function setLocation($location){
+		$this->location = $location;
+	}
+	
+	/**
+	 * Returns the filter location
+	 * @return string The filter location
+	 */
+	public function getLocation(){
+		return $this->location;
 	}
 	
 	/**

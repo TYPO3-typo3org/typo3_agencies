@@ -563,5 +563,13 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	public function getLongitude() {
 		return $this->longitude;
 	}
+	
+	/**
+	 * Returns true if one of the coordinates is not zero
+	 * @return boolean 
+	 */
+	public function isGeolocation() {
+		return $this->getLatitude() != 0 || $this->getLongitude() != 0;
+	}
 }
 ?>

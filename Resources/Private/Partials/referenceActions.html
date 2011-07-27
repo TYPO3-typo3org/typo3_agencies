@@ -1,14 +1,27 @@
 <f:if condition="{administrator}">
 	<f:if condition="{administrator} == {reference.agency.administrator}">
 		<p class="b-project-toolbar">
-			<f:link.page additionalParams="{tx_typo3agencies_pi1:{action:'delete',controller:'Reference',reference:reference,redirectController: redirectController, redirect : redirect}}" class="ico i-del" noCacheHash="true"><f:translate key="delete">Delete</f:translate></f:link.page>
+			<a href="confirmDelete" rel="confirmation-data-{reference.uid}" class="ico i-del"><f:translate key="delete">Delete</f:translate></a>
+			<div class="hidden-dialogs">
+				<div id="confirmation-data-{reference.uid}">
+					<div class="d b-dialog">
+						<h2>Confirmation</h2>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+						<p>Are you sure you want to deactivate th project: <strong>{reference.title}</strong> ?</p>
+						<p class="a-c">
+							<f:link.page additionalParams="{tx_typo3agencies_pi1:{action:'delete',controller:'Reference',reference:reference,redirectController: redirectController, redirect : redirect}}" class="bu bu-confirm" noCacheHash="true"><f:translate key="yes">Yes</f:translate></f:link.page>
+							<a class="bu bu-secondary Custom_FancyBox_Close" href="#">No</a>
+						</p>
+					</div>
+				</div><!-- .confirmation-data -->
+			</div><!-- .hidden-dialogs -->
 			<f:link.page additionalParams="{tx_typo3agencies_pi1:{action:'edit',controller:'Reference',reference:reference}}" noCacheHash="true"><f:translate key="edit">Edit</f:translate></f:link.page> <span class="sep">|</span> 
 			<f:if condition="{reference.deactivated}">
 				<f:then>
-					<f:link.page additionalParams="{tx_typo3agencies_pi1:{action:'reactivate',controller:'Reference',reference:reference, redirectController : redirectController, redirect : redirect}}" noCacheHash="true"><f:translate key="activate">Activate</f:translate></f:link.page>
+					<f:link.page additionalParams="{tx_typo3agencies_pi1:{action:'reactivate',controller:'Reference',reference:reference, redirectController : redirectController, redirect : redirect}}" ><f:translate key="activate">Activate</f:translate></f:link.page>
 				</f:then>
 				<f:else>
-					<f:link.page additionalParams="{tx_typo3agencies_pi1:{action:'deactivate',controller:'Reference',reference:reference, redirectController : redirectController, redirect : redirect}}" noCacheHash="true"><f:translate key="deactivate">Deactivate</f:translate></f:link.page>
+					<f:link.page additionalParams="{tx_typo3agencies_pi1:{action:'deactivate',controller:'Reference',reference:reference, redirectController : redirectController, redirect : redirect}}" ><f:translate key="deactivate">Deactivate</f:translate></f:link.page>
 				</f:else>
 			</f:if>
 		</p>

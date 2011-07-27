@@ -104,6 +104,11 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 	 * @dontvalidate $filter
 	 */
 	public function indexAction(Tx_Typo3Agencies_Domain_Model_Filter $filter = null, $filterString = null) {
+#$this->flashMessages->add('bla bla','',t3lib_message_AbstractMessage::NOTICE);
+#$this->flashMessages->add('bla bla','',t3lib_message_AbstractMessage::INFO);
+#$this->flashMessages->add('bla bla','',t3lib_message_AbstractMessage::OK);
+#$this->flashMessages->add('bla bla','',t3lib_message_AbstractMessage::WARNING);
+#$this->flashMessages->add('bla bla','',t3lib_message_AbstractMessage::ERROR);
 
 		if($this->settings['showAgencyIfLoggedIn']==1 && $this->administrator>0){
 			 $this->redirect('show','Agency');
@@ -299,11 +304,11 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 					$this->view->assign('galleryImages', t3lib_div::trimExplode(',',$newReference->getScreenshotGallery(),1));
 				} else {
 					$this->referenceRepository->add($newReference);
-					$this->flashMessages->add(str_replace('%NAME%', $newReference->getTitle(), $this->localization->translate('referenceCreated',$this->extensionName)));
+					$this->flashMessages->add(str_replace('%NAME%', $newReference->getTitle(), $this->localization->translate('referenceCreated',$this->extensionName)),'',t3lib_message_AbstractMessage::OK);
 				}
 			} else {
-				$this->flashMessages->add($this->localization->translate('notAllowed',$this->extensionName));
-				$this->flashMessages->add($this->localization->translate('referenceMaxReached',$this->extensionName));
+				$this->flashMessages->add($this->localization->translate('notAllowed',$this->extensionName),'',t3lib_message_AbstractMessage::ERROR);
+				$this->flashMessages->add($this->localization->translate('referenceMaxReached',$this->extensionName),'',t3lib_message_AbstractMessage::WARNING);
 			}
 		}
 		if($preview != 'Preview'){
@@ -325,6 +330,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 			if($screenshot == 1){
 				$reference->setScreenshot('');
 				$this->referenceRepository->update($reference);
+				$this->flashMessages->add($this->localization->translate('screenshotRemoved', $this->extensionName),'',t3lib_message_AbstractMessage::OK);
 			} else if(is_string($screenshot)){
 				$newGallery = str_replace($screenshot, '', $reference->getScreenshotGallery());
 				$reference->setScreenshotGallery(implode(',',t3lib_div::trimExplode(',',$newGallery,1)));
@@ -362,7 +368,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 		if($this->agency && $reference->getAgency()->getUid() == $this->agency->getUid()){
 			$this->handleFiles($reference);
 			$this->referenceRepository->update($reference);
-			//$this->flashMessages->add(str_replace('%NAME%', $reference->getTitle(), $this->localization->translate('referenceUpdated',$this->extensionName)));
+			$this->flashMessages->add(str_replace('%NAME%', $reference->getTitle(), $this->localization->translate('referenceUpdated',$this->extensionName)),'',t3lib_message_AbstractMessage::OK);
 		}
 		$this->redirect('index');
 	}
@@ -379,7 +385,8 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 		if($this->agency && $reference->getAgency()->getUid() == $this->agency->getUid()){
 			$reference->setDeactivated(true);
 			$this->referenceRepository->update($reference);
-			//$this->flashMessages->add(str_replace('%NAME%', $reference->getTitle(), $this->localization->translate('referenceDeactivated',$this->extensionName)));
+			$GLOBALS['TSFE']->clearPageCacheContent_pidList($GLOBALS['TSFE']->id);
+			$this->flashMessages->add(str_replace('%NAME%', $reference->getTitle(), $this->localization->translate('referenceDeactivated',$this->extensionName)),'',t3lib_message_AbstractMessage::OK);
 		}
 		if(isset($redirect) && isset($redirectController)){
 			$this->redirect($redirect,$redirectController);
@@ -400,7 +407,8 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 		if($this->agency && $reference->getAgency()->getUid() == $this->agency->getUid()){
 			$reference->setDeactivated(false);
 			$this->referenceRepository->update($reference);
-			//$this->flashMessages->add(str_replace('%NAME%', $reference->getTitle(), $this->localization->translate('referenceReactivated',$this->extensionName)));
+			$GLOBALS['TSFE']->clearPageCacheContent_pidList($GLOBALS['TSFE']->id);
+			$this->flashMessages->add(str_replace('%NAME%', $reference->getTitle(), $this->localization->translate('referenceReactivated',$this->extensionName)),'',t3lib_message_AbstractMessage::OK);
 		}
 		if(isset($redirect) && isset($redirectController)){
 			$this->redirect($redirect,$redirectController);
@@ -420,15 +428,20 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 	 */
 	public function deleteAction(Tx_Typo3Agencies_Domain_Model_Reference $reference, $redirectController = null, $redirect = null) {
 		if($this->agency && $reference->getAgency()->getUid() == $this->agency->getUid()){
+			$GLOBALS['TSFE']->clearPageCacheContent_pidList($GLOBALS['TSFE']->id);
+			$this->referenceRepository->remove($reference);
+			$this->flashMessages->add(str_replace('%NAME%', $reference->getTitle(), $this->localization->translate('referenceRemoved',$this->extensionName)),'',t3lib_message_AbstractMessage::OK);
+			
+			$this->view->assign('redirectController', $redirectController);
+			$this->view->assign('redirect', $redirect);
 			$this->view->assign('reference', $reference);
 			$this->view->assign('administrator', $this->administrator);
 			$this->view->assign('uploadPath', $this->settings['uploadPath']);
+		}
+		if(isset($redirect) && isset($redirectController)){
+			$this->redirect($redirect,$redirectController);
 		} else {
-			if(isset($redirect) && isset($redirectController)){
-				$this->redirect($redirect,$redirectController);
-			} else {
-				$this->redirect('index');
-			}
+			$this->redirect('index');
 		}
 	}
 
@@ -439,13 +452,13 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 	 * @return void
 	 * @dontvalidate $reference
 	 */
-	public function removeAction(Tx_Typo3Agencies_Domain_Model_Reference $reference) {
-		if($this->agency && $reference->getAgency()->getUid() == $this->agency->getUid()){
-			$this->referenceRepository->remove($reference);
-			//$this->flashMessages->add(str_replace('%NAME%', $reference->getTitle(), $this->localization->translate('referenceRemoved',$this->extensionName)));
+	public function removeAction(Tx_Typo3Agencies_Domain_Model_Reference $reference, $redirectController = null, $redirect = null) {
+		$GLOBALS['TSFE']->clearPageCacheContent_pidList($GLOBALS['TSFE']->id);
+		if(isset($redirect) && isset($redirectController)){
+			$this->redirect($redirect,$redirectController);
+		} else {
+			$this->redirect('index');
 		}
-		$this->redirect('index');
-		$this->view->assign('redirect','index');
 	}
 	
 	/**
@@ -507,25 +520,31 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 			$galleryImages = Array();
 			$formName = array_shift(array_keys($_FILES['tx_typo3agencies_pi1']['error']));
 			foreach($_FILES['tx_typo3agencies_pi1']['error'][$formName] as $key => $error){
-				if($error == 0 && strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key],'image') === 0){
-					if($key == 'screenshot'){
-						$theFile = $_FILES['tx_typo3agencies_pi1']['tmp_name'][$formName][$key];
-						$theDestFile = $fileFunc->getUniqueName($fileFunc->cleanFileName($_FILES['tx_typo3agencies_pi1']['name'][$formName][$key]), $this->settings['uploadPath']);
-						t3lib_div::upload_copy_move($theFile,$theDestFile);
-						$reference->setScreenshot(basename($theDestFile));
-					} else {
-						// must be an image for the gallery
-						$theFile = $_FILES['tx_typo3agencies_pi1']['tmp_name'][$formName][$key];
-						$theDestFile = $fileFunc->getUniqueName($fileFunc->cleanFileName($_FILES['tx_typo3agencies_pi1']['name'][$formName][$key]), $this->settings['uploadPath']);
-						t3lib_div::upload_copy_move($theFile,$theDestFile);
-						$galleryImages[] = basename($theDestFile);
+				if(is_array($error)){
+					// must be an image for the gallery
+					foreach ($error as $error_key => $error_error){
+						if($error_error == 0 && strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key][$error_key],'image') === 0){
+							$theFile = $_FILES['tx_typo3agencies_pi1']['tmp_name'][$formName][$key][$error_key];
+							$theDestFile = $fileFunc->getUniqueName($fileFunc->cleanFileName($_FILES['tx_typo3agencies_pi1']['name'][$formName][$key][$error_key]), $this->settings['uploadPath']);
+							t3lib_div::upload_copy_move($theFile,$theDestFile);
+							$galleryImages[] = basename($theDestFile);
+						}
 					}
-				} else if ($error == 0 && $_FILES['tx_typo3agencies_pi1']['type'][$formName][$key] == 'application/pdf'){
-					if($key == 'casestudy'){
-						$theFile = $_FILES['tx_typo3agencies_pi1']['tmp_name'][$formName][$key];
-						$theDestFile = $fileFunc->getUniqueName($fileFunc->cleanFileName($_FILES['tx_typo3agencies_pi1']['name'][$formName][$key]), $this->settings['uploadPath']);
-						t3lib_div::upload_copy_move($theFile,$theDestFile);
-						$reference->setCasestudy(basename($theDestFile));
+				} else {
+					if($error == 0 && strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key],'image') === 0){
+						if($key == 'screenshot'){
+							$theFile = $_FILES['tx_typo3agencies_pi1']['tmp_name'][$formName][$key];
+							$theDestFile = $fileFunc->getUniqueName($fileFunc->cleanFileName($_FILES['tx_typo3agencies_pi1']['name'][$formName][$key]), $this->settings['uploadPath']);
+							t3lib_div::upload_copy_move($theFile,$theDestFile);
+							$reference->setScreenshot(basename($theDestFile));
+						}
+					} else if ($error == 0 && $_FILES['tx_typo3agencies_pi1']['type'][$formName][$key] == 'application/pdf'){
+						if($key == 'casestudy'){
+							$theFile = $_FILES['tx_typo3agencies_pi1']['tmp_name'][$formName][$key];
+							$theDestFile = $fileFunc->getUniqueName($fileFunc->cleanFileName($_FILES['tx_typo3agencies_pi1']['name'][$formName][$key]), $this->settings['uploadPath']);
+							t3lib_div::upload_copy_move($theFile,$theDestFile);
+							$reference->setCasestudy(basename($theDestFile));
+						}
 					}
 				}
 			}

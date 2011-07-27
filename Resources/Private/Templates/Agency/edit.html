@@ -1,3 +1,4 @@
+{namespace agency=Tx_Typo3Agencies_ViewHelpers}
 <f:layout name="default" />
 <f:section name="content">
 	<div class="editAgency">
@@ -52,21 +53,24 @@
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 								<div class="b-form-row">
-									<label for="form-training-service"><f:translate key="trainingService">Training Service</f:translate></label>
+									<label for="form-service"><f:translate key="services">Services</f:translate></label>
 									<div class="b-form-inputs">
-										<f:form.checkbox property="trainingService" value="1" id="form-training-service" />
-									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->
-								<div class="b-form-row">
-									<label for="form-hosting-service"><f:translate key="hostingService">Hosting Service</f:translate></label>
-									<div class="b-form-inputs">
-										<f:form.checkbox property="hostingService" value="1" id="form-hosting-service" />
-									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->
-								<div class="b-form-row">
-									<label for="form-development-service"><f:translate key="developmentService">Development Service</f:translate></label>
-									<div class="b-form-inputs">
-										<f:form.checkbox property="developmentService" value="1" id="form-development-service" />
+										<div class="b-form-boxes">
+											<div class="b-form-sub-row sub-theee-columns">
+												<div class="b-form-sub-column">
+													<label for="form-training-service"><f:translate key="training">Training</f:translate></label>
+													<f:form.checkbox property="trainingService" value="1" id="form-training-service" />
+												</div><!-- .b-form-sub-column -->
+												<div class="b-form-sub-column">
+													<label for="form-hosting-service"><f:translate key="hosting">Hosting</f:translate></label>
+													<f:form.checkbox property="hostingService" value="1" id="form-hosting-service" />
+												</div><!-- .b-form-sub-column -->
+												<div class="b-form-sub-column">
+													<label for="form-development-service"><f:translate key="development">Development</f:translate></label>
+													<f:form.checkbox property="developmentService" value="1" id="form-development-service" />											
+												</div><!-- .b-form-sub-column -->
+											</div><!-- b-form-sub-row -->
+										</div><!-- b-form-boxes -->
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 								<div class="b-form-row">

@@ -1,4 +1,4 @@
-{namespace fed=Tx_Fed_ViewHelpers}
+{namespace agency=Tx_Typo3Agencies_ViewHelpers}
 <f:layout name="default" />
 <f:section name="content">
 	<div class="cl">
@@ -33,7 +33,7 @@
 			
 			<h4>Tag cloud</h4>
 			<ul class="b-tag-cloud">
-				<li><fed:tagCloud mode="html" tags="{tagCloud}" fontSizeMin="10" fontSizeMax="20" divider="</li><li>"/></li>
+				<agency:tagCloud mode="html" tags="{tagCloud}" fontSizeMin="10" fontSizeMax="20" divider="</li><li>" tagName="li"/>
 			</ul><!-- b-tag-cloud -->
 			<f:if condition="{filterString}">
 				<f:link.action controller="Reference" action="index">Show all</f:link.action>
@@ -43,7 +43,7 @@
 		<div class="s-body">
 			<f:if condition="{administrator}">
 				<p class="b-project-add">
-					<f:link.action action="new" controller="Reference"	arguments="{reference : reference}">
+					<f:link.action action="new" controller="Reference"	arguments="{reference : topReference}">
 						<f:translate key="newProject">Add your project</f:translate>
 					</f:link.action>
 				</p>
@@ -106,13 +106,13 @@
 								</f:if> 
 							</strong>
 						</f:link.external>
-						(<f:link.page pageUid="{settings.agenciesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'show',controller:'Agency',agency:reference.agency.uid}}">See all projects</f:link.page>)
+						(<f:link.page pageUid="{settings.agenciesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'show',controller:'Agency',agency:topReference.agency.uid}}">See all projects</f:link.page>)
 					</p>
 					<p>
 						<f:format.nl2br><f:format.crop maxCharacters="150">{topReference.description}</f:format.crop></f:format.nl2br>
 					</p>
 					<p>
-						<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'show',controller:'Reference',reference:reference}}" class="bu">
+						<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'show',controller:'Reference',reference:topReference}}" class="bu">
 							<f:translate key="readDetails">Read details</f:translate>
 						</f:link.page>
 					</p>

@@ -15,6 +15,10 @@ plugin.tx_typo3agencies {
 		
 		agenciesPid = {$plugin.tx_typo3agencies.settings.agenciesPid}
 		referencesPid = {$plugin.tx_typo3agencies.settings.referencesPid}
+		
+		googleMapsKey = {$plugin.tx_typo3agencies.settings.googleMapsKey}
+		
+		nearbyAdditionalWhere = 6367.41*SQRT(2*(1-cos(RADIANS(latitude))*cos(RADIANS(###LATITUDE###))*(sin(RADIANS(longitude))*sin(RADIANS(###LONGITUDE###))+cos(RADIANS(longitude))*cos(RADIANS(###LONGITUDE###)))-sin(RADIANS(latitude))*sin(RADIANS(###LATITUDE###)))) <= 50
 
 	}
 	persistence {
@@ -72,6 +76,7 @@ plugin.tx_typo3agencies = USER_INT
 [end]
 
 page.includeJSFooter.jquery_form = EXT:typo3_agencies/Resources/Public/JavaScript/Plugin/jquery.form.js
+page.includeJSFooter.typo3agency_confirm = EXT:typo3_agencies/Resources/Public/JavaScript/confirm.js
 
 
 ################################

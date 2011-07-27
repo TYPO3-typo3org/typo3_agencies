@@ -7,14 +7,13 @@
 	var locations = new Array();
 
 	<f:for each="{allAgencies}" as="agency" iteration="iterator">
-		<f:if condition="{agency.latitude} > 0">
-			<f:if condition="{agency.longitude} > 0">
-				locations.push(['<agency:escape>{agency.name}</agency:escape>', {agency.latitude}, {agency.longitude}, 1, {agency.member}]);
-			</f:if>
+		<f:if condition="{agency.geolocation}">
+			locations.push(['<agency:escape>{agency.name}</agency:escape>', {agency.latitude}, {agency.longitude}, 1, {agency.member}]);
 		</f:if>
 	</f:for>
 
 	</script>
+	
 	<div class="list">
 		<table class="specialist-list">
 			<thead>
