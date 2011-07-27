@@ -20,6 +20,12 @@ class Tx_Typo3Agencies_Domain_Model_Country extends Tx_Extbase_DomainObject_Abst
 	 * @var string
 	 */
 	protected $cnShortEn;
+	
+	/**
+	 * @var string
+	 */
+	protected $cnIso2;
+	
 	/**
 	 * Constructor. Initializes all Tx_Extbase_Persistence_ObjectStorage instances.
 	 */
@@ -44,6 +50,20 @@ class Tx_Typo3Agencies_Domain_Model_Country extends Tx_Extbase_DomainObject_Abst
 	 */
 	public function getCnShortEn() {
 		return $this->cnShortEn;
+	}
+	
+	/**
+	 * @param $cnIso2 the $cnIso2 to set
+	 */
+	public function setCnIso2($cnIso2) {
+		$this->cnIso2 = $cnIso2;
+	}
+
+	/**
+	 * @return the $cnIso2
+	 */
+	public function getCnIso2() {
+		return $this->cnIso2;
 	}
 }
 ?>

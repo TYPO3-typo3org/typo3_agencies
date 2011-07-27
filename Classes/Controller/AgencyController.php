@@ -162,7 +162,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 		$countries = $this->countryRepository->findAll();
 		$availableCountries = Array();
 		foreach($countries as $country){
-			$availableCountries[$country->getCnShortEn()] = $country->getCnShortEn();
+			$availableCountries[$country->getCnIso2()] = $country->getCnShortEn();
 		}
 
 		$this->view->assign('countries', $availableCountries);
