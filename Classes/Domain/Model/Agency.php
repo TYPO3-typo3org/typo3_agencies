@@ -51,7 +51,7 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	 * Name of the agency
 	 *
 	 * @var string
-	 * @validate NotEmpty
+	 * @validate NotEmpty,StringLength(maximum = 255)
 	 */
 	protected $name = '';
 	
@@ -66,7 +66,7 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	 * A link to the agency
 	 *
 	 * @var string
-	 * @validate NotEmpty
+	 * @validate NotEmpty,StringLength(maximum = 255)
 	 */
 	protected $link = '';
 	
@@ -110,6 +110,7 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	 * Email
 	 *
 	 *  @var string
+	 *  @validate EmailAddress,StringLength(maximum = 100)
 	 */
 	protected $email = '';
 
@@ -117,6 +118,7 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	 * Address
 	 *
 	 *  @var string
+	 *  @validate StringLength(maximum = 255)
 	 */
 	protected $address = '';
 
@@ -124,6 +126,7 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	 * Zip
 	 *
 	 *  @var string
+	 *  @validate StringLength(maximum = 50)
 	 */
 	protected $zip = '';
 
@@ -131,6 +134,7 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	 * City
 	 *
 	 *  @var string
+	 *  @validate StringLength(maximum = 100)
 	 */
 	protected $city = '';
 	
@@ -140,6 +144,14 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	 *  @var string
 	 */
 	protected $country = '';
+	
+	/**
+	 * Contact
+	 *
+	 *  @var string
+	 *  @validate NotEmpty,StringLength(maximum = 100)
+	 */
+	protected $contact = '';
 
 	/**
 	 * TrainingService
@@ -524,6 +536,25 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	 */
 	public function getCountry() {
 		return $this->country;
+	}
+	
+	/**
+	 * Sets the contact status
+	 *
+	 * @param string $contact
+	 * @return void
+	 */
+	public function setContact($contact) {
+		$this->contact = $contact;
+	}
+
+	/**
+	 * Returns the contact status
+	 *
+	 * @return string
+	 */
+	public function getContact() {
+		return $this->contact;
 	}
 
 	/**

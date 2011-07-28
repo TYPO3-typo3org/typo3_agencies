@@ -110,7 +110,7 @@
 				<p class="b-project-toolbar">
 					<f:if condition="{administrator}">
 						<f:if condition="{administrator} == {reference.agency.administrator}">
-							<f:link.page additionalParams="{tx_typo3agencies_pi1:{action:'edit',controller:'Agency',agency:reference.agency}}" noCacheHash="true">
+							<f:link.page pageUid="{settings.agenciesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'edit',controller:'Agency',agency:reference.agency}}" noCacheHash="true">
 								<f:translate key="editProfile">Edit profile</f:translate>
 							</f:link.page>
 						</f:if>

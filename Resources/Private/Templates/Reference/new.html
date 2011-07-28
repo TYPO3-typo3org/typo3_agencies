@@ -1,3 +1,4 @@
+{namespace agency=Tx_Typo3Agencies_ViewHelpers}
 <f:layout name="default" />
 
 <f:section name="content">
@@ -6,13 +7,10 @@
 			<f:then>
 				<f:if condition="{referenceMaxReached}">
 					<f:then>
-						<f:translate key="referenceMaxReached">You have reached the maximum amount of references you are allowed to present. Please update your member status to add more.</f:translate>
 						<a href="javascript:history.back()"><f:translate key="cancel">cancel</f:translate></a>
 					</f:then>
 					<f:else>
 						<h1><f:translate key="aNewProject">Edit/Create Project</f:translate></h1>
-						
-						<f:render partial="formErrors" arguments="{for: 'newReference'}" />
 						
 						<f:form method="post" controller="Reference" action="create" name="newReference" object="{newReference}" enctype="multipart/form-data">
 							<h2>Project Information</h2>
@@ -20,13 +18,13 @@
 								<div class="b-form-row">
 									<label for="form-headline"><f:translate key="headline">Headline</f:translate></label>
 									<div class="b-form-inputs">
-										<f:form.textfield property="title" id="form-headline" />
+										<f:form.textfield property="title" id="form-headline" /><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'title'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 								<div class="b-form-row">
 									<label for="form-about-project"><f:translate key="aboutProject">About the project</f:translate></label>
 									<div class="b-form-inputs">
-										<f:form.textarea cols="20" rows="5" property="description" id="form-about-project" />
+										<f:form.textarea cols="20" rows="5" property="description" id="form-about-project" /><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'description'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 		
@@ -53,7 +51,7 @@
 								<div class="b-form-row">
 									<label for="form-link"><f:translate key="link">Link</f:translate></label>
 									<div class="b-form-inputs">
-										<f:form.textfield property="link" id="form-link"/>
+										<f:form.textfield property="link" id="form-link"/><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'link'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 								<div class="b-form-row">
@@ -84,7 +82,7 @@
 											<div class="b-form-sub-column">
 												<label for="form-other"><f:translate key="other">other</f:translate></label>
 												<div class="b-form-row">
-													<f:form.textfield property="industryOther" id="form-other"/>
+													<f:form.textfield property="industryOther" id="form-other"/><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'industryOther'}" />
 												</div><!-- .b-form-row -->
 											</div><!-- .b-form-sub-column -->
 										</div><!-- .b-form-sub-row sub-two-columns -->
@@ -93,7 +91,7 @@
 								<div class="b-form-row">
 									<label for="form-tags"><f:translate key="tags">Tags</f:translate></label>
 									<div class="b-form-inputs">
-										<f:form.textfield property="tags" id="form-tags"/>
+										<f:form.textfield property="tags" id="form-tags"/><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'tags'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 							</div><!-- b-form -->
@@ -105,7 +103,7 @@
 								<div class="b-form-row">
 									<label for="form-about-company"><f:translate key="aboutCompany">About the company</f:translate></label>
 									<div class="b-form-inputs">
-										<f:form.textarea cols="20" rows="5" property="about" id="form-about-company" />
+										<f:form.textarea cols="20" rows="5" property="about" id="form-about-company" /><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'about'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 								<div class="b-form-row">

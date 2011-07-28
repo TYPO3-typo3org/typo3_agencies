@@ -185,11 +185,9 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 				$this->agencyRepository->update($agency);
 				$this->flashMessages->add($this->localization->translate('logoRemoved', $this->extensionName),'',t3lib_message_AbstractMessage::OK);
 			}
-			$GLOBALS['TSFE']->clearPageCacheContent_pidList($GLOBALS['TSFE']->id);
 			$this->handleFiles($agency);
 			if($submit){
 				$this->agencyRepository->update($agency);
-				$GLOBALS['TSFE']->clearPageCacheContent_pidList($GLOBALS['TSFE']->id);
 				$this->flashMessages->add(str_replace('%NAME%', $agency->getName(), $this->localization->translate('agencyUpdated', $this->extensionName)),'',t3lib_message_AbstractMessage::OK);
 			}
 			$this->view->assign('agency', $agency);
@@ -197,8 +195,9 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 			$this->view->assign('administrator', $this->administrator);
 			$this->addCountries();
 			
+			$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
 		} else {
-			$this->redirect('show', 'Agency',null,Array('agency'=>$agency));
+			$this->redirect('show', 'Agency',$this->extensionName,Array('agency'=>$agency));
 		}
 	}
 	
@@ -209,23 +208,27 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 	 * @param boolean $logo Delete the logo
 	 * @param boolean $submit Form got submitted
 	 * @return string Form for editing the existing agency
-	 * @dontvalidate $agency
 	 * @dontvalidate $logo
 	 */
 	public function updateAction(Tx_Typo3Agencies_Domain_Model_Agency $agency, $logo = false, $submit = false) {
 		if ($agency->getAdministrator() == $this->administrator) {
-			$this->handleFiles($agency);
-			$this->agencyRepository->update($agency);
-			$this->flashMessages->add(str_replace('%NAME%', $agency->getName(), $this->localization->translate('agencyUpdated', $this->extensionName)),'',t3lib_message_AbstractMessage::OK);
-			
-			$references = $this->referenceRepository->findAllByAgency($agency, $showDeactivated);
-			$agency->setReferences($references);
-			$this->view->assign('agency', $agency);
-			$this->view->assign('uploadPath', $this->settings['uploadPath']);
-			$this->view->assign('administrator', $this->administrator);
-			$this->addFilterOptions();
-			
-			$GLOBALS['TSFE']->clearPageCacheContent_pidList($GLOBALS['TSFE']->id);
+			if($this->handleFiles($agency)){
+				$this->agencyRepository->update($agency);
+				$this->flashMessages->add(str_replace('%NAME%', $agency->getName(), $this->localization->translate('agencyUpdated', $this->extensionName)),'',t3lib_message_AbstractMessage::OK);
+				
+				$references = $this->referenceRepository->findAllByAgency($agency, $showDeactivated);
+				$agency->setReferences($references);
+				$this->view->assign('agency', $agency);
+				$this->view->assign('uploadPath', $this->settings['uploadPath']);
+				$this->view->assign('administrator', $this->administrator);
+				$this->addFilterOptions();
+				
+				$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
+			} else {
+				$this->agencyRepository->update($agency);
+				$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
+				$this->redirect('edit','Agency',$this->extensionName,Array('agency'=>$agency));
+			}
 		} else {
 			$this->redirect('show', 'Agency',null,Array('agency'=>$agency));
 		}
@@ -331,14 +334,38 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 		$this->view->assign('filter', $filter);
 	}
 	
+	/**
+	 * Override getErrorFlashMessage to present
+	 * nice flash error messages.
+	 *
+	 * @return string
+	 */
+	protected function getErrorFlashMessage() {
+		switch ($this->actionMethodName) {
+			case 'updateAction' :
+				return $this->localization->translate('agencyUpdateFailed', $this->extensionName);
+			case 'createAction' :
+				return $this->localization->translate('agencyCreateFailed', $this->extensionName);
+			default :
+				return parent::getErrorFlashMessage();
+		}
+	}
+	
 	private function buildURL($name, $value){
 		if($value) {
 			return $name.'='.urlencode($value).'&';
 		}
 	}
 
+	/**
+	 * 
+	 * Enter description here ...
+	 * @param unknown_type $agency
+	 */
 	private function handleFiles(&$agency) {
 
+		$ok = true;
+		
 		if (is_array($_FILES['tx_typo3agencies_pi1'])) {
 
 			$fileFunc = t3lib_div::makeInstance('t3lib_basicFileFunctions');
@@ -348,16 +375,27 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 			$fileFunc->init('', $all_files);
 			$formName = array_shift(array_keys($_FILES['tx_typo3agencies_pi1']['error']));
 			foreach ($_FILES['tx_typo3agencies_pi1']['error'][$formName] as $key => $error) {
-				if ($error == 0 && strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key], 'image') == 0) {
-					if ($key == 'logo') {
-						$theFile = $_FILES['tx_typo3agencies_pi1']['tmp_name'][$formName][$key];
-						$theDestFile = $fileFunc->getUniqueName($fileFunc->cleanFileName($_FILES['tx_typo3agencies_pi1']['name'][$formName][$key]), $this->settings['uploadPath']);
-						t3lib_div::upload_copy_move($theFile, $theDestFile);
-						$agency->setLogo(basename($theDestFile));
+				if($error == 0){
+					if($key == 'logo'){
+						if( strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key],'image/png') === 0 || strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key],'image/jpg') === 0){
+							if($_FILES['tx_typo3agencies_pi1']['size'][$formName][$key] < 500000){
+								$theFile = $_FILES['tx_typo3agencies_pi1']['tmp_name'][$formName][$key];
+								$theDestFile = $fileFunc->getUniqueName($fileFunc->cleanFileName($_FILES['tx_typo3agencies_pi1']['name'][$formName][$key]), $this->settings['uploadPath']);
+								t3lib_div::upload_copy_move($theFile,$theDestFile);
+								$agency->setLogo(basename($theDestFile));
+							} else {
+								$ok = false;
+								$this->flashMessages->add(str_replace('%FILE%', $_FILES['tx_typo3agencies_pi1']['name'][$formName][$key], $this->localization->translate('wrongFileSize',$this->extensionName)),'',t3lib_message_AbstractMessage::ERROR);
+							}
+						} else {
+							$ok = false;
+							$this->flashMessages->add(str_replace('%FILE%', $_FILES['tx_typo3agencies_pi1']['name'][$formName][$key], $this->localization->translate('wrongFileType',$this->extensionName)),'',t3lib_message_AbstractMessage::ERROR);
+						}
 					}
 				}
 			}
 		}
+		return $ok;
 	}
 
 }

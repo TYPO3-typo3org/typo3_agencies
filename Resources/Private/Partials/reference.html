@@ -1,9 +1,18 @@
+<f:if condition="{reference.deactivated} == 1">
+<f:then>
+<div class="b-project disabled">
+</f:then>
+<f:else>
+<div class="b-project">
+</f:else>
+</f:if>
 <div class="pic">
 	<f:if condition="{reference.screenshot}">
 		<img src="{uploadPath}/{reference.screenshot}" width="149" height="120" alt="pic" />
 	</f:if> 
 	<f:render partial="referenceActions" arguments="{reference: reference, administrator : administrator, controller : controller, redirectController : redirectController, redirect : redirect}" />
 </div>
+
 <div class="b-project-body">
 	
 	<h4>{reference.title}</h4>
@@ -46,5 +55,8 @@
 			<f:translate key="readMore">Read more</f:translate>
 		</f:link.page>
 	</p>
-</div>
-<!-- b-project-body -->
+</div><!-- b-project-body -->
+
+</div><!-- b-project -->
+
+

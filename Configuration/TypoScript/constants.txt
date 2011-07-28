@@ -19,14 +19,17 @@ plugin.tx_typo3agencies {
 		# cat=plugin.tx_typo3agencies//a; type=string; label=Path to store images in (same as in TCA)
 		uploadPath = uploads/tx_typo3_agencies/pics
 		
-		# cat=plugin.tx_typo3agencies//a; type=int+; label=Max references a member is allowed to create
-		normalMax = 4
+		# cat=plugin.tx_typo3agencies//a; type=int+; label=Max references a bronze member is allowed to create
+		bronzeMax = 4
 		
-		# cat=plugin.tx_typo3agencies//a; type=int+; label=Max references a premium member is allowed to create
-		premiumMax = 4
+		# cat=plugin.tx_typo3agencies//a; type=int+; label=Max references a silver member is allowed to create
+		silverMax = 4
 		
-		# cat=plugin.tx_typo3agencies//a; type=int+; label=Max references a platin member is allowed to create
-		platinMax = 8
+		# cat=plugin.tx_typo3agencies//a; type=int+; label=Max references a gold member is allowed to create
+		goldMax = 4
+		
+		# cat=plugin.tx_typo3agencies//a; type=int+; label=Max references a platinum member is allowed to create
+		platinumMax = 2
 		
 		# cat=plugin.tx_typo3agencies//a; type=int+; label=Max items to show per page
 		pageBrowser.itemsPerPage = 10
@@ -39,5 +42,8 @@ plugin.tx_typo3agencies {
 		
 		# cat=plugin.tx_typo3agencies//a; type=string; label=Google Maps key
 		googleMapsKey = ABQIAAAAI8h9wp9zHObSISxQvh-vPxSo8EnW8AKoLXqLvL-qXcC2LypMvBS6BRiIkAGbVo_izK4SeLFoCzHpxg
+		
+		# cat=plugin.tx_typo3agencies//a; type=int+; label=The past days the recently added view should search within
+		recentlyPastDays = 9;
 	}
 }

@@ -1,0 +1,7 @@
+<f:form.errors for="{objectName}">
+    <f:if condition="{0:error.propertyName} == {0:'{propertyName}'}">
+        <f:for each="{error.errors}" as="errorItem">
+            <div class="error"><f:translate key="error.{objectName}.{error.propertyName}.{errorItem.code}" htmlEscape="false">Not translated: error.{objectName}.{error.propertyName}.{errorItem.code}</f:translate></div>
+        </f:for>
+    </f:if>
+</f:form.errors>

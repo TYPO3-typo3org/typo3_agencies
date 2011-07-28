@@ -59,21 +59,24 @@
 			<label index="deleteProject">Delete this project</label>
 			<label index="editProject">Edit your project</label>
 			<label index="noReference">No reference key!</label>
-			<label index="remove">remove</label>
-			<label index="cancel">cancel</label>
+			<label index="remove">Remove</label>
+			<label index="cancel">Cancel</label>
 			<label index="preview">Preview</label>
 			<label index="noPreview">Submit without preview</label>
 			<label index="publish">Publish project</label>
 			<label index="backToEdit">Back to edit</label>
-			<label index="referenceRemoved">Reference %NAME% has been removed.</label>
-			<label index="referenceUpdated">Reference %NAME% has been updated.</label>
-			<label index="referenceCreated">Reference %NAME% was created.</label>
+			<label index="referenceRemoved">The reference "%NAME%" has been removed.</label>
+			<label index="referenceUpdated">The reference "%NAME%" has been updated.</label>
+			<label index="referenceCreated">The reference "%NAME%" was created.</label>
 			<label index="screenshot">Screenshot (jpg/png, max size 800x600px)</label>
 			<label index="screenshotGallery">Screenshot for gallery (jpg/png, max size 800x600px)</label>
+			<label index="wrongFileType">"%FILE%" has the wrong type. Only jpg and png are allowed.</label>
+			<label index="wrongFileSize">"%FILE%" is too large. The maximum is 500KB.</label>
 			<label index="premium">Premium member of the </label>
 			<label index="platin">Platin member of the </label>
 			<label index="association">TYPO3 Association</label>
-			<label index="referenceMaxReached">You have reached the maximum amount of references you are allowed to present. Please update your member status to add more.</label>
+			<label index="referenceMaxReached">You have already reached the maximum amount of references you are allowed to present. Please update your member status to add more.</label>
+			<label index="referenceMoreThanMax">You have reached the maximum amount of references you are allowed to present. Please update your member status to add more.</label>
 			<label index="first">First</label>
 			<label index="last">Last</label>
 			<label index="previous">Previous</label>
@@ -89,8 +92,8 @@
 			<label index="results">Results</label>
 			<label index="caseStudies">case studies</label>
 			<label index="deactivate">Deactivate</label>
-			<label index="referenceDeactivated">The project %NAME% was successfully deactivated.</label>
-			<label index="referenceReactivated">The project %NAME% was successfully activated.</label>
+			<label index="referenceDeactivated">The project "%NAME%" has been successfully deactivated.</label>
+			<label index="referenceReactivated">The project "%NAME%" has been successfully activated.</label>
 			<label index="creditStatus">Your credit status</label>
 			<label index="yourMembership">Your membership</label>
 			<label index="yourCredits">Your credits</label>
@@ -112,6 +115,21 @@
 			<label index="learnMore3"> projects.</label>
 			<label index="showScreenshotGallery">Screenshot Gallery</label>
 			<label index="casestudy">Casestudy</label>
+			<label index="agencyUpdateFailed">Could not update the agency profile.</label>
+			<label index="agencyCreateFailed">Could not create a new agency profile.</label>
+			<label index="referenceUpdateFailed">Could not update the project reference.</label>
+			<label index="referenceCreateFailed">Could not create a new project reference.</label>
+			<label index="error.newReference.title.1221560718">Please enter a headline.</label>
+			<label index="error.newReference.description.1221560718">Please enter a description about the project.</label>
+			<label index="error.newReference.link.1221560718">Please enter a project link.</label>
+			<label index="error.newReference.tags.1221560718">Please enter some tags.</label>
+			<label index="error.newReference.about.1221560718">Please enter a description about the company.</label>
+			<label index="error.reference.title.1221560718">Please enter a headline.</label>
+			<label index="error.reference.description.1221560718">Please enter a description about the project.</label>
+			<label index="error.reference.link.1221560718">Please enter a project link.</label>
+			<label index="error.reference.tags.1221560718">Please enter some tags.</label>
+			<label index="error.reference.about.1221560718">Please enter a description about the company.</label>
+			<label index="error.agency.contact.1221560718">Please enter a contact person.</label>
 		</languageKey>
 	</data>
 </T3locallang>

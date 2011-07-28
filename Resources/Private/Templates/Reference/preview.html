@@ -1,0 +1,104 @@
+<f:layout name="default" />
+<f:section name="content">
+	<div class="hgroup">
+		<h1>{newReference.title}</h1>
+	</div>
+					
+	<div class="cl">
+		<div class="s-sidebar">
+			
+			<h4>Project Facts</h4>
+			<div class="b-box b-stat">
+				<ul class="linear-list">
+					<li>
+						<p class="n-m"><strong><f:translate key="size">Company size</f:translate>:</strong></p>
+						<p class="n-m"><f:translate key="employees"> employees</f:translate></p>
+					</li>
+					<li>
+						<p class="n-m"><strong><f:translate key="pages">Number of pages</f:translate>:</strong></p>
+						<p class="n-m"><f:translate key="page{newReference.pages}">appr. 1000</f:translate></p>
+					</li>
+					<li>
+						<p class="n-m"><strong><f:translate key="languages">Languages</f:translate>:</strong> {newReference.languages}</p>
+					</li>
+					<li>
+						<p class="n-m"><strong><f:translate key="country">Country</f:translate>:</strong> {newReference.country}</p>
+					</li>
+				</ul>
+				<p><f:link.external uri="{newReference.link}" class="bu"><i class="ico i-arr-right-big"></i>Open Site</f:link.external></p>
+			</div><!-- b-box -->
+			
+			<f:if condition="{newReference.casestudy}">
+				<h4>Download Case Study</h4>
+				<div class="b-box">
+					<p class="n-m"><img src="{f:uri.resource(path:'Media/Images/folders.png')}" alt="" /></p>
+					<p>Download this case study as PDF Dokument</p>
+					<p><a href="{uploadPath}/{newReference.casestudy}" class="bu"><i class="ico i-arr-down"></i>Download</a></p>
+				</div><!-- b-box -->
+			</f:if>
+			
+
+		</div><!-- s-sidebar -->
+		<div class="s-body">
+
+			<div class="b-project">
+
+				<p class="b-project-cat">
+					<f:translate key="industry">Industry</f:translate>: 
+					<f:if condition="{newReference.industryOther}">
+						<f:then>
+							<f:link.action action="index" controller="Reference" arguments="{filter : null, filterString : 'industry#{newReference.industryOther}'}">
+								{newReference.industryOther}
+							</f:link.action>
+						</f:then>
+						<f:else>
+							<f:link.action action="index" controller="Reference" arguments="{filter : null, filterString : 'industry#{newReference.industry}'}">
+								<f:translate key="industry{newReference.industry}">Industry</f:translate>
+							</f:link.action>
+						</f:else>
+					</f:if>
+					 <span class="sep">|</span> 
+					<f:translate key="category">Category</f:translate>: 
+					<f:if condition="{newReference.categoryOther}">
+						<f:then>
+							<f:link.action action="index" controller="Reference"	arguments="{filterString : 'category#{newReference.categoryOther}'}">
+								{newReference.categoryOther}
+							</f:link.action>
+						</f:then>
+						<f:else>
+							<f:link.action action="index" controller="Reference"	arguments="{filterString : 'category#{newReference.category}'}">
+								<f:translate key="category{newReference.category}">Category</f:translate>
+							</f:link.action>
+						</f:else>
+					</f:if>
+				</p>
+				
+				<div class="hr"><hr /> </div>
+				<p class="pic">
+					<f:if condition="{newReference.screenshot}">
+						<img src="{uploadPath}/{newReference.screenshot}" width="515" height="264" alt="pic" />
+					</f:if>
+				</p>
+				<f:if condition="{galleryImages}">
+					<p class="b-project-gallery"><a rel="lightbox[gallery]" href="{uploadPath}/{galleryImages.0}">Open screenshot gallery</a>
+					<f:for each="{galleryImages}" as="image">
+						<a rel="lightbox[gallery]" href="{uploadPath}/{image}"><img rel="lightbox[gallery]" src="{uploadPath}/{image}" style="height:0px;"/></a>
+					</f:for>
+					</p>
+				</f:if>
+			</div><!-- b-project -->
+		
+			<div class="hgroup">
+				<h2>Description</h2>
+			</div>
+			
+			<p><f:format.nl2br>{newReference.description}</f:format.nl2br></p>
+			
+			<div class="b-form-inputs">
+				<f:link.page additionalParams="{tx_typo3agencies_pi1:{action:'new',controller:'Reference',reference:newReference, redirectController : redirectController, redirect : redirect}}" class="bu bu-confirm"><f:translate key="edit">Edit</f:translate></f:link.page>
+				<f:link.page additionalParams="{tx_typo3agencies_pi1:{action:'create',controller:'Reference',reference:newReference, redirectController : redirectController, redirect : redirect}}" class="bu bu-confirm"><f:translate key="save">Save</f:translate></f:link.page>
+			</div>
+		</div><!-- s-body -->
+		
+	</div><!-- cl -->
+</f:section>

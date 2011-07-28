@@ -5,9 +5,10 @@ plugin.tx_typo3agencies {
 	settings {
 		uploadPath = {$plugin.tx_typo3agencies.settings.uploadPath}
 		
-		normalMax = {$plugin.tx_typo3agencies.settings.normalMax}
-		premiumMax = {$plugin.tx_typo3agencies.settings.premiumMax}
-		platinMax = {$plugin.tx_typo3agencies.settings.platinMax}
+		platinumMax = {$plugin.tx_typo3agencies.settings.platinumMax}
+		goldMax = {$plugin.tx_typo3agencies.settings.goldMax}
+		silverMax = {$plugin.tx_typo3agencies.settings.silverMax}
+		bronzeMax = {$plugin.tx_typo3agencies.settings.bronzeMax}
 		
 		pageBrowser {
 			itemsPerPage = {$plugin.tx_typo3agencies.settings.pageBrowser.itemsPerPage}
@@ -16,9 +17,13 @@ plugin.tx_typo3agencies {
 		agenciesPid = {$plugin.tx_typo3agencies.settings.agenciesPid}
 		referencesPid = {$plugin.tx_typo3agencies.settings.referencesPid}
 		
+		clearCachePids = {$plugin.tx_typo3agencies.settings.referencesPid},{$plugin.tx_typo3agencies.settings.agenciesPid}
+		
 		googleMapsKey = {$plugin.tx_typo3agencies.settings.googleMapsKey}
 		
 		nearbyAdditionalWhere = 6367.41*SQRT(2*(1-cos(RADIANS(latitude))*cos(RADIANS(###LATITUDE###))*(sin(RADIANS(longitude))*sin(RADIANS(###LONGITUDE###))+cos(RADIANS(longitude))*cos(RADIANS(###LONGITUDE###)))-sin(RADIANS(latitude))*sin(RADIANS(###LATITUDE###)))) <= 50
+		
+		recentlyPastDays = {$plugin.tx_typo3agencies.settings.recentlyPastDays}
 
 	}
 	persistence {

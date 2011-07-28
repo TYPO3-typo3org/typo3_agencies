@@ -49,9 +49,9 @@
 					<f:if condition="{administrator}">
 						<f:if condition="{administrator} == {agency.administrator}">
 							<p class="b-project-toolbar">
-								<f:link.action action="edit" controller="Agency" arguments="{agency : agency}" noCacheHash="false">
+								<f:link.page pageUid="{settings.agenciesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'edit',controller:'Agency',agency:agency}}">
 									<f:translate key="editProfile">Edit profile</f:translate>
-								</f:link.action>
+								</f:link.page>
 							</p>
 						</f:if>
 					</f:if>

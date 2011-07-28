@@ -7,7 +7,6 @@
 				<f:if condition="{administrator} == {agency.administrator}">
 					<f:then>
 						<h1><f:translate key="editAgency">Edit/Create Agency Profile</f:translate></h1>
-						<f:render partial="formErrors" arguments="{for: 'agency'}" />
 						
 						<f:form method="post" controller="Agency" action="update" name="agency" object="{agency}" enctype="multipart/form-data" >
 							<f:form.hidden name="submit" value="true"/>
@@ -15,13 +14,13 @@
 								<div class="b-form-row">
 									<label for="form-name"><f:translate key="agencyName">Agency name</f:translate></label>
 									<div class="b-form-inputs">
-										<f:form.textbox property="name" id="form-name"/>
+										<f:form.textbox property="name" id="form-name"/><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'name'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 								<div class="b-form-row">
 									<label for="form-about-project"><f:translate key="agencyAbout">Description</f:translate></label>
 									<div class="b-form-inputs">
-										<f:form.textarea cols="20" rows="5" property="about" id="form-about-project" />
+										<f:form.textarea cols="20" rows="5" property="about" id="form-about-project" /><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'about'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 								<div class="b-form-row">
@@ -49,7 +48,7 @@
 								<div class="b-form-row">
 									<label for="form-link"><f:translate key="link">Link</f:translate></label>
 									<div class="b-form-inputs">
-										<f:form.textfield property="link" id="form-link"/>
+										<f:form.textfield property="link" id="form-link"/><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'link'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 								<div class="b-form-row">
@@ -76,13 +75,13 @@
 								<div class="b-form-row">
 									<label for="form-address">Address</label>
 									<div class="b-form-inputs">
-										<f:form.textfield property="address" id="form-address"/>
+										<f:form.textfield property="address" id="form-address"/><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'address'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 								<div class="b-form-row">
 									<label for="form-city">City</label>
 									<div class="b-form-inputs">
-										<f:form.textfield property="city" id="form-city"/>
+										<f:form.textfield property="city" id="form-city"/><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'city'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 								<div class="b-form-row">
@@ -94,19 +93,19 @@
 								<div class="b-form-row">
 									<label for="form-zip">Zip:</label>
 									<div class="b-form-inputs">
-										<f:form.textfield property="zip" id="form-zip"/>
+										<f:form.textfield property="zip" id="form-zip"/><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'zip'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->	
 								<div class="b-form-row">
 									<label for="form-contact-person">Contact Person:</label>
 									<div class="b-form-inputs">
-										<input id="form-contact-person" type="text" />
+										<f:form.textfield property="contact" id="form-contact-person"/><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'contact'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->	
 								<div class="b-form-row">
 									<label for="form-email">Email:</label>
 									<div class="b-form-inputs">
-										<f:form.textfield property="email" id="form-email"/>
+										<f:form.textfield property="email" id="form-email"/><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'email'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->	
 								<div class="b-form-row">

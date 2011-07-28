@@ -46,6 +46,22 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 		return $query->execute();
 	}
 	
+	public function findValidTopReferences($uidList = ''){
+		$returnArray = Array();
+		if($uidList != ''){
+			$query = $this->createQuery();
+			$query->matching($query->logicalAnd($query->in('uid', t3lib_div::trimExplode(',',$uidList,1)),$query->equals('deactivated',0)));
+			$query->setOrderings(Array('crdate'=>Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING));
+			$result = $query->execute();
+			
+			foreach($result as $reference){
+				$returnArray[] = $reference->getUid();
+			}
+			
+		}
+		return $returnArray;
+	}
+	
 	/**
 	 * Finds records within a certain range
 	 * 
@@ -75,17 +91,34 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 	 * @param int $ignore
 	 * @return array The references
 	 */
-	public function findRecentlyAdded($offset, $rowsPerPage, $includeDeactivated = false, $ignore = 0){
+	public function findRecentlyAdded($offset, $rowsPerPage, $includeDeactivated = false, $agency = null, $since = 0, $ignore = 0){
 		$query = $this->createQuery();
+		$constrains = array();
 		if(!$includeDeactivated){
 			if($ignore == 0){
-				$query->matching($query->equals('deactivated',0));
+				$constrains[] = $query->equals('deactivated',0);
 			} else {
-				$query->matching($query->logicalAnd($query->equals('deactivated',0),$query->logicalNot($query->equals('uid',$ignore))));
+				$constrains[] = $query->logicalAnd($query->equals('deactivated',0),$query->logicalNot($query->equals('uid',$ignore)));
 			}
 		} else {
-			$query->matching($query->logicalNot($query->equals('uid',$ignore)));
+			$constrains[] = $query->logicalOr(
+				$query->logicalAnd(
+					// Not in ignore
+					$query->logicalNot($query->equals('uid',$ignore)),
+					// AND deactivated = 0
+					$query->equals('deactivated',0)
+				),
+				// OR
+				$query->logicalAnd(
+					// deactivated = 1
+					$query->equals('deactivated',1),
+					// agency = $agency
+					$query->equals('agency',$agency)
+				)
+			);
 		}
+		$constrains[] = $query->greaterThan('crdate',$since);
+		$query->matching($query->logicalAnd($constrains));
 		$query->getQuerySettings()->setRespectEnableFields(TRUE);
 		$query->setLimit(intval($rowsPerPage));
 		$query->setOffset($offset);
@@ -100,11 +133,34 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 	 * @param int $rowsPerPage
 	 * @return int Number of recently added
 	 */
-	public function countRecentlyAdded($includeDeactivated = false){
+	public function countRecentlyAdded($includeDeactivated = false, $agency = null){
 		$query = $this->createQuery();
+		$constrains = array();
 		if(!$includeDeactivated){
-			$query->matching($query->equals('deactivated',0));
+			if($ignore == 0){
+				$constrains[] = $query->equals('deactivated',0);
+			} else {
+				$constrains[] = $query->logicalAnd($query->equals('deactivated',0),$query->logicalNot($query->equals('uid',$ignore)));
+			}
+		} else {
+			$constrains[] = $query->logicalOr(
+				$query->logicalAnd(
+					// Not in ignore
+					$query->logicalNot($query->equals('uid',$ignore)),
+					// AND deactivated = 0
+					$query->equals('deactivated',0)
+				),
+				// OR
+				$query->logicalAnd(
+					// deactivated = 1
+					$query->equals('deactivated',1),
+					// agency = $agency
+					$query->equals('agency',$agency)
+				)
+			);
 		}
+		$constrains[] = $query->greaterThan('crdate',$since);
+		$query->matching($query->logicalAnd($constrains));
 		$query->getQuerySettings()->setRespectEnableFields(TRUE);
 		$query->setOrderings(Array('crdate'=>Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING));
 		return count($query->execute()->toArray());
@@ -184,6 +240,12 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 			$where[] = 'size = ' . $selectedCompanySize;
 		}
 		$query->statement('SELECT * FROM tx_typo3agencies_domain_model_reference WHERE ' . implode(' AND ',$where) . $GLOBALS['TSFE']->sys_page->enableFields('tx_typo3agencies_domain_model_reference'));
+		return count($query->execute()->toArray());
+	}
+	
+	public function countByAgency($agency){
+		$query = $this->createQuery();
+		$query->matching($query->logicalAnd($query->equals('deactivated',0),$query->equals('agency',$agency)));
 		return count($query->execute()->toArray());
 	}
 }

@@ -65,11 +65,12 @@
 			<label index="tx_typo3agencies_domain_model_agency.latitude">Latitude</label>
 			<label index="tx_typo3agencies_domain_model_agency.longitude">Longitude</label>
 			<label index="tx_typo3agencies_domain_model_agency.country">Country</label>
+			<label index="tx_typo3agencies_domain_model_agency.contact">Contact Person</label>
 			<label index="tx_typo3agencies_domain_model_agency.member">TYPO3 Association Member</label>
 			<label index="tx_typo3agencies_domain_model_agency.member.1">Bronze member</label>
 			<label index="tx_typo3agencies_domain_model_agency.member.2">Silver member</label>
 			<label index="tx_typo3agencies_domain_model_agency.member.3">Gold member</label>
-			<label index="tx_typo3agencies_domain_model_agency.member.4">Platenium member</label>
+			<label index="tx_typo3agencies_domain_model_agency.member.4">Platinum member</label>
 		</languageKey>
 	</data>
 </T3locallang>

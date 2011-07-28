@@ -60,7 +60,7 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 				'type' => 'input',
 				'size' => 20,
 				'eval' => 'trim',
-				'max'  => 256
+				'max'  => 255
 			)
 		),
 		'about' => array(
@@ -68,7 +68,7 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 			'label'   => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.about',
 			'config'  => array(
 				'type' => 'text',
-				'eval' => '',
+				'eval' => 'required',
 				'rows' => 30,
 				'cols' => 80,
 			)
@@ -80,7 +80,7 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 				'type' => 'input',
 				'size' => 20,
 				'eval' => 'trim',
-				'max'  => 256
+				'max'  => 20
 			)
 		),
 		'first_name' => array(
@@ -90,7 +90,7 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 				'type' => 'input',
 				'size' => 20,
 				'eval' => 'trim',
-				'max'  => 256
+				'max'  => 100
 			)
 		),
 		'last_name' => array(
@@ -100,7 +100,7 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 				'type' => 'input',
 				'size' => 20,
 				'eval' => 'trim',
-				'max'  => 256
+				'max'  => 100
 			)
 		),
 		'email' => array(
@@ -109,8 +109,8 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 			'config'  => array(
 				'type' => 'input',
 				'size' => 20,
-				'eval' => 'trim',
-				'max'  => 256
+				'eval' => 'trim,required',
+				'max'  => 100
 			)
 		),
 		'address' => array(
@@ -121,6 +121,7 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 				'eval' => '',
 				'rows' => 30,
 				'cols' => 80,
+				'max'  => 255
 			)
 		),
 		'zip' => array(
@@ -130,7 +131,7 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 				'type' => 'input',
 				'size' => 20,
 				'eval' => 'trim',
-				'max'  => 256
+				'max'  => 50
 			)
 		),
 		'city' => array(
@@ -140,7 +141,7 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 				'type' => 'input',
 				'size' => 20,
 				'eval' => 'trim',
-				'max'  => 256
+				'max'  => 100
 			)
 		),
 		'latitude' => Array (
@@ -172,7 +173,17 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 				'type' => 'input',
 				'size' => 20,
 				'eval' => 'trim',
-				'max'  => 256
+				'max'  => 100
+			)
+		),
+		'contact' => array(
+			'exclude' => 1,
+			'label'   => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.contact',
+			'config'  => array(
+				'type' => 'input',
+				'size' => 20,
+				'eval' => 'trim,required',
+				'max'  => 100
 			)
 		),
 		'link' => array(
@@ -181,8 +192,8 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 			'config'  => array(
 				'type' => 'input',
 				'size' => 20,
-				'eval' => 'trim',
-				'max'  => 256
+				'eval' => 'trim,required',
+				'max'  => 255
 			)
 		),
 		'training_service' => array(
@@ -213,7 +224,7 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 				'type'          => 'group',
 				'internal_type' => 'file',
 				'allowed'       => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-				'max_size'      => 3000,
+				'max_size'      => 500,
 				'uploadfolder'  => 'uploads/tx_typo3_agencies/pics',
 				'show_thumbs'   => 1,
 				'size'          => 1,
@@ -230,6 +241,7 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
+				'eval' => 'required',
 				'allowed' => 'fe_users',
 				'wizards' => Array(
 					'suggest' => array(
@@ -257,7 +269,7 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 		),
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid, hidden, salutation, first_name, last_name, email, name, address, zip, city, country, logo, link, about, size, latitude, longitude, listed, administrator, member, training_service, hosting_service, development_service')
+		'1' => array('showitem' => 'sys_language_uid, hidden, salutation, first_name, last_name, email, name, address, zip, city, country, contact, logo, link, about, size, latitude, longitude, listed, administrator, member, training_service, hosting_service, development_service')
 	),
 	'palettes' => array(
 		'1' => array('showitem' => '')
