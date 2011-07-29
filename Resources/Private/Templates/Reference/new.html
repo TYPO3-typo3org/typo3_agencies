@@ -15,41 +15,41 @@
 						<f:form method="post" controller="Reference" action="create" name="newReference" object="{newReference}" enctype="multipart/form-data">
 							<h2>Project Information</h2>
 							<div class="b-form b-form-edit">
-								<div class="b-form-row">
-									<label for="form-headline"><f:translate key="headline">Headline</f:translate></label>
+								<div class="{agency:hasError(property: 'title', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+									<label for="form-headline"><f:translate key="headline">Headline</f:translate><f:translate key="required"> (required)</f:translate></label>
 									<div class="b-form-inputs">
 										<f:form.textfield property="title" id="form-headline" /><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'title'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
-								<div class="b-form-row">
-									<label for="form-about-project"><f:translate key="aboutProject">About the project</f:translate></label>
+								<div class="{agency:hasError(property: 'description', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+									<label for="form-about-project"><f:translate key="aboutProject">About the project</f:translate><f:translate key="required"> (required)</f:translate></label>
 									<div class="b-form-inputs">
 										<f:form.textarea cols="20" rows="5" property="description" id="form-about-project" /><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'description'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 		
 								<div class="b-form-row">
-									<label for="form-about-project">Upload main screen</label>
+									<label for="form-about-project"><f:translate key="uploadMainScreen">Upload main screen</f:translate></label>
 									<div class="b-form-inputs">
 										<div class="b-form-file">
 											<agency:form.upload property="screenshot" maxlength="1" class="multi-file"/>
-											<span class="form-file-main-text">Choose file</span> <span class="form-file-secondary-text">Limits: jpg/png, 600x480px, 500KB</span>
+											<span class="form-file-main-text"><f:translate key="chooseFile">Choose file</f:translate></span> <span class="form-file-secondary-text"><f:translate key="limits">Limits: jpg/png, 600x480px, 500KB</f:translate></span>
 										</div><!-- .b-form-file -->
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 		
 								<div class="b-form-row">
-									<label for="form-about-project">Upload other screens</label>
+									<label for="form-about-project"><f:translate key="uploadOtherScreen">Upload other screens</f:translate></label>
 									<div class="b-form-inputs">
 										<div class="b-form-file">
 											<input type="file" maxlength="3" class="multi-file" name="tx_typo3agencies_pi1[newReference][screenshotGallery][]"/>
-											<span class="form-file-main-text">Choose file</span> <span class="form-file-secondary-text">Limits: jpg/png, 600x480px, 500KB</span>
+											<span class="form-file-main-text"><f:translate key="chooseFile">Choose file</f:translate></span> <span class="form-file-secondary-text"><f:translate key="limits">Limits: jpg/png, 600x480px, 500KB</f:translate></span>
 										</div><!-- .b-form-file -->
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 		
-								<div class="b-form-row">
-									<label for="form-link"><f:translate key="link">Link</f:translate></label>
+								<div class="{agency:hasError(property: 'link', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+									<label for="form-link"><f:translate key="link">Link</f:translate><f:translate key="required"> (required)</f:translate></label>
 									<div class="b-form-inputs">
 										<f:form.textfield property="link" id="form-link"/><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'link'}" />
 									</div><!-- b-form-inputs -->
@@ -88,8 +88,8 @@
 										</div><!-- .b-form-sub-row sub-two-columns -->
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
-								<div class="b-form-row">
-									<label for="form-tags"><f:translate key="tags">Tags</f:translate></label>
+								<div class="{agency:hasError(property: 'tags', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+									<label for="form-tags"><f:translate key="tags">Tags</f:translate><f:translate key="required"> (required)</f:translate></label>
 									<div class="b-form-inputs">
 										<f:form.textfield property="tags" id="form-tags"/><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'tags'}" />
 									</div><!-- b-form-inputs -->
@@ -97,11 +97,11 @@
 							</div><!-- b-form -->
 
 
-							<h2>Company Information</h2>
+							<h2><f:translate key="companyInformation">Company Information</f:translate></h2>
 					
 							<div class="b-form b-form-edit">
-								<div class="b-form-row">
-									<label for="form-about-company"><f:translate key="aboutCompany">About the company</f:translate></label>
+								<div class="{agency:hasError(property: 'about', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+									<label for="form-about-company"><f:translate key="aboutCompany">About the company</f:translate><f:translate key="required"> (required)</f:translate></label>
 									<div class="b-form-inputs">
 										<f:form.textarea cols="20" rows="5" property="about" id="form-about-company" /><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'about'}" />
 									</div><!-- b-form-inputs -->
@@ -122,7 +122,7 @@
 									<div class="b-form-inputs">
 										<f:form.submit class="bu bu-confirm" value="Preview" name="preview"/>
 										<f:form.submit class="bu bu-confirm" value="Submit" />
-										<button class="bu bu-secondary" onclick="javascript:history.back()">Cancel</button>
+										<button class="bu bu-secondary" onclick="javascript:history.back()"><f:translate key="cancel">Cancel</f:translate></button>
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 							</div><!-- b-form -->

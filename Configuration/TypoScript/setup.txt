@@ -24,6 +24,8 @@ plugin.tx_typo3agencies {
 		nearbyAdditionalWhere = 6367.41*SQRT(2*(1-cos(RADIANS(latitude))*cos(RADIANS(###LATITUDE###))*(sin(RADIANS(longitude))*sin(RADIANS(###LONGITUDE###))+cos(RADIANS(longitude))*cos(RADIANS(###LONGITUDE###)))-sin(RADIANS(latitude))*sin(RADIANS(###LATITUDE###)))) <= 50
 		
 		recentlyPastDays = {$plugin.tx_typo3agencies.settings.recentlyPastDays}
+		
+		pdfTypeNum = {$plugin.tx_typo3agencies.settings.pdfTypeNum}
 
 	}
 	persistence {
@@ -170,3 +172,77 @@ ajax12536 {
 		admPanel = 0
 	}
 }
+
+################################
+# PDF
+################################
+
+[globalVar = TSFE:id = {$plugin.tx_typo3agencies.settings.referencesPid}]
+
+includeLibs.tx_pdfgenerator2 = EXT:pdf_generator2/class.tx_pdfgenerator2.php
+
+pdf_generator = PAGE
+pdf_generator {
+
+  10 = COA
+    10 {
+        10 = USER
+        10 {
+            userFunc = tx_extbase_core_bootstrap->run
+            extensionName = Typo3Agencies
+            pluginName = Pi1
+
+			# LIMIT CONTROLLER / ACTION
+			switchableControllerActions {
+				Reference {
+					1 = pdf
+				}
+			}
+        }
+    }
+
+  typeNum = {$extension.pdf_generator2.typeNum}
+  config.pageGenScript = EXT:pdf_generator2/gen_pdf.php
+  config.admPanel = 0
+	config.xhtml_cleaning = 0
+	config.USERNAME_substToken =
+	config.ftu = 0
+	config.disableCharsetHeader = 1
+	config.prefixLocalAnchors = 0
+
+  config.pdf_generator2.browserwidth = {$pdf_generator2.browserwidth}
+  config.pdf_generator2.size = {$pdf_generator2.size}
+  config.pdf_generator2.landscape = {$pdf_generator2.landscape}
+  config.pdf_generator2.renderlinks = {$pdf_generator2.renderlinks}
+  config.pdf_generator2.renderfields = {$pdf_generator2.renderfields}
+  config.pdf_generator2.renderforms = {$pdf_generator2.renderforms}
+  config.pdf_generator2.pdfversion = {$pdf_generator2.pdfversion}
+  config.pdf_generator2.cssmedia = {$pdf_generator2.cssmedia}
+  config.pdf_generator2.use_pdflib = {$pdf_generator2.use_pdflib}
+  
+  config.pdf_generator2.top = {$pdf_generator2.top}
+  config.pdf_generator2.bottom = {$pdf_generator2.bottom}
+  config.pdf_generator2.left = {$pdf_generator2.left}
+  config.pdf_generator2.right = {$pdf_generator2.right}
+
+  config.pdf_generator2.string_search1 = {$pdf_generator2.string_search1}
+  config.pdf_generator2.string_replace1 = {$pdf_generator2.string_replace1}
+  config.pdf_generator2.string_search2 = {$pdf_generator2.string_search2}
+  config.pdf_generator2.string_replace2 = {$pdf_generator2.string_replace2}
+  config.pdf_generator2.string_search3 = {$pdf_generator2.string_search3}
+  config.pdf_generator2.string_replace3 = {$pdf_generator2.string_replace3}
+  config.pdf_generator2.string_search4 = {$pdf_generator2.string_search4}
+  config.pdf_generator2.string_replace4 = {$pdf_generator2.string_replace4}
+
+  config.pdf_generator2.regexp_search1 = {$pdf_generator2.regexp_search1}
+  config.pdf_generator2.regexp_replace1 = {$pdf_generator2.regexp_replace1}
+  config.pdf_generator2.regexp_search2 = {$pdf_generator2.regexp_search2}
+  config.pdf_generator2.regexp_replace2 = {$pdf_generator2.regexp_replace2}
+  config.pdf_generator2.regexp_search3 = {$pdf_generator2.regexp_search3}
+  config.pdf_generator2.regexp_replace3 = {$pdf_generator2.regexp_replace3}
+  config.pdf_generator2.regexp_search4 = {$pdf_generator2.regexp_search4}
+  config.pdf_generator2.regexp_replace4 = {$pdf_generator2.regexp_replace4}
+
+}
+
+[end]

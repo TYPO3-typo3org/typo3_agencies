@@ -67,6 +67,7 @@ CREATE TABLE tx_typo3agencies_domain_model_agency (
 	zip varchar(50) DEFAULT '' NOT NULL,
 	city varchar(100) DEFAULT '' NOT NULL,
 	country varchar(100) DEFAULT '' NOT NULL,
+	contact varchar(100) DEFAULT '' NOT NULL,
 	salutation varchar(20) DEFAULT '' NOT NULL,
 	first_name varchar(100) DEFAULT '' NOT NULL,
 	last_name varchar(100) DEFAULT '' NOT NULL,

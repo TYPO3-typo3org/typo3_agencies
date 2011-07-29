@@ -11,14 +11,14 @@
 						<f:form method="post" controller="Agency" action="update" name="agency" object="{agency}" enctype="multipart/form-data" >
 							<f:form.hidden name="submit" value="true"/>
 							<div class="b-form b-form-edit">
-								<div class="b-form-row">
-									<label for="form-name"><f:translate key="agencyName">Agency name</f:translate></label>
+								<div class="{agency:hasError(property: 'name', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+									<label for="form-name"><f:translate key="agencyName">Agency name:</f:translate><f:translate key="required"> (required)</f:translate></label>
 									<div class="b-form-inputs">
 										<f:form.textbox property="name" id="form-name"/><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'name'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
-								<div class="b-form-row">
-									<label for="form-about-project"><f:translate key="agencyAbout">Description</f:translate></label>
+								<div class="{agency:hasError(property: 'about', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+									<label for="form-about-project"><f:translate key="agencyAbout">Description:</f:translate><f:translate key="required"> (required)</f:translate></label>
 									<div class="b-form-inputs">
 										<f:form.textarea cols="20" rows="5" property="about" id="form-about-project" /><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'about'}" />
 									</div><!-- b-form-inputs -->
@@ -26,7 +26,7 @@
 								<div class="b-form-row">
 									<f:if condition="{agency.logo}">
 										<f:then>
-											<label for="form-about-project">Logo</label>
+											<label for="form-about-project"><f:translate key="logo">Logo:</f:translate></label>
 											<div class="b-form-inputs">
 												<div class="b-form-file">
 													<f:image src="{uploadPath}/{agency.logo}" alt="" id="form-about-project"/>
@@ -35,7 +35,7 @@
 											</div><!-- b-form-inputs -->
 										</f:then>
 										<f:else>
-											<label for="form-about-project">Upload logo</label>
+											<label for="form-about-project"><f:translate key="uploadLogo">Upload logo:</f:translate></label>
 											<div class="b-form-inputs">
 												<div class="b-form-file">
 													<f:form.upload property="logo" class="multi-file max-1"/>
@@ -45,14 +45,14 @@
 										</f:else>
 									</f:if>
 								</div><!-- b-form-row -->
-								<div class="b-form-row">
-									<label for="form-link"><f:translate key="link">Link</f:translate></label>
+								<div class="{agency:hasError(property: 'link', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+									<label for="form-link"><f:translate key="link">Link:</f:translate><f:translate key="required"> (required)</f:translate></label>
 									<div class="b-form-inputs">
 										<f:form.textfield property="link" id="form-link"/><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'link'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 								<div class="b-form-row">
-									<label for="form-service"><f:translate key="services">Services</f:translate></label>
+									<label for="form-service"><f:translate key="services">Services:</f:translate></label>
 									<div class="b-form-inputs">
 										<div class="b-form-boxes">
 											<div class="b-form-sub-row sub-theee-columns">
@@ -72,38 +72,38 @@
 										</div><!-- b-form-boxes -->
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
-								<div class="b-form-row">
-									<label for="form-address">Address</label>
+								<div class="{agency:hasError(property: 'address', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+									<label for="form-address"><f:translate key="address">Address:</f:translate></label>
 									<div class="b-form-inputs">
 										<f:form.textfield property="address" id="form-address"/><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'address'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
-								<div class="b-form-row">
-									<label for="form-city">City</label>
+								<div class="{agency:hasError(property: 'city', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+									<label for="form-city"><f:translate key="city">City:</f:translate></label>
 									<div class="b-form-inputs">
 										<f:form.textfield property="city" id="form-city"/><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'city'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
-								<div class="b-form-row">
-									<label for="form-country">Country:</label>
+								<div class="{agency:hasError(property: 'country', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+									<label for="form-country"><f:translate key="country">Country:</f:translate></label>
 									<div class="b-form-inputs">
 										<f:form.select property="country" value="{country}" options="{countries}" id="form-country"></f:form.select>
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
-								<div class="b-form-row">
+								<div class="{agency:hasError(property: 'zip', then: 'b-form-row b-form-error', else: 'b-form-row')}">
 									<label for="form-zip">Zip:</label>
 									<div class="b-form-inputs">
 										<f:form.textfield property="zip" id="form-zip"/><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'zip'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->	
-								<div class="b-form-row">
-									<label for="form-contact-person">Contact Person:</label>
+								<div class="{agency:hasError(property: 'contact', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+									<label for="form-contact-person"><f:translate key="contact">Contact Person:</f:translate><f:translate key="required"> (required)</f:translate></label>
 									<div class="b-form-inputs">
 										<f:form.textfield property="contact" id="form-contact-person"/><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'contact'}" />
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->	
-								<div class="b-form-row">
-									<label for="form-email">Email:</label>
+								<div class="{agency:hasError(property: 'email', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+									<label for="form-email"><f:translate key="email">Email:</f:translate><f:translate key="required"> (required)</f:translate></label>
 									<div class="b-form-inputs">
 										<f:form.textfield property="email" id="form-email"/><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'email'}" />
 									</div><!-- b-form-inputs -->

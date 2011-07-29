@@ -45,5 +45,7 @@ plugin.tx_typo3agencies {
 		
 		# cat=plugin.tx_typo3agencies//a; type=int+; label=The past days the recently added view should search within
 		recentlyPastDays = 9;
+		
+		pdfTypeNum = 123
 	}
 }

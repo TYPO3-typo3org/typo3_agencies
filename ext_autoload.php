@@ -11,5 +11,6 @@ return array(
 	'tx_typo3agencies_domain_repository_countryrepository' => $extensionClassesPath . 'Domain/Repository/CountryRepository.php',
 	'tx_typo3agencies_controller_referencecontroller' => $extensionClassesPath . 'Controller/ReferenceController.php',
 	'tx_typo3agencies_controller_agencycontroller' => $extensionClassesPath . 'Controller/AgencyController.php',
+	'tx_typo3agencies_viewhelpers_haserrorviewhelper' => $extensionClassesPath . 'ViewHelpers/HasErrorViewHelper.php',
 );
 ?>

@@ -1,0 +1,76 @@
+<f:layout name="default" />
+<f:section name="content">
+<h1>{reference.title}</h1>
+
+<p class="pic">
+	<f:if condition="{reference.screenshot}">
+		<img src="{uploadPath}/{reference.screenshot}" width="515" height="264" alt="pic" />
+	</f:if>
+</p>					
+<h4>Project Facts</h4>
+<ul class="linear-list">
+	<li>
+		<p class="n-m"><strong><f:translate key="size">Company size</f:translate>:</strong> <f:translate key="size{reference.size}"></f:translate> <f:translate key="employees"> employees</f:translate></p>
+	</li>
+	<li>
+		<p class="n-m"><strong><f:translate key="pages">Number of pages</f:translate>:</strong> <f:translate key="page{reference.pages}">appr. 1000</f:translate></p>
+	</li>
+	<li>
+		<p class="n-m"><strong><f:translate key="languages">Languages</f:translate>:</strong> {reference.languages}</p>
+	</li>
+	<li>
+		<p class="n-m"><strong><f:translate key="country">Country</f:translate>:</strong> {reference.country}</p>
+	</li>
+	<li>
+		<p class="n-m"><strong><f:translate key="industry">Industry</f:translate>:</strong>
+					<f:if condition="{reference.industryOther}">
+						<f:then>
+							{reference.industryOther}
+						</f:then>
+						<f:else>
+							<f:translate key="industry{reference.industry}">Industry</f:translate>
+						</f:else>
+					</f:if>
+		</p>
+	</li>
+	<li>
+		<p class="n-m"><strong><f:translate key="category">Category</f:translate>:</strong>
+					<f:if condition="{reference.categoryOther}">
+						<f:then>
+							{reference.categoryOther}
+						</f:then>
+						<f:else>
+							<f:translate key="category{reference.category}">Category</f:translate>
+						</f:else>
+					</f:if>
+		</p>
+	</li>
+</ul>
+<p><f:link.external uri="{reference.link}" class="bu"><i class="ico i-arr-right-big"></i>Open Site</f:link.external></p>
+
+<h2>Description</h2>
+
+<p><f:format.nl2br>{reference.description}</f:format.nl2br></p>
+
+<hr />
+			
+<h2>
+	<f:if condition="{reference.agency.name}">
+		<f:then>
+			{reference.agency.name}
+		</f:then>
+		<f:else>
+			{reference.agency.firstName} {reference.agency.lastName}
+		</f:else>
+	</f:if>
+</h2>
+<f:if condition="{reference.agency.logo}">
+	<img src="{uploadPath}/{reference.agency.logo}" alt="" style="width:178px;"/>
+</f:if>
+<f:image src="{f:uri.resource(path:'Media/Images/membership/{reference.agency.member}-widen.jpg')}" alt="" />
+<p class="b-project-link">
+	<f:link.external uri="{reference.agency.link}" target="_blank"><strong>{reference.agency.link}</strong></f:link.external>
+</p>
+						
+<p><f:format.nl2br>{reference.agency.about}</f:format.nl2br></p>
+</f:section>

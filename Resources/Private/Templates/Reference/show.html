@@ -12,11 +12,11 @@
 				<ul class="linear-list">
 					<li>
 						<p class="n-m"><strong><f:translate key="size">Company size</f:translate>:</strong></p>
-						<p class="n-m"><f:translate key="employees"> employees</f:translate></p>
+						<p class="n-m"> <f:translate key="size{reference.size}"></f:translate> <f:translate key="employees"> employees</f:translate></p>
 					</li>
 					<li>
 						<p class="n-m"><strong><f:translate key="pages">Number of pages</f:translate>:</strong></p>
-						<p class="n-m"><f:translate key="page{reference.pages}">appr. 1000</f:translate></p>
+						<p class="n-m"><f:translate key="page{reference.pages}"> appr. 1000</f:translate></p>
 					</li>
 					<li>
 						<p class="n-m"><strong><f:translate key="languages">Languages</f:translate>:</strong> {reference.languages}</p>
@@ -28,14 +28,17 @@
 				<p><f:link.external uri="{reference.link}" class="bu"><i class="ico i-arr-right-big"></i>Open Site</f:link.external></p>
 			</div><!-- b-box -->
 			
-			<f:if condition="{reference.casestudy}">
-				<h4>Download Case Study</h4>
-				<div class="b-box">
-					<p class="n-m"><img src="{f:uri.resource(path:'Media/Images/folders.png')}" alt="" /></p>
-					<p>Download this case study as PDF Dokument</p>
-					<p><a href="{uploadPath}/{reference.casestudy}" class="bu"><i class="ico i-arr-down"></i>Download</a></p>
-				</div><!-- b-box -->
-			</f:if>
+			<h4>Download Case Study</h4>
+			<div class="b-box">
+				<p class="n-m"><img src="{f:uri.resource(path:'Media/Images/folders.png')}" alt="" /></p>
+				<p>Download this case study as PDF Dokument</p>
+				<p>
+					<f:link.page pageType="{settings.pdfTypeNum}" pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'pdf',controller:'Reference',reference:reference}}" class="bu">
+						<i class="ico i-arr-down"></i><f:translate key="download">Download</f:translate>
+					</f:link.page>
+				</p>
+			</div><!-- b-box -->
+			
 			
 
 		</div><!-- s-sidebar -->

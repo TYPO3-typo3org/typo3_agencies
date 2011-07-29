@@ -547,6 +547,22 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 	 * Displays a reference and its company
 	 *
 	 * @param Tx_Typo3Agencies_Domain_Model_Reference $reference The reference to display
+	 * @dontvalidate $reference
+	 * @return string The rendered view
+	 */
+	public function pdfAction(Tx_Typo3Agencies_Domain_Model_Reference $reference) {
+		$this->view->assign('reference', $reference);
+		$this->view->assign('administrator', $this->administrator);
+		$this->view->assign('uploadPath', $this->settings['uploadPath']);
+		$this->view->assign('galleryImages', t3lib_div::trimExplode(',',$reference->getScreenshotGallery(),1));
+		$this->view->assign('redirect','show');
+		$this->view->assign('redirectController','Reference');
+	}
+	
+	/**
+	 * Displays a reference and its company
+	 *
+	 * @param Tx_Typo3Agencies_Domain_Model_Reference $reference The reference to display
 	 * @param string $redirectController	The controller to redirect to
 	 * @param string $redirect	The agency action to redirect to
 	 * @dontvalidate $reference

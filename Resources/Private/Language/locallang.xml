@@ -45,6 +45,7 @@
 			<label index="country">Country</label>
 			<label index="tags">Tags</label>
 			<label index="link">Link</label>
+			<label index="required"> (required)</label>
 			<label index="employees">employees</label>
 			<label index="backToList">back to the list</label>
 			<label index="noMember">The agency of this client is not a TYPO3 Association member.</label>

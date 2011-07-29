@@ -7,7 +7,7 @@
 	<div class="cl">
 		<div class="s-sidebar">
 			
-			<h4>Project Facts</h4>
+			<h4><f:translate key="projectFacts">Project Facts</f:translate></h4>
 			<div class="b-box b-stat">
 				<ul class="linear-list">
 					<li>
@@ -25,17 +25,8 @@
 						<p class="n-m"><strong><f:translate key="country">Country</f:translate>:</strong> {reference.country}</p>
 					</li>
 				</ul>
-				<p><f:link.external uri="{reference.link}" class="bu"><i class="ico i-arr-right-big"></i>Open Site</f:link.external></p>
+				<p><f:link.external uri="{reference.link}" class="bu"><i class="ico i-arr-right-big"></i><f:translate key="openSite">Open Site</f:translate></f:link.external></p>
 			</div><!-- b-box -->
-			
-			<f:if condition="{reference.casestudy}">
-				<h4>Download Case Study</h4>
-				<div class="b-box">
-					<p class="n-m"><img src="{f:uri.resource(path:'Media/Images/folders.png')}" alt="" /></p>
-					<p>Download this case study as PDF Dokument</p>
-					<p><a href="{uploadPath}/{reference.casestudy}" class="bu"><i class="ico i-arr-down"></i>Download</a></p>
-				</div><!-- b-box -->
-			</f:if>
 			
 
 		</div><!-- s-sidebar -->
@@ -80,7 +71,7 @@
 					</f:if>
 				</p>
 				<f:if condition="{galleryImages}">
-					<p class="b-project-gallery"><a rel="lightbox[gallery]" href="{uploadPath}/{galleryImages.0}">Open screenshot gallery</a>
+					<p class="b-project-gallery"><a rel="lightbox[gallery]" href="{uploadPath}/{galleryImages.0}"><f:translate key="openGallery">Open screenshot gallery</f:translate></a>
 					<f:for each="{galleryImages}" as="image">
 						<a rel="lightbox[gallery]" href="{uploadPath}/{image}"><img rel="lightbox[gallery]" src="{uploadPath}/{image}" style="height:0px;"/></a>
 					</f:for>
@@ -89,7 +80,7 @@
 			</div><!-- b-project -->
 		
 			<div class="hgroup">
-				<h2>Description</h2>
+				<h2><f:translate key="description">Description</f:translate></h2>
 			</div>
 			
 			<p><f:format.nl2br>{reference.description}</f:format.nl2br></p>
