@@ -140,6 +140,8 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 					$this->view->assign('filterString', true);
 				}
 			}
+			
+			$tagArray = Array();
 	
 			$this->pager->setItemsPerPage($this->settings['pageBrowser']['itemsPerPage']);
 			$offset = ($this->pager->getPage() - 1) * $this->pager->getItemsPerPage();
@@ -150,7 +152,12 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 					$topReferences = $this->referenceRepository->findValidTopReferences($this->settings['topReferences']);
 					$rand = rand(0,count($topReferences)-1);
 					$ignore = $topReferences[$rand];
-					$this->view->assign('topReference', $this->referenceRepository->findByUid($ignore));
+					$topReference = $this->referenceRepository->findByUid($ignore);
+					$tags = t3lib_div::trimExplode(',',$topReference->getTags(),1);
+					foreach ($tags as $tag){
+						$tagArray[$tag][] = 1;
+					}
+					$this->view->assign('topReference', $topReference);
 				}
 				$this->filter = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Filter');
 				$since = time() - $this->settings['recentlyPastDays'] * 86400;
@@ -169,7 +176,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Extbase_MVC_Con
 			$this->view->assign('filter', $this->filter);
 			$this->view->assign('references', $references);
 			
-			$tagArray = Array();
+			
 			
 			foreach ($references->toArray() as $reference){
 				$tags = t3lib_div::trimExplode(',',$reference->getTags(),1);
