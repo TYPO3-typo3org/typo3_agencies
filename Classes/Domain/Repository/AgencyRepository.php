@@ -101,6 +101,14 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 		if ($filter->getCountry()) {
 			$constrains[] = $query->equals('country', $filter->getCountry());
 		}
+		if ($filter->getFeUser()) {
+			$_constrains = array();
+			$_constrains[] = $query->equals('adminstrator', $filter->getFeUser());
+			$_constrains[] = $query->equals('approved', true);
+			$constrains[] = $query->logicalOr($_constrains);
+		} else {
+			$constrains[] = $query->equals('approved', true);
+		}
 		return $constrains;
 	}
 	
@@ -150,6 +158,12 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 			$where[] = str_replace(Array('###LONGITUDE###','###LATITUDE###'),Array($latlong['long'],$latlong['lat']),$nearbyAdditionalWhere);
 		}
 		
+		if($filter->getFeUser() > 0){
+			$where[] = '(approved = 1 or administrator = '.$filter->getFeUser().')';
+		} else {
+			$where[] = 'approved = 1';
+		}
+		
 		
 		$limit = ' LIMIT ' . $offset . ', ' . $rowsPerPage;
 		if($justCount || $offset == null || $rowsPerPage == null){
@@ -193,7 +207,7 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 			}
 		}
 						
-		$result = $query->execute() ;
+		$result = $query->execute();
 		return $result;
 	}
 

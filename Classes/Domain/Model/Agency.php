@@ -84,6 +84,27 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	 *  @var string
 	 */
 	protected $member = '';
+	
+	/**
+	 * Approved or not?
+	 * 
+	 * @var boolean
+	 */
+	protected $approved = false;
+	
+	/**
+	 * Amount of case studies allowed to be shown
+	 * 
+	 * @var integer
+	 */
+	protected $casestudies = 0;
+	
+	/**
+	 * The code to sync with the association
+	 * 
+	 * @var string
+	 */
+	protected $code = '';
 
 	/**
 	 * Salutation
@@ -601,6 +622,22 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	 */
 	public function isGeolocation() {
 		return $this->getLatitude() != 0 || $this->getLongitude() != 0;
+	}
+
+	/**
+	 * Returns true if the agency has been approved
+	 * @return boolean
+	 */
+	public function getApproved(){
+		return $this->approved;
+	}
+	
+	/**
+	 * Returns the number of case studies allowed to be displayed
+	 * @return integer
+	 */
+	public function getCasestudies(){
+		return $this->casestudies;
 	}
 }
 ?>
