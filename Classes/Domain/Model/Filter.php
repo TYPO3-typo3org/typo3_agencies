@@ -122,6 +122,12 @@ class Tx_Typo3Agencies_Domain_Model_Filter extends Tx_Extbase_DomainObject_Abstr
 	 * @var string
 	 */
 	protected $location = '';
+	
+	/**
+	 * The logged in userId
+	 * @var integer
+	 */
+	protected $feUser = 0;
 
 	/**
 	 * Constructs a new Filter
@@ -364,6 +370,22 @@ class Tx_Typo3Agencies_Domain_Model_Filter extends Tx_Extbase_DomainObject_Abstr
 	 */
 	public function addMember($member) {
 		$this->members[] = $member;
+	}
+	
+	/**
+	 * Returns the feUserId or 0
+	 * @return integer
+	 */
+	public function getFeUser(){
+		return $this->feUser;
+	}
+	
+	/**
+	 * Sets the feUserId
+	 * @param integer $feUser
+	 */
+	public function setFeUser($feUser){
+		$this->feUser = $feUser;
 	}
 
 	/**
