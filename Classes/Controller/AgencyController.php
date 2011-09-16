@@ -238,28 +238,37 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 	/**
 	 * List action for this controller. Displays a list of agencies
 	 *
-	 * @var Tx_Typo3Agencies_Domain_Model_Filter $filter The filter to filter
-	 * @var Tx_Typo3Agencies_Domain_Model_Order $order The order
+	 * @var array $filter The filter to filter
 	 * @return string The rendered view
 	 * @dontvalidate $filter
 	 * @dontvalidate $order
 	 */
-	public function listAction(Tx_Typo3Agencies_Domain_Model_Filter $filter = null) {
-
+	public function listAction(array $filter = null) {
 		// Process the filter
-		if ($filter == null) {
-			$filter = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Filter');
+		$filterObject = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Filter');
+		if(!empty($filter)){
+			if($filter['location'] != ''){
+				$filterObject->setLocation($filter['location']);
+			}
+			if($filter['country']){
+				$filterObject->setCountry($filter['country']);
+			}
+			if($filter['member']){
+				$filterObject->setMember($filter['member']);
+			}
+			$filterObject->setTrainingService($filter['trainingService']);
+			$filterObject->setHostingService($filter['hostingService']);
+			$filterObject->setDevelopmentService($filter['developmentService']);
 		}
-		
+
 		if($this->administrator > 0) {
-			$filter->setFeUser($this->administrator);
+			$filterObject->setFeUser($this->administrator);
 		}
 		
 		// Process member value
-		$members = t3lib_div::trimExplode(',', $filter->getMember(),1);
-
+		$members = t3lib_div::trimExplode(',', $filterObject->getMember(),1);
 		foreach ($members as $member) {
-			$filter->addMember($member);
+			$filterObject->addMember($member);
 		}
 
 		// Initialize the order
@@ -281,10 +290,10 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 		$offset = ($pager->getPage() - 1) * $pager->getItemsPerPage();
 		$count = 0;
 		
-		if($filter->getLocation() != ''){
+		if($filterObject->getLocation() != ''){
 			//geocode the location
 			$url = 'http://maps.google.com/maps/geo?'.
-			$this->buildURL('q', $filter->getLocation()).
+			$this->buildURL('q', $filterObject->getLocation()).
 			$this->buildURL('output', 'csv').
 			$this->buildURL('key', $this->settings['googleMapsKey']);
 
@@ -297,7 +306,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 					 * Geocoding worked!
 					 * 200:  OK
 					 */
-					if (TYPO3_DLOG) t3lib_div::devLog('Google: '.$filter->getLocation(), 'typo3_agencies', -1, $filter->getLocation());
+					if (TYPO3_DLOG) t3lib_div::devLog('Google: '.$filterObject->getLocation(), 'typo3_agencies', -1, $filterObject->getLocation());
 					if (TYPO3_DLOG) t3lib_div::devLog('Google Answer', 'typo3_agencies', -1, $csv);
 					$latlong['lat'] = $csv[2];
 					$latlong['long'] = $csv[3];
@@ -310,7 +319,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 					 * 500: Undefined error.  Geocoding may be blocked.
 					 * 610: Bad API Key.
 					 */
-					if (TYPO3_DLOG) t3lib_div::devLog('Google: '.$csv[0].': '.$filter->getLocation().'. Disabling.', 'typo3_agencies', 3, $filter->getLocation());
+					if (TYPO3_DLOG) t3lib_div::devLog('Google: '.$csv[0].': '.$filterObject->getLocation().'. Disabling.', 'typo3_agencies', 3, $filterObject->getLocation());
 					$latlong = null;
 					break;
 				default:
@@ -321,23 +330,23 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 					 * 602: Unknown address.
 					 * 603: Can't geocode for contractual reasons.
 					 */
-					if (TYPO3_DLOG) t3lib_div::devLog('Google: '.$csv[0].': '.$filter->getLocation().'. Disabling.', 'typo3_agencies', 2, $filter->getLocation());
+					if (TYPO3_DLOG) t3lib_div::devLog('Google: '.$csv[0].': '.$filterObject->getLocation().'. Disabling.', 'typo3_agencies', 2, $filterObject->getLocation());
 					$latlong = null;
 					break;
 			}
 		}
 
 		// Query the repository
-		$agencies = $this->agencyRepository->findAllByFilter($filter, $order, $offset, $pager->getItemsPerPage(), $latlong, $this->settings['nearbyAdditionalWhere']);
-		$allAgencies = $this->agencyRepository->findAllByFilter($filter, null, null, null, $latlong, $this->settings['nearbyAdditionalWhere']);
-		$count = $this->agencyRepository->countAllByFilter($filter, $latlong, $this->settings['nearbyAdditionalWhere']);
+		$agencies = $this->agencyRepository->findAllByFilter($filterObject, $order, $offset, $pager->getItemsPerPage(), $latlong, $this->settings['nearbyAdditionalWhere']);
+		$allAgencies = $this->agencyRepository->findAllByFilter($filterObject, null, null, null, $latlong, $this->settings['nearbyAdditionalWhere']);
+		$count = $this->agencyRepository->countAllByFilter($filterObject, $latlong, $this->settings['nearbyAdditionalWhere']);
 		$pager->setCount($count);
 
 		// Assign values
 		$this->view->assign('agencies', $agencies);
 		$this->view->assign('allAgencies', $allAgencies);
 		$this->view->assign('pager', $pager);
-		$this->view->assign('filter', $filter);
+		$this->view->assign('filter', $filterObject);
 	}
 	
 	/**
