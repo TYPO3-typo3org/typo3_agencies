@@ -265,7 +265,7 @@
 		// ]]>
 		</agency:script>
 
-		<f:form controller="Agency" action="list" id="tx-agencies-form" method="get" name="filter" enctype="multipart/form-data">
+		<f:form controller="Agency" action="list" id="tx-agencies-form" method="get" enctype="multipart/form-data" object="{filter}">
 			<f:form.hidden id="tx-agencies-input-filter-member" property="member" />
 			<f:form.hidden id="tx-agencies-input-filter-trainingservice" property="trainingService" />
 			<f:form.hidden id="tx-agencies-input-filter-hostingservice" property="hostingService" />

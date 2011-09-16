@@ -106,6 +106,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 		$this->view->assign('countries', $this->agencyRepository->findAllCountries());
 		$this->view->assign('imagePath', t3lib_extMgm::extRelPath('typo3_agencies') . 'Resources/Public/Media/Images/');
 		$this->view->assign('redirect','index');
+		$this->view->assign('filter',t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Filter'));
 	}
 
 	/**
@@ -250,8 +251,13 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 			$filter = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Filter');
 		}
 		
+		if($this->administrator > 0) {
+			$filter->setFeUser($this->administrator);
+		}
+		
 		// Process member value
-		$members = explode(',', $filter->getMember());
+		$members = t3lib_div::trimExplode(',', $filter->getMember(),1);
+
 		foreach ($members as $member) {
 			$filter->addMember($member);
 		}
