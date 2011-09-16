@@ -159,7 +159,7 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 		}
 		
 		if($filter->getFeUser() > 0){
-			$where[] = '(approved = 1 or administrator = '.$filter->getFeUser().')';
+			$where[] = '(approved = 1 or FIND_IN_SET(administrator, '.$filter->getFeUser().'))';
 		} else {
 			$where[] = 'approved = 1';
 		}
