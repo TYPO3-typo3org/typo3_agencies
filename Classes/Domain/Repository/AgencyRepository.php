@@ -103,7 +103,7 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 		}
 		if ($filter->getFeUser()) {
 			$_constrains = array();
-			$_constrains[] = $query->equals('adminstrator', $filter->getFeUser());
+			$_constrains[] = $query->equals('administrator', $filter->getFeUser());
 			$_constrains[] = $query->equals('approved', true);
 			$constrains[] = $query->logicalOr($_constrains);
 		} else {
