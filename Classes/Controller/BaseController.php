@@ -32,15 +32,15 @@
 class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controller_ActionController {
 
 	/**
-	 * @var Tx_Typo3Agencies_Domain_Model_AgencyRepository
+	 * @var Tx_Typo3Agencies_Domain_Repository_AgencyRepository
 	 */
 	protected $agencyRepository;
 	/**
-	 * @var Tx_Typo3Agencies_Domain_Model_ReferenceRepository
+	 * @var Tx_Typo3Agencies_Domain_Repository_ReferenceRepository
 	 */
 	public $referenceRepository;
 	/**
-	 * @var Tx_Typo3Agencies_Domain_Model_CountryRepository
+	 * @var Tx_Typo3Agencies_Domain_Repository_CountryRepository
 	 */
 	protected $countryRepository;
 	/**
