@@ -19,4 +19,15 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 		)
 );
 
+Tx_Extbase_Utility_Extension::configurePlugin(
+	$_EXTKEY,
+	'Pi2',
+	array (
+		'Agency' => 'enterCode,verifyCode,new,create,enterInformation,updateNewAgency,enterApprovalData,sendApprovalData'
+	),
+	array(
+		'Agency' => 'verifyCode,create,new'
+	)
+);
+
 ?>

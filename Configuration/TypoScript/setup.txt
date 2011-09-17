@@ -30,7 +30,6 @@ plugin.tx_typo3agencies {
 	}
 	persistence {
 		storagePid = {$plugin.tx_typo3agencies.persistence.storagePid},0
-
 		enableAutomaticCacheClearing = 1
 		
 		classes {

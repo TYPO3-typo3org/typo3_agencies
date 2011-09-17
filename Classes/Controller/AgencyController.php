@@ -32,6 +32,113 @@
 class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Controller_BaseController {
 
 	/**
+	 * Verify code action
+	 * 
+	 * @param string $agencyCode 
+	 * @dontvalidate $agencyCode
+	 * 
+	 * @return void
+	 */
+	public function verifyCodeAction($agencyCode = NULL) {
+		
+		if($agencyCode !== NULL) {
+			if($this->getAgencyData($agencyCode) !== NULL) {
+				if((int) $this->agencyRepository->countByCode($agencyCode) == (int) 0) {
+					$newAgency = $this->objectManager->create('Tx_Typo3Agencies_Domain_Model_Agency');
+					$newAgency->setCode($agencyCode);
+					$newAgency->setAdministrator((int) $GLOBALS['TSFE']->fe_user->user['uid']);
+					
+					$this->agencyRepository->add($newAgency);
+					$this->objectManager->get('Tx_Extbase_Persistence_Manager')->persistAll();
+					
+					$this->redirect('enterInformation', 'Agency', $this->extensionName, array('newAgency' => $newAgency));
+					
+				} else {
+					$this->flashMessageContainer->add('The entered key is already used', 'Key is already used', t3lib_message_AbstractMessage::ERROR);
+				}
+			} else {
+				$this->flashMessageContainer->add('The entered key is not valid', 'Invalid key', t3lib_message_AbstractMessage::ERROR);
+			}
+		} else {
+			$this->flashMessageContainer->add('No agency code was entered', '', t3lib_message_AbstractMessage::WARNING);
+		}
+		
+		$this->redirect('enterCode');
+	}
+	
+	/**
+	 * Enter code, action
+	 * 
+	 * @return void
+	 */
+	public function enterCodeAction() {
+		
+	}
+
+	 /**
+	 * Enter agency information, action
+	 * 
+	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
+	 * 
+	 * @dontvalidate $newAgency
+	 * 
+	 * @return void
+	 */
+	public function enterInformationAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency = NULL) {
+		if ($newAgency->getAdministrator() == $this->administrator) {
+			$this->addCountries();
+			$this->view->assign('newAgency', $newAgency);
+		}
+	}
+	
+	/**
+	 * Update new agency information and go to step 3
+	 * 
+	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
+	 * @dontvalidata $newAgency
+	 */
+	public function updateNewAgencyAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
+		//var_dump($newAgency);die();
+		$this->agencyRepository->update($newAgency);
+		$this->redirect('enterApprovalData', 'Agency', $this->extensionName, array('newAgency' => $newAgency));
+	}
+	
+	/**
+	 * Enter approval data
+	 * 
+	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
+	 */
+	public function enterApprovalDataAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
+		if ($newAgency->getAdministrator() == $this->administrator) {
+			$this->view->assign('agency', $newAgency);
+		}	
+	}
+	
+	/**
+	 * Send approval data
+	 */
+	public function sendApprovalDataAction() {
+		
+	}
+	
+	/**
+	 * Create agency
+	 * 
+	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
+	 * 
+	 * @return void
+	 */
+	public function createAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency = NULL) {
+		if($newAgency === NULL) {
+			$this->redirect('verifyCode');
+		}
+		//var_dump($newAgency);die();
+		$this->agencyRepository->add($newAgency);
+		$this->flashMessageContainer->add('Agency created', 'yehaaa!');
+		#$this->redirect('verifyCode');
+	}
+	
+	/**
 	 * Index action for this controller. Displays a list of agencies.
 	 *
 	 * @return string The rendered view
@@ -283,6 +390,27 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	private function buildURL($name, $value){
 		if($value) {
 			return $name.'='.urlencode($value).'&';
+		}
+	}
+	
+	/**
+	 * Get data array from association.TYPO3.org
+	 * 
+	 * @param string $agencyCode
+	 * 
+	 * @return array
+	 */
+	public function getAgencyData($agencyCode = NULL) {
+		if($agencyCode === NULL) {
+			return NULL;
+		}
+		
+		$agencyData = t3lib_div::getURL('http://association.typo3.org/?eID=memberAPI&actionName=checkCode&arguments%5Bcode%5D=' . $agencyCode);
+		$decodedData = json_decode($agencyData);
+		if($decodedData[0] === NULL) {
+			return NULL;
+		} else {
+			return $decodedData[0];
 		}
 	}
 

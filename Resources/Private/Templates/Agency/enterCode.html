@@ -1,0 +1,33 @@
+{namespace agency=Tx_Typo3Agencies_ViewHelpers}
+
+<h1>Create agency profile - Step 1</h1> 
+						
+<p> 
+	some information regarding the creating process
+</p> 
+<p> 
+	Find your agency code the <a href="http://association.typo3.org/" title="TYPO3 Association">TYPO3 Association homepage</a> 
+</p> 
+
+<h2>Validate agency code</h2>
+
+<agency:flashMessages renderMode="div" class="tx-extbase-flash-message" />
+
+
+<f:form action="verifyCode">
+	<div class="b-form b-form-edit"> 
+		<div class="b-form-row"> 
+			<label for="form-input">Agency code:</label> 
+			<div class="b-form-inputs"> 
+				<f:form.textfield name="agencyCode" />
+			</div><!-- b-form-inputs --> 
+		</div><!-- b-form-row --> 
+
+		<div class="b-form-row"> 
+			<div class="b-form-inputs"> 
+				<button type="submit" class="bu bu-confirm"><b>Validate code</b></button> 
+			</div><!-- b-form-inputs --> 
+		</div><!-- b-form-row --> 
+
+	</div><!-- .b-form b-form-edit --> 
+</f:form>

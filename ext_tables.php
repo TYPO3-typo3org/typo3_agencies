@@ -12,6 +12,12 @@ Tx_Extbase_Utility_Extension::registerPlugin(
 	'List of Agencies'
 );
 
+Tx_Extbase_Utility_Extension::registerPlugin(
+	$_EXTKEY, 
+	'Pi2', 
+	'Create agency profile'
+);
+
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignature] = 'layout,select_key,recursive';
 #$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'recursive';
 

@@ -577,6 +577,25 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	public function getContact() {
 		return $this->contact;
 	}
+	
+	/**
+	 * Set code
+	 * 
+	 * @param string $code
+	 * @return void
+	 */
+	public function setCode($code) {
+		$this->code = $code;
+	}
+	
+	/**
+	 * Get code
+	 * 
+	 * @return string code
+	 */
+	public function getCode() {
+		return $this->code;
+	}
 
 	/**
 	 * Sets the latitude status
