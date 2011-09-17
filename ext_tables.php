@@ -18,6 +18,10 @@ Tx_Extbase_Utility_Extension::registerPlugin(
 	'Create agency profile'
 );
 
+		
+$TCA['tt_content']['types']['list']['subtypes_addlist']['typo3agencies_pi2'] = 'pi_flexform';
+t3lib_extMgm::addPiFlexFormValue('typo3agencies_pi2', 'FILE:EXT:'.$_EXTKEY.'/Configuration/FlexForms/Pi2.xml');  
+
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_excludelist'][$pluginSignature] = 'layout,select_key,recursive';
 #$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'recursive';
 

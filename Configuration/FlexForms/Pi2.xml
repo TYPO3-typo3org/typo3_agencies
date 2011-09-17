@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<T3DataStructure>
+  <sheets>
+  <stepOne>
+  	<ROOT>
+      <TCEforms>
+      <sheetTitle>Step 1</sheetTitle>
+      </TCEforms>
+      <type>array</type>
+      <el>
+      <settings.stepOneText>
+         <TCEforms>
+          <label>Text shown above step 1 form</label>
+          <config>
+            <type>text</type>
+          </config>
+		  <defaultExtras>richtext[*]:rte_transform[mode=ts_css]</defaultExtras>
+         </TCEforms>
+      </settings.stepOneText>
+      </el>
+     </ROOT>
+  </stepOne>
+  <stepTwo>
+  	<ROOT>
+      <TCEforms>
+      <sheetTitle>Step 2</sheetTitle>
+      </TCEforms>
+      <type>array</type>
+      <el>
+      <settings.stepTwoText>
+         <TCEforms>
+          <label>Text shown above step 1 form</label>
+          <config>
+            <type>text</type>
+          </config>
+		  <defaultExtras>richtext[*]:rte_transform[mode=ts_css]</defaultExtras>
+         </TCEforms>
+      </settings.stepTwoText>
+      </el>
+     </ROOT>
+  </stepTwo>
+  <stepThree>
+  	<ROOT>
+      <TCEforms>
+      <sheetTitle>Step 3</sheetTitle>
+      </TCEforms>
+      <type>array</type>
+      <el>
+      <settings.stepThreeText>
+         <TCEforms>
+          <label>Text shown above step 1 form</label>
+          <config>
+            <type>text</type>
+          </config>
+		  <defaultExtras>richtext[*]:rte_transform[mode=ts_css]</defaultExtras>
+         </TCEforms>
+      </settings.stepThreeText>
+      </el>
+     </ROOT>
+  </stepThree>
+  </sheets>
+</T3DataStructure>
