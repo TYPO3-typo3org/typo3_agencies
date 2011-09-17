@@ -51,7 +51,6 @@
 			<label index="noMember">The agency of this client is not a TYPO3 Association member.</label>
 			<label index="newProject">Add your project</label>
 			<label index="aNewProject">Edit/Create Project</label>
-			<label index="required">required</label>
 			<label index="headline">Headline</label>
 			<label index="other">Other</label>
 			<label index="notAllowed">You are not allowed to perform this action!</label>
