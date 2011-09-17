@@ -394,26 +394,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		}
 	}
 	
-	/**
-	 * Get data array from association.TYPO3.org
-	 * 
-	 * @param string $agencyCode
-	 * 
-	 * @return array
-	 */
-	public function getAgencyData($agencyCode = NULL) {
-		if($agencyCode === NULL) {
-			return NULL;
-		}
-		
-		$agencyData = t3lib_div::getURL('http://association.typo3.org/?eID=memberAPI&actionName=checkCode&arguments%5Bcode%5D=' . $agencyCode);
-		$decodedData = json_decode($agencyData);
-		if($decodedData[0] === NULL) {
-			return NULL;
-		} else {
-			return $decodedData[0];
-		}
-	}
+
 
 	/**
 	 * 
