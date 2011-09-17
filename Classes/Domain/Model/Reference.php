@@ -167,6 +167,13 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	protected $size = 0;
 	
 	/**
+	 * Reference sorting
+	 *
+	 * @var integer
+	 */
+	protected $sorting = 0;
+	
+	/**
 	 * Agency country
 	 *
 	 * @var string
@@ -564,6 +571,22 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	 */
 	public function isDeactivated(){
 		return $this->deactivated;
+	}
+	
+	/**
+	 * Sets the sorting index
+	 * @param integer $sorting
+	 */
+	public function setSorting($sorting){
+		$this->sorting = $sorting;
+	}
+	
+	/**
+	 * Returns the sorting index
+	 * @return integer The sorting index
+	 */
+	public function getSorting(){
+		return $this->sorting;
 	}
 
 	/**
