@@ -40,9 +40,11 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 * @return void
 	 */
 	public function verifyCodeAction($agencyCode = NULL) {
-		
+
+		$memberDataUtility = $this->objectManager->get('Tx_Typo3Agencies_Utility_MemberData');
+
 		if($agencyCode !== NULL) {
-			if($this->getAgencyData($agencyCode) !== NULL) {
+			if($memberDataUtility->getMemberDataByCode($agencyCode) !== NULL) {
 				if((int) $this->agencyRepository->countByCode($agencyCode) == (int) 0) {
 					$newAgency = $this->objectManager->create('Tx_Typo3Agencies_Domain_Model_Agency');
 					$newAgency->setCode($agencyCode);
@@ -373,7 +375,50 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		$this->view->assign('pager', $pager);
 		$this->view->assign('filter', $filterObject);
 	}
-	
+
+
+	/**
+	 * Gets the memberData from association.typo3.org and uses this data to
+	 * - update membership level and amount of caseStudies allowed in agency
+	 * - deactivates caseStudies if allowed amount is lower than activated caseStudies
+	 *
+	 * @return void
+	 */
+	public function updateAgenciesByMemberDataAction() {
+
+		$memberDataUtility = $this->objectManager->get('Tx_Typo3Agencies_Utility_MemberData');
+		$memberDataArray = $memberDataUtility->getAllMemberData();
+
+		print_r($memberDataArray);
+
+		die('test');
+
+		foreach($memberDataArray as $memberData) {
+
+			$agency = $this->agencyRepository->getOneByCode($memberData['code']);
+			if($agency) { /** @var $agency Tx_Typo3Agencies_Domain_Model_Agency */
+
+				$allowedCaseStudies = (int) $memberData['caseStudies'];
+
+				$agency->setCaseStudies($allowedCaseStudies);
+				$agency->setMember($memberData['memberLevel']);
+
+				$references = $this->referenceRepository->findAllByAgency($agency);
+
+				foreach($references as $reference) { /** @var $reference Tx_Typo3Agencies_Domain_Model_Reference */
+
+					if($allowedCaseStudies <= 0) {
+						$reference->isDeactivated(1);
+					}
+
+					$allowedCaseStudies--;
+				}
+			}
+		}
+	}
+
+
+
 	/**
 	 * Override getErrorFlashMessage to present
 	 * nice flash error messages.
