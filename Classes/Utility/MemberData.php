@@ -28,7 +28,7 @@
  *
  * = Examples =
  */
-class Tx_Typo3Agencies_Utility_MemberData extends Tx_Fluid_Core_ViewHelper_TagBasedViewHelper {
+class Tx_Typo3Agencies_Utility_MemberData {
 
 
 	protected $baseApiUrl = 'http://association.typo3.org/?eID=memberAPI';
