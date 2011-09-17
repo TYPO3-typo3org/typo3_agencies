@@ -11,7 +11,7 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 	'Pi1',																// A unique name of the plugin in UpperCamelCase
 	array(																			// An array holding the controller-action-combinations that are accessible
 		'Agency' => 'index,show,edit,list,update,geocode',
-		'Reference' => 'index,show,new,search,create,preview,remove,delete,edit,update,deactivate,reactivate,categories',	// The first controller and its first action will be the default
+		'Reference' => 'index,show,new,search,create,preview,remove,delete,edit,update,deactivate,reactivate,categories,sort',	// The first controller and its first action will be the default
 		),
 	array(																			// An array of non-cachable controller-action-combinations (they must already be enabled)
 		'Agency' => '',

@@ -201,6 +201,43 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 		}
 	}
 	
+	/**
+	 * Updates the sorting of the references
+	 *
+	 * @param array $sort The new sorting index and the uid of a Tx_Typo3Agencies_Domain_Model_Reference to change the sorting for
+	 */
+	public function sortAction(array $sort) {
+		$reference = $this->referenceRepository->findByUid($sort['uid']);
+		if($reference->getAgency()->getAdministrator() == $this->administrator){
+			if($reference->getSorting() != $sort['sort']){
+				$references = $this->referenceRepository->findAllByAgency($reference->getAgency(), true);
+				if($sort['sort'] < $reference->getSorting()){
+					// moving up
+					foreach($references as $referenceRecord){
+						if($referenceRecord->getSorting() >= $sort['sort'] && $referenceRecord->getSorting() < $reference->getSorting()){
+							$referenceRecord->setSorting($referenceRecord->getSorting() + 1);
+							$this->referenceRepository->update($referenceRecord);
+						}
+					}
+				} else {
+					// moving down
+					foreach($references as $referenceRecord){
+						if($referenceRecord->getSorting() <= $sort['sort'] && $referenceRecord->getSorting() > $reference->getSorting()){
+							$referenceRecord->setSorting($referenceRecord->getSorting() - 1);
+							$this->referenceRepository->update($referenceRecord);
+						}
+					}
+				}
+				$reference->setSorting($sort['sort']);
+				$this->referenceRepository->update($reference);
+			}
+		}
+		$this->objectManager->get('Tx_Extbase_Persistence_Manager')->persistAll();
+       	$this->objectManager->get('Tx_Extbase_Reflection_Service')->shutdown();
+       	$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
+       	die();
+	}
+	
 	private function validateMaximumReferences(){
 		
 		$count = $this->referenceRepository->countByAgency($this->agency);
@@ -245,6 +282,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 						$this->view->assign('uploadPath', $this->settings['uploadPath']);
 						$this->view->assign('galleryImages', t3lib_div::trimExplode(',',$newReference->getScreenshotGallery(),1));
 					} else {
+						$newReference->setSorting($count);
 						$this->referenceRepository->add($newReference);
 						$this->flashMessages->add(str_replace('%NAME%', $newReference->getTitle(), $this->localization->translate('referenceCreated',$this->extensionName)),'',t3lib_message_AbstractMessage::OK);
 						$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
