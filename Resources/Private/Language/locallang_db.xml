@@ -47,6 +47,7 @@
 			<label index="tx_typo3agencies_domain_model_reference.conclusion">Conclusion</label>
 			<label index="tx_typo3agencies_domain_model_reference.deactivated">Deactivated</label>
 			<label index="tx_typo3agencies_domain_model_reference.sorting">Sorting</label>
+			<label index="tx_typo3agencies_domain_model_reference.agency">Agency</label>
 			<label index="tx_typo3agencies_domain_model_agency">Reference agency</label>
 			<label index="tx_typo3agencies_domain_model_agency.generaltab">General</label>
 			<label index="tx_typo3agencies_domain_model_agency.assoctab">Association</label>
