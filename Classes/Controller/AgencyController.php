@@ -113,15 +113,39 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 */
 	public function enterApprovalDataAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
 		if ($newAgency->getAdministrator() == $this->administrator) {
-			$this->view->assign('agency', $newAgency);
+			$this->view->assign('newAgency', $newAgency);
 		}	
 	}
 	
 	/**
 	 * Send approval data
+	 * 
+	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
 	 */
-	public function sendApprovalDataAction() {
+	public function sendApprovalDataAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
+		$this->view->assign('agency', $newAgency);
+		$this->view->assign('certifiedEmployee', $this->request->getArgument('certifiedintegrator'));
+		$this->view->assign('developmentKnowledge', $this->request->getArgument('knowledge'));
+		$this->view->assign('substansialContribution', $this->request->getArgument('contributions'));
+		$this->view->assign('caseStudies', $this->request->getArgument('casestudies'));
+		$this->view->assign('onlineReferences', $this->request->getArgument('references'));
 		
+		$bodyContent = $this->view->render();
+		
+		$mail = t3lib_div::makeInstance('t3lib_mail_Message');
+		$mail->setFrom(array($newAgency->getEmail() => $newAgency->getName()));
+		$mail->setTo(array('agencylisting@typo3.org' => 'Agency Listing'));
+		$mail->setSubject($subject);
+		$mail->setBody($bodyContent);
+		$mail->send();
+		
+		$this->forward('confirmAgencySubmission');
+	}
+	
+	/**
+	 * Confirm agency submission
+	 */
+	public function confirmAgencySubmissionAction() {
 	}
 	
 	/**

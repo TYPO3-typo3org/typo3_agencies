@@ -29,7 +29,7 @@
       <el>
       <settings.stepTwoText>
          <TCEforms>
-          <label>Text shown above step 1 form</label>
+          <label>Text shown above step 2 form</label>
           <config>
             <type>text</type>
           </config>
@@ -48,7 +48,7 @@
       <el>
       <settings.stepThreeText>
          <TCEforms>
-          <label>Text shown above step 1 form</label>
+          <label>Text shown above step 3 form</label>
           <config>
             <type>text</type>
           </config>
@@ -58,5 +58,24 @@
       </el>
      </ROOT>
   </stepThree>
+  <confirmation>
+  	<ROOT>
+      <TCEforms>
+      <sheetTitle>Step 3</sheetTitle>
+      </TCEforms>
+      <type>array</type>
+      <el>
+      <settings.confirmationText>
+         <TCEforms>
+          <label>Text shown on the confirmation page</label>
+          <config>
+            <type>text</type>
+          </config>
+		  <defaultExtras>richtext[*]:rte_transform[mode=ts_css]</defaultExtras>
+         </TCEforms>
+      </settings.confirmationText>
+      </el>
+     </ROOT>
+  </confirmation>
   </sheets>
 </T3DataStructure>

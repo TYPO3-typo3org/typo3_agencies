@@ -1,3 +1,43 @@
 <h1>Create agency profile - Step 3</h1>
 
 <f:format.html>{settings.stepThreeText}</f:format.html>
+
+<f:form action="sendApprovalData" arguments="{newAgency : newAgency}">
+	<div class="b-form b-form-edit">
+		<div class="b-form-row">
+			<label for="form-name">Certified TYPO3 Integrator, employeed:</label>
+			<div class="b-form-inputs">
+				<f:form.textfield name="certifiedintegrator" />
+			</div><!-- b-form-inputs -->
+		</div><!-- b-form-row -->
+		<div class="b-form-row">
+			<label for="form-about-project">Proof of dev. knowledge:</label>
+			<div class="b-form-inputs">
+				<f:form.textarea cols="1" rows="1" name="knowledge"/>
+			</div><!-- b-form-inputs -->
+		</div><!-- b-form-row -->
+		<div class="b-form-row">
+			<label for="form-about-project">Substansial contributions:</label>
+			<div class="b-form-inputs">
+				<f:form.textarea cols="1" rows="1" name="contributions"/>
+			</div><!-- b-form-inputs -->
+		</div><!-- b-form-row -->
+		<div class="b-form-row">
+			<label for="form-about-project">Case studies:</label>
+			<div class="b-form-inputs">
+				<f:form.textarea cols="1" rows="1" name="casestudies"/>
+			</div><!-- b-form-inputs -->
+		</div><!-- b-form-row -->
+		<div class="b-form-row">
+			<label for="form-about-project">References:</label>
+			<div class="b-form-inputs">
+				<f:form.textarea cols="1" rows="1" name="references"/>
+			</div><!-- b-form-inputs -->
+		</div><!-- b-form-row -->
+		<div class="b-form-row">
+			<div class="b-form-inputs">
+				<button type="submit" class="bu bu-confirm"><b>Send request</b></button>
+			</div><!-- b-form-inputs -->
+		</div><!-- b-form-row -->
+	</div>
+</f:form>
