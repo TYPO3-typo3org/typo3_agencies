@@ -46,7 +46,10 @@
 			<label index="tx_typo3agencies_domain_model_reference.about">About the company</label>
 			<label index="tx_typo3agencies_domain_model_reference.conclusion">Conclusion</label>
 			<label index="tx_typo3agencies_domain_model_reference.deactivated">Deactivated</label>
+			<label index="tx_typo3agencies_domain_model_reference.sorting">Sorting</label>
 			<label index="tx_typo3agencies_domain_model_agency">Reference agency</label>
+			<label index="tx_typo3agencies_domain_model_agency.generaltab">General</label>
+			<label index="tx_typo3agencies_domain_model_agency.assoctab">Association</label>
 			<label index="tx_typo3agencies_domain_model_agency.name">Company Name</label>
 			<label index="tx_typo3agencies_domain_model_agency.logo">Logo</label>
 			<label index="tx_typo3agencies_domain_model_agency.link">Link</label>
@@ -71,6 +74,9 @@
 			<label index="tx_typo3agencies_domain_model_agency.member.2">Silver member</label>
 			<label index="tx_typo3agencies_domain_model_agency.member.3">Gold member</label>
 			<label index="tx_typo3agencies_domain_model_agency.member.4">Platinum member</label>
+			<label index="tx_typo3agencies_domain_model_agency.approved">Approved by the Association</label>
+			<label index="tx_typo3agencies_domain_model_agency.casestudies">Amount of case studies allowed to publish</label>
+			<label index="tx_typo3agencies_domain_model_agency.code">Association Code</label>
 		</languageKey>
 	</data>
 </T3locallang>

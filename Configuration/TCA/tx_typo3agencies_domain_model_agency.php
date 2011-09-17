@@ -267,9 +267,36 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 				)
 			)
 		),
+		'approved' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.approved',
+			'config'  => array(
+				'type' => 'check',
+			)
+		),
+		'casestudies' => array(
+			'exclude' => 1,
+			'label'   => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.casestudies',
+			'config'  => array(
+				'type' => 'input',
+				'size' => 20,
+				'eval' => 'trim',
+				'max'  => 3
+			)
+		),
+		'code' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.code',
+			'config'  => array(
+				'type' => 'input',
+				'size' => 20,
+				'eval' => 'trim',
+				'max'  => 100
+			)
+		),
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid, hidden, salutation, first_name, last_name, email, name, address, zip, city, country, contact, logo, link, about, size, latitude, longitude, listed, administrator, member, training_service, hosting_service, development_service')
+		'1' => array('showitem' => '--div--;LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.generaltab,sys_language_uid, hidden, name, address, zip, city, country, link, email, contact, logo, about, size, latitude, longitude, training_service, hosting_service, development_service, administrator, --div--;LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.assoctab, member, approved, casestudies, code')
 	),
 	'palettes' => array(
 		'1' => array('showitem' => '')

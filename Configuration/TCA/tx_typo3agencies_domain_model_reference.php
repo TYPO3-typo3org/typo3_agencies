@@ -296,9 +296,19 @@ $TCA['tx_typo3agencies_domain_model_reference'] = array(
 				'type' => 'check',
 			)
 		),
+		'sorting' => array(
+			'exclude' => 1,
+			'label'   => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.sorting',
+			'config'  => array(
+				'type' => 'input',
+				'size' => 20,
+				'eval' => 'trim',
+				'max'  => 3
+			)
+		),
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid, hidden, deactivated, agency, title,description,link,pages,languages,category,category_other,tags,industry,industry_other,screenshot,screenshot_gallery,casestudy,conclusion,about,size,country,listed')
+		'1' => array('showitem' => 'sys_language_uid, hidden, deactivated, agency, title,description,link,pages,languages,category,category_other,tags,industry,industry_other,screenshot,screenshot_gallery,casestudy,conclusion,about,size,country,listed,sorting')
 	),
 	'palettes' => array(
 		'1' => array('showitem' => '')
