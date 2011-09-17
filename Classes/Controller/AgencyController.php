@@ -23,75 +23,13 @@
  *  This copyright notice MUST APPEAR in all copies of the script!
  * ************************************************************* */
 
-require_once('GeneralFunctions.php');
-
 /**
  * The agency controller for the Reference package
  *
  * @version $Id:$
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License, version 2
  */
-class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Controller_ActionController {
-
-	/**
-	 * @var Tx_Typo3Agencies_Domain_Model_AgencyRepository
-	 */
-	protected $agencyRepository;
-	/**
-	 * @var Tx_Typo3Agencies_Domain_Model_ReferenceRepository
-	 */
-	public $referenceRepository;
-	/**
-	 * @var Tx_Typo3Agencies_Domain_Model_CountryRepository
-	 */
-	protected $countryRepository;
-	/**
-	 * @var Tx_Typo3Agencies_Domain_Model_Administrator
-	 */
-	protected $administrator;
-	/**
-	 * @var Tx_Typo3Agencies_Domain_Model_Agency
-	 */
-	protected $agency;
-
-	/**
-	 * @var Tx_Typo3Agencies_Domain_Model_Filter
-	 */
-	protected $filter;
-
-	/**
-	 * @var Tx_Extbase_Utility_Localization
-	 */
-	public $localization;
-	
-	/**
-	 * @var boolean Show deactivated references
-	 */
-	public $showDeactivated;
-
-	/**
-	 * Initializes the current action
-	 *
-	 * @return void
-	 */
-	public function initializeAction() {
-		$this->agencyRepository = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Repository_AgencyRepository');
-		$this->referenceRepository = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Repository_ReferenceRepository');
-		$this->localization = t3lib_div::makeInstance('Tx_Extbase_Utility_Localization');
-		$this->countryRepository = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Repository_CountryRepository');
-		$this->showDeactivated = false;
-		if($GLOBALS['TSFE']->loginUser){
-			$uid = intval($GLOBALS['TSFE']->fe_user->user['uid']);
-			$result = $this->agencyRepository->findByAdministrator($uid);
-			if(count($result) > 0){
-				$this->administrator = $uid;
-				$this->agency = $result->getFirst();
-				if($this->agency->getAdministrator() == $this->administrator){
-					$this->showDeactivated = true;
-				}
-			}
-		}
-	}
+class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Controller_BaseController {
 
 	/**
 	 * Index action for this controller. Displays a list of agencies.
@@ -148,11 +86,11 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 	}
 
 	private function addFilterOptions(){
-		$allowedCategories = GeneralFunctions::getCategories($this, $this->extensionName);
-		$allowedIndustries = GeneralFunctions::getIndustries($this, $this->extensionName);
-		$allowedCompanySizes = GeneralFunctions::getCompanySizes($this, $this->extensionName);
+		$allowedCategories = Tx_Typo3Agencies_Controller_BaseController::getCategories($this, $this->extensionName);
+		$allowedIndustries = Tx_Typo3Agencies_Controller_BaseController::getIndustries($this, $this->extensionName);
+		$allowedCompanySizes = Tx_Typo3Agencies_Controller_BaseController::getCompanySizes($this, $this->extensionName);
 		
-		GeneralFunctions::removeNotSet($this, $this->request, $allowedCategories, $allowedIndustries, $allowedCompanySizes);
+		Tx_Typo3Agencies_Controller_BaseController::removeNotSet($this, $this->request, $allowedCategories, $allowedIndustries, $allowedCompanySizes);
 		
 		$this->view->assign('categories', $allowedCategories);
 		$this->view->assign('industries', $allowedIndustries);
@@ -234,7 +172,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 			$this->redirect('show', 'Agency',null,Array('agency'=>$agency));
 		}
 	}
-
+	
 	/**
 	 * List action for this controller. Displays a list of agencies
 	 *
@@ -245,31 +183,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Extbase_MVC_Contro
 	 */
 	public function listAction(array $filter = null) {
 		// Process the filter
-		$filterObject = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Filter');
-		if(!empty($filter)){
-			if($filter['location'] != ''){
-				$filterObject->setLocation($filter['location']);
-			}
-			if($filter['country']){
-				$filterObject->setCountry($filter['country']);
-			}
-			if($filter['member']){
-				$filterObject->setMember($filter['member']);
-			}
-			$filterObject->setTrainingService($filter['trainingService']);
-			$filterObject->setHostingService($filter['hostingService']);
-			$filterObject->setDevelopmentService($filter['developmentService']);
-		}
-
-		if($this->administrator > 0) {
-			$filterObject->setFeUser($this->administrator);
-		}
-		
-		// Process member value
-		$members = t3lib_div::trimExplode(',', $filterObject->getMember(),1);
-		foreach ($members as $member) {
-			$filterObject->addMember($member);
-		}
+		$filterObject = $this->createFilterObject($filter);
 
 		// Initialize the order
 		$order = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Order');
