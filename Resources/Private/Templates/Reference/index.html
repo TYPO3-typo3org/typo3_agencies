@@ -121,11 +121,11 @@
 				<h3>Recently Added</h3>
 			</f:if>
 
-			<div class="b-projects-list">
+			<ul class="b-projects-list">
 				<f:for each="{references}" as="reference">
 					<f:render partial="reference" arguments="{reference: reference, administrator : administrator, uploadPath : uploadPath, controller : 'Reference', redirectController : redirectController, redirect : redirect}" />
 				</f:for>
-			</div><!-- b-projects-list -->
+			</ul><!-- b-projects-list -->
 			
 			
 			<f:if condition="{pager.displayItems}">
