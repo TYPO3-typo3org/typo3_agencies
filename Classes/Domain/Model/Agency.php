@@ -664,7 +664,7 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	 * @param $caseStudies
 	 * @return void
 	 */
-	public function setCaseStudies($caseStudies) {
+	public function setCasestudies($caseStudies) {
 		$this->casestudies = $caseStudies;
 	}
 }
