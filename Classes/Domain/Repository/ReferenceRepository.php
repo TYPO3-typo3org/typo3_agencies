@@ -42,7 +42,7 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 		} else {
 			$query->matching($query->logicalAnd($query->equals('agency', $agency),$query->equals('deactivated',0)));
 		}
-		$query->setOrderings(Array('crdate'=>Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING));
+		$query->setOrderings(Array('sorting'=>Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING));
 		return $query->execute();
 	}
 	
