@@ -2,6 +2,7 @@
 	<f:if condition="{administrator} == {reference.agency.administrator}">
 		<p class="b-project-toolbar">
 			<a href="confirmDelete" rel="confirmation-data-{reference.uid}" class="ico i-del"><f:translate key="delete">Delete</f:translate></a>
+			<a href="#" class="ico i-move"><f:translate key="move">Move</f:translate></a>
 			<f:link.page additionalParams="{tx_typo3agencies_pi1:{action:'edit',controller:'Reference',reference:reference, redirectController : redirectController, redirect : redirect}}" ><f:translate key="edit">Edit</f:translate></f:link.page> <span class="sep">|</span> 
 			<f:if condition="{reference.deactivated}">
 				<f:then>
