@@ -23,10 +23,10 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 	$_EXTKEY,
 	'Pi2',
 	array (
-		'Agency' => 'enterCode,verifyCode,new,create,enterInformation,updateNewAgency,enterApprovalData,sendApprovalData'
+		'Agency' => 'enterCode,verifyCode,new,create,enterInformation,updateNewAgency,enterApprovalData,sendApprovalData,updateAgenciesByMemberData'
 	),
 	array(
-		'Agency' => 'verifyCode,create,new'
+		'Agency' => 'verifyCode,create,new,updateAgenciesByMemberData'
 	)
 );
 

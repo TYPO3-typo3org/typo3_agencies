@@ -526,6 +526,8 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 		$this->view->assign('uploadPath', $this->settings['uploadPath']);
 		$this->view->assign('galleryImages', t3lib_div::trimExplode(',',$newReference->getScreenshotGallery(),1));
 	}
+
+
 	
 	/**
 	 * Override getErrorFlashMessage to present

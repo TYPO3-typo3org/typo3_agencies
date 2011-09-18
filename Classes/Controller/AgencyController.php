@@ -412,20 +412,16 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 
 		$memberDataUtility = $this->objectManager->get('Tx_Typo3Agencies_Utility_MemberData');
 		$memberDataArray = $memberDataUtility->getAllMemberData();
-
-		print_r($memberDataArray);
-
-		die('test');
-
 		foreach($memberDataArray as $memberData) {
 
-			$agency = $this->agencyRepository->getOneByCode($memberData['code']);
+			$agency = $this->agencyRepository->findOneByCode($memberData['code']);
 			if($agency) { /** @var $agency Tx_Typo3Agencies_Domain_Model_Agency */
 
 				$allowedCaseStudies = (int) $memberData['caseStudies'];
 
 				$agency->setCaseStudies($allowedCaseStudies);
 				$agency->setMember($memberData['memberLevel']);
+
 
 				$references = $this->referenceRepository->findAllByAgency($agency);
 
@@ -436,8 +432,12 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 					}
 
 					$allowedCaseStudies--;
+					$this->referenceRepository->update($reference);
 				}
 			}
+
+			$this->agencyRepository->update($agency);
+
 		}
 	}
 

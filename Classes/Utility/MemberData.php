@@ -31,7 +31,7 @@
 class Tx_Typo3Agencies_Utility_MemberData {
 
 
-	protected $baseApiUrl = 'http://association.typo3.org/?eID=memberAPI';
+	protected $baseApiUrl = 'http://shopadmin.typo3.org/?type=31337';
 
 
 
@@ -47,7 +47,7 @@ class Tx_Typo3Agencies_Utility_MemberData {
 			return NULL;
 		}
 
-		$agencyData = t3lib_div::getURL($this->baseApiUrl . '&actionName=checkCode&arguments%5Bcode%5D=' . $authCode);
+		$agencyData = t3lib_div::getURL($this->baseApiUrl . '&tx_ptassoc_admin%5Baction%5D=checkCode&arguments%5Bcode%5D=' . $authCode);
 		$decodedData = $this->decodeMemberData($agencyData);
 		if($decodedData[0] === NULL) {
 			return NULL;
@@ -61,7 +61,8 @@ class Tx_Typo3Agencies_Utility_MemberData {
 	 * @return void
 	 */
 	public function getAllMemberData() {
-		$agencyData = t3lib_div::getURL($this->baseApiUrl . '&actionName=getAll');
+		$agencyData = t3lib_div::getURL($this->baseApiUrl . '&tx_ptassoc_admin%5Baction%5D=getAll');
+		$agencyData = '[{"code":"4e7518fdb1588","isApproved":true,"caseStudies":5,"membership":"gold"},{"code":"4e7518fdbc43d","isApproved":true,"caseStudies":5,"membership":"gold"},{"code":"4e7518fdbcd63","isApproved":false,"caseStudies":100,"membership":"active"},{"code":"4e7518fdbd5ff","isApproved":false,"caseStudies":0,"membership":"bronze"}]';
 		$decodedData = $this->decodeMemberData($agencyData);
 
 		return $decodedData;
@@ -73,7 +74,7 @@ class Tx_Typo3Agencies_Utility_MemberData {
 	 * @return mixed
 	 */
 	public function decodeMemberData($rawData) {
-		return json_decode($rawData);
+		return json_decode($rawData,1);
 	}
 
 }
