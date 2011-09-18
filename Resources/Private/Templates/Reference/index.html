@@ -9,24 +9,8 @@
 					<p class="form-row"><f:form.select property="category" value="{filter.category}" options="{categories}"></f:form.select></p>
 					<p class="form-row"><f:form.select property="industry" value="{filter.industry}" options="{industries}"></f:form.select></p>
 					<p class="form-row"><f:form.select property="companySize" value="{filter.companySize}" options="{companySizes}"></f:form.select></p>
-					<p><f:form.submit class="bu bu-mini" value="Submit"/>
-					<f:if condition="{filter.category} > 0">
-						<f:then>
-							<f:link.action controller="Reference" action="index" class="bu bu-mini">Clear</f:link.action>
-						</f:then>
-						<f:else>
-							<f:if condition="{filter.industry} > 0">
-								<f:then>
-									<f:link.action controller="Reference" action="index" class="bu bu-mini">Clear</f:link.action>
-								</f:then>
-								<f:else>
-									<f:if condition="{filter.companySize} > 0">
-										<f:link.action controller="Reference" action="index" class="bu bu-mini">Clear</f:link.action>
-									</f:if>
-								</f:else>
-							</f:if>
-						</f:else>
-					</f:if>
+					<p><f:form.submit class="bu bu-mini" value="Filter"/>
+					<f:link.action controller="Reference" action="index" class="bu bu-mini">Clear</f:link.action>
 					</p>
 				</f:form>
 			</div><!-- b-box -->
@@ -35,9 +19,7 @@
 			<ul class="b-tag-cloud">
 				<agency:tagCloud mode="html" tags="{tagCloud}" fontSizeMin="10" fontSizeMax="20" divider="</li><li>" tagName="li"/>
 			</ul><!-- b-tag-cloud -->
-			<f:if condition="{filterString}">
-				<f:link.action controller="Reference" action="index">Show all</f:link.action>
-			</f:if>
+			<f:link.action controller="Reference" action="index">Show all</f:link.action>
 		</div><!-- s-sidebar -->
 		
 		<div class="s-body">
@@ -123,7 +105,9 @@
 
 			<ul class="b-projects-list">
 				<f:for each="{references}" as="reference">
-					<f:render partial="reference" arguments="{reference: reference, administrator : administrator, uploadPath : uploadPath, controller : 'Reference', redirectController : redirectController, redirect : redirect}" />
+					<f:if condition="{reference.deactivated == 0}">
+						<f:render partial="reference" arguments="{reference: reference, administrator : null, uploadPath : uploadPath, controller : 'Reference', redirectController : redirectController, redirect : redirect}" />
+					</f:if>
 				</f:for>
 			</ul><!-- b-projects-list -->
 			

@@ -106,6 +106,15 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 			if($filter['member']){
 				$filterObject->setMember($filter['member']);
 			}
+			if($filter['category']){
+				$filterObject->setCategory($filter['category']);
+			}
+			if($filter['industry']){
+				$filterObject->setIndustry($filter['industry']);
+			}
+			if($filter['companySize']){
+				$filterObject->setCompanySize($filter['companySize']);
+			}
 			$filterObject->setTrainingService($filter['trainingService']);
 			$filterObject->setHostingService($filter['hostingService']);
 			$filterObject->setDevelopmentService($filter['developmentService']);

@@ -43,8 +43,8 @@ plugin.tx_typo3agencies {
 		# cat=plugin.tx_typo3agencies//a; type=string; label=Google Maps key
 		googleMapsKey = ABQIAAAAI8h9wp9zHObSISxQvh-vPxSo8EnW8AKoLXqLvL-qXcC2LypMvBS6BRiIkAGbVo_izK4SeLFoCzHpxg
 		
-		# cat=plugin.tx_typo3agencies//a; type=int+; label=The past days the recently added view should search within
-		recentlyPastDays = 9;
+		# cat=plugin.tx_typo3agencies//a; type=int+; label=The amount of recently added case studies to show
+		recentCaseStudies = 30;
 		
 		pdfTypeNum = 123
 	}

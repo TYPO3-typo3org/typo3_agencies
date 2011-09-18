@@ -23,7 +23,7 @@ plugin.tx_typo3agencies {
 		
 		nearbyAdditionalWhere = 6367.41*SQRT(2*(1-cos(RADIANS(latitude))*cos(RADIANS(###LATITUDE###))*(sin(RADIANS(longitude))*sin(RADIANS(###LONGITUDE###))+cos(RADIANS(longitude))*cos(RADIANS(###LONGITUDE###)))-sin(RADIANS(latitude))*sin(RADIANS(###LATITUDE###)))) <= 50
 		
-		recentlyPastDays = {$plugin.tx_typo3agencies.settings.recentlyPastDays}
+		recentCaseStudies = {$plugin.tx_typo3agencies.settings.recentCaseStudies}
 		
 		pdfTypeNum = {$plugin.tx_typo3agencies.settings.pdfTypeNum}
 

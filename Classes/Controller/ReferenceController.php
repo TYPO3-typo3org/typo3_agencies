@@ -98,15 +98,14 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 					$this->view->assign('topReference', $topReference);
 				}
 				$this->filter = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Filter');
-				$since = time() - $this->settings['recentlyPastDays'] * 86400;
-				$count = $this->referenceRepository->countRecentlyAdded($this->showDeactivated, $this->agency, $since);
-				$references = $this->referenceRepository->findRecentlyAdded($offset, $this->pager->getItemsPerPage(), $this->showDeactivated, $this->agency, $since, $ignore);
+				$count = $this->referenceRepository->countRecentlyAdded(false, $this->agency, (int) $this->settings['recentCaseStudies']);
+				$references = $this->referenceRepository->findRecentlyAdded($offset, $this->pager->getItemsPerPage(), false, $this->agency, (int) $this->settings['recentCaseStudies'], $ignore);
 			} else {
 				$this->filter = $filterObject;
 				$references = $this->referenceRepository->findAllByFilter($this->filter,null,null,false,$this->showDeactivated);
 				$count = count($references);
 				$this->filter->setResultCount($count);
-				$references = $this->referenceRepository->findAllByFilter($this->filter, $offset, $this->pager->getItemsPerPage(), false, $this->showDeactivated);
+				$references = $this->referenceRepository->findAllByFilter($this->filter, $offset, $this->pager->getItemsPerPage(), false, false);
 			}
 			
 			$this->pager->setCount($count);

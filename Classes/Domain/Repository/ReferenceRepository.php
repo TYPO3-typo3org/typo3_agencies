@@ -91,7 +91,7 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 	 * @param int $ignore
 	 * @return array The references
 	 */
-	public function findRecentlyAdded($offset, $rowsPerPage, $includeDeactivated = false, $agency = null, $since = 0, $ignore = 0){
+	public function findRecentlyAdded($offset, $rowsPerPage, $includeDeactivated = false, $agency = null, $limit = 30, $ignore = 0){
 		$query = $this->createQuery();
 		$constrains = array();
 		if(!$includeDeactivated){
@@ -117,10 +117,9 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 				)
 			);
 		}
-		$constrains[] = $query->greaterThan('crdate',$since);
 		$query->matching($query->logicalAnd($constrains));
 		$query->getQuerySettings()->setRespectEnableFields(TRUE);
-		$query->setLimit(intval($rowsPerPage));
+		$query->setLimit((int)$rowsPerPage);
 		$query->setOffset($offset);
 		$query->setOrderings(Array('crdate'=>Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING));
 		return $query->execute();
@@ -131,9 +130,10 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 	 * 
 	 * @param int $offset
 	 * @param int $rowsPerPage
+	 * @param int $limit
 	 * @return int Number of recently added
 	 */
-	public function countRecentlyAdded($includeDeactivated = false, $agency = null){
+	public function countRecentlyAdded($includeDeactivated = false, $agency = null, $limit = 30){
 		$query = $this->createQuery();
 		$constrains = array();
 		if(!$includeDeactivated){
@@ -159,10 +159,10 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 				)
 			);
 		}
-		$constrains[] = $query->greaterThan('crdate',$since);
 		$query->matching($query->logicalAnd($constrains));
 		$query->getQuerySettings()->setRespectEnableFields(TRUE);
 		$query->setOrderings(Array('crdate'=>Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING));
+		$query->setLimit($limit);
 		return count($query->execute()->toArray());
 	}
 	
@@ -204,7 +204,7 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 		if($justCount || $offset == null || $rowsPerPage == null){
 			$limit = '';
 		}
-		$query->statement('SELECT * FROM tx_typo3agencies_domain_model_reference WHERE ' . implode(' AND ',$where) . $GLOBALS['TSFE']->sys_page->enableFields('tx_typo3agencies_domain_model_reference').' ORDER BY crdate DESC'.$limit);
+		$query->statement('SELECT tx_typo3agencies_domain_model_reference.* FROM tx_typo3agencies_domain_model_reference left join tx_typo3agencies_domain_model_agency on tx_typo3agencies_domain_model_reference.agency = tx_typo3agencies_domain_model_agency.uid WHERE ' . implode(' AND ',$where) . $GLOBALS['TSFE']->sys_page->enableFields('tx_typo3agencies_domain_model_reference').' ORDER BY tx_typo3agencies_domain_model_agency.member DESC, tx_typo3agencies_domain_model_reference.crdate DESC'.$limit);
 		$result = $query->execute();
 		
 		if($justCount){
