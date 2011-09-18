@@ -139,8 +139,6 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		$mail->setBody($bodyContent);
 		$mail->send();
 		
-		t3lib_div::writeFile('fileadmin/mail.txt', $bodyContent);
-		
 		$this->forward('confirmAgencySubmission');
 	}
 	
