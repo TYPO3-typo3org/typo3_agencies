@@ -1,6 +1,9 @@
+{namespace agency=Tx_Typo3Agencies_ViewHelpers}
 <h1>Create agency profile - Step 3</h1>
 
 <f:format.html>{settings.stepThreeText}</f:format.html>
+
+<agency:flashMessages renderMode="div" class="tx-extbase-flash-message" />
 
 <f:form action="sendApprovalData" arguments="{newAgency : newAgency}">
 	<div class="b-form b-form-edit">
