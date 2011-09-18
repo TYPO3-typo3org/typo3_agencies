@@ -304,6 +304,15 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	}
 
 	/**
+	 * @param $approved boolean
+	 * @return void
+	 */
+	public function setApproved($approved) {
+		$this->approved = $approved;
+	}
+
+
+	/**
 	 * Returns the about
 	 *
 	 * @return string
