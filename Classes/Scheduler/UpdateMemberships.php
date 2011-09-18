@@ -87,7 +87,7 @@ class Tx_Typo3Agencies_Scheduler_UpdateMemberships extends tx_scheduler_Task {
 
 			if($agency) { /** @var $agency Tx_Typo3Agencies_Domain_Model_Agency */
 
-				$approved = $memberData['approved'] == 1 ? true : false;
+				$approved = $memberData['isApproved'] == 1 ? true : false;
 				$allowedCaseStudies = $approved ? (int) $memberData['caseStudies'] : 0;
 
 				$agency->setApproved($approved);
