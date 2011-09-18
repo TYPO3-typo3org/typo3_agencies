@@ -407,47 +407,6 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	}
 
 
-	/**
-	 * Gets the memberData from association.typo3.org and uses this data to
-	 * - update membership level and amount of caseStudies allowed in agency
-	 * - deactivates caseStudies if allowed amount is lower than activated caseStudies
-	 *
-	 * @return void
-	 */
-	public function updateAgenciesByMemberDataAction() {
-
-		$memberDataUtility = $this->objectManager->get('Tx_Typo3Agencies_Utility_MemberData');
-		$memberDataArray = $memberDataUtility->getAllMemberData();
-		foreach($memberDataArray as $memberData) {
-
-			$agency = $this->agencyRepository->findOneByCode($memberData['code']);
-			if($agency) { /** @var $agency Tx_Typo3Agencies_Domain_Model_Agency */
-
-				$allowedCaseStudies = (int) $memberData['caseStudies'];
-
-				$agency->setCaseStudies($allowedCaseStudies);
-				$agency->setMember($memberData['memberLevel']);
-
-
-				$references = $this->referenceRepository->findAllByAgency($agency);
-
-				foreach($references as $reference) { /** @var $reference Tx_Typo3Agencies_Domain_Model_Reference */
-
-					if($allowedCaseStudies <= 0) {
-						$reference->isDeactivated(1);
-					}
-
-					$allowedCaseStudies--;
-					$this->referenceRepository->update($reference);
-				}
-			}
-
-			$this->agencyRepository->update($agency);
-
-		}
-	}
-
-
 
 	/**
 	 * Override getErrorFlashMessage to present

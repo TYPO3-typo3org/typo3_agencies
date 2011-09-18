@@ -23,11 +23,21 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 	$_EXTKEY,
 	'Pi2',
 	array (
-		'Agency' => 'enterCode,verifyCode,new,create,enterInformation,updateNewAgency,enterApprovalData,sendApprovalData,updateAgenciesByMemberData'
+		'Agency' => 'enterCode,verifyCode,new,create,enterInformation,updateNewAgency,enterApprovalData,sendApprovalData'
 	),
 	array(
-		'Agency' => 'verifyCode,create,new,updateAgenciesByMemberData'
+		'Agency' => 'verifyCode,create,new'
 	)
+);
+
+
+/**
+ * Scheduler Corn Job
+ */
+$TYPO3_CONF_VARS['SC_OPTIONS']['scheduler']['tasks']['Tx_Typo3Agencies_Scheduler_UpdateMemberships'] = array(
+	'extension' => $_EXTKEY,
+	'title' => 'LLL:EXT:'.$_EXTKEY.'/Resources/Private/Language/locallang.xml:membershipUpdater.name',
+	'description' => 'LLL:EXT:'.$_EXTKEY.'/Resources/Private/Language/locallang.xml:membershipUpdater.description',
 );
 
 ?>

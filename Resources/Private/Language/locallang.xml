@@ -130,6 +130,9 @@
 			<label index="error.reference.tags.1221560718">Please enter some tags.</label>
 			<label index="error.reference.about.1221560718">Please enter a description about the company.</label>
 			<label index="error.agency.contact.1221560718">Please enter a contact person.</label>
+
+            <label index="membershipUpdater.name">Update membership status from association.typo3.org</label>
+			<label index="membershipUpdater.description">Download membership data from association.typo3.org and update agencies and references.</label>
 		</languageKey>
 	</data>
 </T3locallang>
