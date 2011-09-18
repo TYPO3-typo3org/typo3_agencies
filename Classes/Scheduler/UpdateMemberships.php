@@ -90,7 +90,7 @@ class Tx_Typo3Agencies_Scheduler_UpdateMemberships extends tx_scheduler_Task {
 				$allowedCaseStudies = (int) $memberData['caseStudies'];
 
 				$agency->setCaseStudies($allowedCaseStudies);
-				$agency->setMember($memberData['memberLevel']);
+				$agency->setMember($memberData['membershipLevel']);
 
 
 				$references = $this->referenceRepository->findAllByAgency($agency);
