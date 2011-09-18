@@ -42,7 +42,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	public function verifyCodeAction($agencyCode = NULL) {
 
 		$memberDataUtility = $this->objectManager->get('Tx_Typo3Agencies_Utility_MemberData');
-
+		
 		if($agencyCode !== NULL) {
 			if($memberDataUtility->getMemberDataByCode($agencyCode) !== NULL) {
 				if((int) $this->agencyRepository->countByCode($agencyCode) == (int) 0) {

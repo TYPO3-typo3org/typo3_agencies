@@ -47,7 +47,7 @@ class Tx_Typo3Agencies_Utility_MemberData {
 			return NULL;
 		}
 
-		$agencyData = t3lib_div::getURL($this->baseApiUrl . '&tx_ptassoc_admin%5Baction%5D=checkCode&arguments%5Bcode%5D=' . $authCode);
+		$agencyData = t3lib_div::getURL($this->baseApiUrl . '&tx_ptassoc_admin%5Baction%5D=checkCode&tx_ptassoc_admin%5Bcode%5D=' . $authCode);
 		$decodedData = $this->decodeMemberData($agencyData);
 		if($decodedData[0] === NULL) {
 			return NULL;
