@@ -62,7 +62,6 @@ class Tx_Typo3Agencies_Utility_MemberData {
 	 */
 	public function getAllMemberData() {
 		$agencyData = t3lib_div::getURL($this->baseApiUrl . '&tx_ptassoc_admin%5Baction%5D=getAll');
-		$agencyData = '[{"code":"4e7518fdb1588","isApproved":true,"caseStudies":5,"membership":"gold"},{"code":"4e7518fdbc43d","isApproved":true,"caseStudies":5,"membership":"gold"},{"code":"4e7518fdbcd63","isApproved":false,"caseStudies":100,"membership":"active"},{"code":"4e7518fdbd5ff","isApproved":false,"caseStudies":0,"membership":"bronze"}]';
 		$decodedData = $this->decodeMemberData($agencyData);
 
 		return $decodedData;
