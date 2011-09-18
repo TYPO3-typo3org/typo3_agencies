@@ -362,6 +362,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 	 * @param string $redirect	The agency action to redirect to
 	 * @param boolean $submit
 	 * @return void
+	 * @dontverifyrequesthash
 	 */
 	public function updateAction(Tx_Typo3Agencies_Domain_Model_Reference $reference, $redirectController = null, $redirect = null, $submit = null) {
 		if($this->agency && $reference->getAgency()->getUid() == $this->agency->getUid()){
