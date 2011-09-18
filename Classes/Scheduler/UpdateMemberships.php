@@ -100,7 +100,7 @@ class Tx_Typo3Agencies_Scheduler_UpdateMemberships extends tx_scheduler_Task {
 				foreach($references as $reference) { /** @var $reference Tx_Typo3Agencies_Domain_Model_Reference */
 
 					if($allowedCaseStudies <= 0) {
-						$reference->isDeactivated(1);
+						$reference->setDeactivated(true);
 					}
 
 					$allowedCaseStudies--;
@@ -110,6 +110,7 @@ class Tx_Typo3Agencies_Scheduler_UpdateMemberships extends tx_scheduler_Task {
 				$this->agencyRepository->update($agency);
 			}
 		}
+		$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->clearCachePids);
 	}
 
 
@@ -122,6 +123,49 @@ class Tx_Typo3Agencies_Scheduler_UpdateMemberships extends tx_scheduler_Task {
 
 		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['typo3_agencies']);
 		$storagePid = (int) $extConf['storagePid'];
+		$this->clearCachePids = $extConf['clearCachePids'];
+		
+		define('TYPO3_MODE','FE');
+
+		require_once(PATH_t3lib.'class.t3lib_div.php');
+		require_once(PATH_t3lib.'class.t3lib_extmgm.php');
+		require_once(PATH_t3lib.'config_default.php');
+		require_once(PATH_typo3conf.'localconf.php');
+		require_once(PATH_tslib.'class.tslib_fe.php');
+		require_once(PATH_t3lib.'class.t3lib_tstemplate.php');
+		require_once(PATH_t3lib.'class.t3lib_page.php');
+		require_once(PATH_tslib.'class.tslib_content.php');
+
+		require_once(PATH_t3lib.'class.t3lib_userauth.php');
+		require_once(PATH_tslib.'class.tslib_feuserauth.php');
+
+		require_once(PATH_t3lib.'class.t3lib_cs.php');
+
+		if (!defined ('TYPO3_db'))  die ('The configuration file was not included.');
+
+		require_once(PATH_t3lib.'class.t3lib_db.php');
+
+		$TYPO3_DB = t3lib_div::makeInstance('t3lib_DB');
+		$GLOBALS['TYPO3_DB'] = $TYPO3_DB;
+
+		require_once(PATH_t3lib.'class.t3lib_timetrack.php');
+		$GLOBALS['TT'] = new t3lib_timeTrack;
+
+		// ***********************************
+		// Creating a fake $TSFE object
+		// ***********************************
+		$id = isset($HTTP_GET_VARS['id'])?$HTTP_GET_VARS['id']:0;
+		$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $TYPO3_CONF_VARS, $id, '0', 1, '', '','','');
+		$GLOBALS['TSFE']->connectToMySQL();
+		$GLOBALS['TSFE']->initFEuser();
+		$GLOBALS['TSFE']->fe_user->dontSetCookie = true;
+		$GLOBALS['TSFE']->fetch_the_id();
+		$GLOBALS['TSFE']->getPageAndRootline();
+		$GLOBALS['TSFE']->initTemplate();
+		$GLOBALS['TSFE']->tmpl->getFileName_backPath = PATH_site;
+		$GLOBALS['TSFE']->forceTemplateParsing = 1;
+		$GLOBALS['TSFE']->getConfigArray();
+		$GLOBALS['TSFE']->newCObj();
 
 		$configuration = array(
 			'extensionName' => 'Typo3Agencies',
