@@ -44,11 +44,19 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		$memberDataUtility = $this->objectManager->get('Tx_Typo3Agencies_Utility_MemberData');
 		
 		if($agencyCode !== NULL) {
-			if($memberDataUtility->getMemberDataByCode($agencyCode) !== NULL) {
+			$memberData = $memberDataUtility->getMemberDataByCode($agencyCode);
+			if($memberData !== NULL) {
 				if((int) $this->agencyRepository->countByCode($agencyCode) == (int) 0) {
 					$newAgency = $this->objectManager->create('Tx_Typo3Agencies_Domain_Model_Agency');
 					$newAgency->setCode($agencyCode);
 					$newAgency->setAdministrator((int) $GLOBALS['TSFE']->fe_user->user['uid']);
+					
+					$approved = $memberData['isApproved'] == 1 ? true : false;
+					$allowedCaseStudies = $approved ? (int) $memberData['caseStudies'] : 0;
+	
+					$newAgency->setApproved($approved);
+					$newAgency->setCaseStudies($allowedCaseStudies);
+					$newAgency->setMember($memberData['membershipLevel']);
 					
 					$this->agencyRepository->add($newAgency);
 					$this->objectManager->get('Tx_Extbase_Persistence_Manager')->persistAll();
