@@ -172,6 +172,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 	 * @param Tx_Typo3Agencies_Domain_Model_Reference $newReference A fresh reference object taken as a basis for the rendering
 	 * @return string An HTML form for creating a new reference
 	 * @dontvalidate $newReference
+	 * @dontverifyrequesthash
 	 */
 	public function newAction(Tx_Typo3Agencies_Domain_Model_Reference $newReference = null) {
 		if($newReference == null){
@@ -265,6 +266,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 	 * @param boolean $screenshot
 	 * @dontvalidate $preview
 	 * @dontvalidate $screenshot
+	 * @dontverifyrequesthash
 	 * @return void
 	 */
 	public function createAction(Tx_Typo3Agencies_Domain_Model_Reference $newReference, $preview = null, $screenshot = false) {
