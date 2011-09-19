@@ -132,6 +132,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 */
 	public function sendApprovalDataAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
 		$this->view->assign('agency', $newAgency);
+		$this->view->assign('typo3Version', $this->request->getArgument('typo3version'));
 		$this->view->assign('certifiedEmployee', $this->request->getArgument('certifiedintegrator'));
 		$this->view->assign('developmentKnowledge', $this->request->getArgument('knowledge'));
 		$this->view->assign('substansialContribution', $this->request->getArgument('contributions'));

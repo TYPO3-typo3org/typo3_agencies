@@ -120,7 +120,11 @@
 			<label index="referenceUpdateFailed">Could not update the project reference.</label>
 			<label index="referenceCreateFailed">Could not create a new project reference.</label>
 			<label index="validateCode">Validate code</label>
-			<label index="agencyCode">Agency Code:</label>
+			<label index="ourWebsiteRunsVersion">Our website runs on TYPO3 version:</label>
+			<label index="nameOfCertifiedIntegrator">Name of the certified TYPO3 integrator (needs to be a permanent employee):</label>
+			<label index="publishedExtensionKeys">Extension key of your published extension:</label>
+			<label index="communityInvolvement">Your TYPO3 community involvement:</label>
+			<label index="realizedProjects">Online TYPO3 projects you realized:</label>
 			<label index="error.newReference.title.1221560718">Please enter a headline.</label>
 			<label index="error.newReference.description.1221560718">Please enter a description about the project.</label>
 			<label index="error.newReference.link.1221560718">Please enter a project link.</label>
