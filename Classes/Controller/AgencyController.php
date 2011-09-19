@@ -111,6 +111,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	public function updateNewAgencyAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
 		//var_dump($newAgency);die();
 		$this->agencyRepository->update($newAgency);
+		$this->geoCodeAgency($newAgency);
 		$this->redirect('enterApprovalData', 'Agency', $this->extensionName, array('newAgency' => $newAgency));
 	}
 	
@@ -191,15 +192,45 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	}
 
 	/**
-	 * Geo code the address. Utility action
-	 *
-	 * @return string The rendered view
+	 * Geo code an agency
+	 * @param Tx_Typo3Agencies_Domain_Model_Agency $agency The agency to geo code
 	 */
-	public function geocodeAction() {
-		$agencies = $this->agencyRepository->findAll();
+	public function geoCodeAgency(Tx_Typo3Agencies_Domain_Model_Agency $agency) {
+		// Initialize delay in geocode speed
+		$delay = 0;
+		$base_url = 'http://maps.google.com/maps/geo?output=xml&key=' . $this->settings['googleMapsKey'];
+	
+		$geocode_pending = true;
 
-		// Assign values
-		$this->view->assign('agencies', $agencies);
+		while ($geocode_pending) {
+			
+			$countries = $this->countryRepository->findByCnIso2($agency->getCountry());
+			if(count($countries) == 1){
+				$address = $agency->getAddress().', '.$agency->getZip().' '.$agency->getCity().', '.$countries->getFirst()->getCnShortEn();
+				$request_url = $base_url . '&q=' . urlencode($address);
+				$xml = simplexml_load_file($request_url);
+	
+				$status = $xml->Response->Status->code;
+				if (strcmp($status, '200') == 0) {
+					// Successful geocode
+					$geocode_pending = false;
+					$coordinates = $xml->Response->Placemark->Point->coordinates;
+					$coordinatesSplit = explode(',', $coordinates);
+					
+					$agency->setLatitude($coordinatesSplit[1]);
+					$agency->setLongitude($coordinatesSplit[0]);
+					$this->agencyRepository->update($agency);
+				} else if (strcmp($status, "620") == 0) {
+					// sent geocodes too fast
+					$delay += 100000;
+				} else {
+					// failure to geocode
+					$geocode_pending = false;
+					// maybe next time
+				}
+				usleep($delay);
+			}
+		}
 	}
 
 	/**
@@ -269,6 +300,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 			if ($logo == 1) {
 				$agency->setLogo('');
 				$this->agencyRepository->update($agency);
+				$this->geoCodeAgency($agency);
 				$this->flashMessages->add($this->localization->translate('logoRemoved', $this->extensionName),'',t3lib_message_AbstractMessage::OK);
 			}
 			$this->handleFiles($agency);
@@ -302,6 +334,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		if ($agency->getAdministrator() == $this->administrator) {
 			if($this->handleFiles($agency)){
 				$this->agencyRepository->update($agency);
+				$this->geoCodeAgency($agency);
 				$this->flashMessages->add(str_replace('%NAME%', $agency->getName(), $this->localization->translate('agencyUpdated', $this->extensionName)),'',t3lib_message_AbstractMessage::OK);
 				
 				$references = $this->referenceRepository->findAllByAgency($agency, $showDeactivated);
@@ -317,6 +350,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 				$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
 			} else {
 				$this->agencyRepository->update($agency);
+				$this->geoCodeAgency($agency);
 				$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
 				$this->redirect('edit','Agency',$this->extensionName,Array('agency'=>$agency));
 			}
