@@ -119,6 +119,8 @@
 			<label index="agencyCreateFailed">Could not create a new agency profile.</label>
 			<label index="referenceUpdateFailed">Could not update the project reference.</label>
 			<label index="referenceCreateFailed">Could not create a new project reference.</label>
+			<label index="validateCode">Validate code</label>
+			<label index="agencyCode">Agency Code:</label>
 			<label index="error.newReference.title.1221560718">Please enter a headline.</label>
 			<label index="error.newReference.description.1221560718">Please enter a description about the project.</label>
 			<label index="error.newReference.link.1221560718">Please enter a project link.</label>

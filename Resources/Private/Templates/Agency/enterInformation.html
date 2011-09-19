@@ -8,19 +8,19 @@
 <f:form action="updateNewAgency" objectName="newAgency" object="{newAgency}">
 	<div class="b-form b-form-edit">
 		<div class="b-form-row">
-			<label for="form-name">Agency name</label>
+			<label for="form-name"><f:translate key="agencyName">Agency name:</f:translate><f:translate key="required"> (required)</f:translate></label>
 			<div class="b-form-inputs">
 				<f:form.textfield property="name" />
 			</div><!-- b-form-inputs -->
 		</div><!-- b-form-row -->
 		<div class="b-form-row">
-			<label for="form-about-project">Description</label>
+			<label for="form-about-project"><f:translate key="agencyAbout">Description:</f:translate><f:translate key="required"> (required)</f:translate></label>
 			<div class="b-form-inputs">
 				<f:form.textarea cols="1" rows="1" property="about"/>
 			</div><!-- b-form-inputs -->
 		</div><!-- b-form-row -->
 		<div class="b-form-row">
-			<label for="form-about-project">Upload logo</label>
+			<label for="form-about-project"><f:translate key="logo">Logo:</f:translate></label>
 			<div class="b-form-inputs">
 				<div class="b-form-file">
 					<input type="file" maxlength="1" name="logo" class="multi-file" />
@@ -29,25 +29,25 @@
 			</div><!-- b-form-inputs -->
 		</div><!-- b-form-row -->
 		<div class="b-form-row">
-			<label for="form-link">Link</label>
+			<label for="form-link"><f:translate key="link">Link:</f:translate><f:translate key="required"> (required)</f:translate></label>
 			<div class="b-form-inputs">
 				<f:form.textfield property="link" />
 			</div><!-- b-form-inputs -->
 		</div><!-- b-form-row -->
 		<div class="b-form-row">
-			<label for="form-address">Address</label>
+			<label for="form-address"><f:translate key="address">Address:</f:translate></label>
 			<div class="b-form-inputs">
 				<f:form.textfield property="address" />
 			</div><!-- b-form-inputs -->
 		</div><!-- b-form-row -->
 		<div class="b-form-row">
-			<label for="form-city">City</label>
+			<label for="form-city"><f:translate key="city">City:</f:translate></label>
 			<div class="b-form-inputs">
 				<f:form.textfield property="city" />
 			</div><!-- b-form-inputs -->
 		</div><!-- b-form-row -->
 		<div class="b-form-row">
-			<label for="form-country">Country:</label>
+			<label for="form-country"><f:translate key="country">Country:</f:translate></label>
 			<div class="b-form-inputs">
 				<f:form.select property="country" value="{country}" options="{countries}" id="form-country"></f:form.select>
 			</div><!-- b-form-inputs -->
@@ -59,13 +59,13 @@
 			</div><!-- b-form-inputs -->
 		</div><!-- b-form-row -->	
 		<div class="b-form-row">
-			<label for="form-contact-person">Contact Person:</label>
+			<label for="form-contact-person"><f:translate key="contact">Contact Person:</f:translate><f:translate key="required"> (required)</f:translate></label>
 			<div class="b-form-inputs">
 				<f:form.textfield property="contact" />
 			</div><!-- b-form-inputs -->
 		</div><!-- b-form-row -->	
 		<div class="b-form-row">
-			<label for="form-email">Email:</label>
+			<label for="form-email"><f:translate key="email">Email:</f:translate><f:translate key="required"> (required)</f:translate></label>
 			<div class="b-form-inputs">
 				<f:form.textfield property="email" />
 			</div><!-- b-form-inputs -->
@@ -73,7 +73,6 @@
 		<div class="b-form-row">
 			<div class="b-form-inputs">
 				<button type="submit" class="bu bu-confirm"><b>Next step</b></button>
-				<button type="reset" class="bu bu-secondary">Cancel</button>
 			</div><!-- b-form-inputs -->
 		</div><!-- b-form-row -->
 	</div><!-- b-form -->
