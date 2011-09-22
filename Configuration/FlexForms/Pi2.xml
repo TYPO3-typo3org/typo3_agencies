@@ -61,7 +61,7 @@
   <confirmation>
   	<ROOT>
       <TCEforms>
-      <sheetTitle>Step 3</sheetTitle>
+      <sheetTitle>Confirmation page</sheetTitle>
       </TCEforms>
       <type>array</type>
       <el>

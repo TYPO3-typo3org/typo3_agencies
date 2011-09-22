@@ -138,7 +138,6 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		$this->view->assign('developmentKnowledge', $this->request->getArgument('knowledge'));
 		$this->view->assign('substansialContribution', $this->request->getArgument('contributions'));
 		$this->view->assign('caseStudies', $this->request->getArgument('casestudies'));
-		$this->view->assign('onlineReferences', $this->request->getArgument('references'));
 		
 		$bodyContent = $this->view->render();
 		
