@@ -247,10 +247,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 		//4 = Platinum member
 		$maxReached = false;
 
-		if($count > $this->agency->getCasestudies()){
-			$maxReached = true;
-			$this->flashMessages->add($this->localization->translate('referenceMoreThanMax', $this->extensionName),'',t3lib_message_AbstractMessage::WARNING);
-		} else if($count == $this->agency->getCasestudies()){
+		if($count >= $this->agency->getCasestudies()){
 			$maxReached = true;
 			$this->flashMessages->add($this->localization->translate('referenceMaxReached', $this->extensionName),'',t3lib_message_AbstractMessage::INFO);
 		}
@@ -273,7 +270,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 		if($this->agency){
 			$count = $this->referenceRepository->countByAgency($this->agency);
 			$referenceMaxReached = $this->agency->getCasestudies();
-			if($count < $referenceMaxReached){
+			//if($count < $referenceMaxReached){
 				if($this->handleFiles($newReference)){
 					$newReference->setAgency($this->agency);
 					if($preview == 'Preview'){
@@ -284,6 +281,9 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 						$this->view->assign('galleryImages', t3lib_div::trimExplode(',',$newReference->getScreenshotGallery(),1));
 					} else {
 						$newReference->setSorting($count);
+						if($count >= $referenceMaxReached){
+							$newReference->setDeactivated(true);
+						}
 						$this->referenceRepository->add($newReference);
 						$this->flashMessages->add(str_replace('%NAME%', $newReference->getTitle(), $this->localization->translate('referenceCreated',$this->extensionName)),'',t3lib_message_AbstractMessage::OK);
 						$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
@@ -297,10 +297,10 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 					$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
 					$this->redirect('create','Reference');
 				}
-			} else {
-				$this->flashMessages->add($this->localization->translate('notAllowed',$this->extensionName),'',t3lib_message_AbstractMessage::ERROR);
-				$this->flashMessages->add($this->localization->translate('referenceMaxReached',$this->extensionName),'',t3lib_message_AbstractMessage::WARNING);
-			}
+			//} else {
+			//	$this->flashMessages->add($this->localization->translate('notAllowed',$this->extensionName),'',t3lib_message_AbstractMessage::ERROR);
+			//	$this->flashMessages->add($this->localization->translate('referenceMaxReached',$this->extensionName),'',t3lib_message_AbstractMessage::WARNING);
+			//}
 		}
 		if($preview != 'Preview'){
 			$this->redirect('index');

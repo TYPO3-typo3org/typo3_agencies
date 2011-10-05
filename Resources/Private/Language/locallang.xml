@@ -75,7 +75,7 @@
 			<label index="premium">Premium member of the </label>
 			<label index="platin">Platin member of the </label>
 			<label index="association">TYPO3 Association</label>
-			<label index="referenceMaxReached">You have already reached the maximum amount of references you are allowed to present. Please update your member status to add more.</label>
+			<label index="referenceMaxReached">You have already reached the maximum amount of references you are allowed to present. Please update your member status to present more.</label>
 			<label index="referenceMoreThanMax">You have reached the maximum amount of references you are allowed to present. Please update your member status to add more.</label>
 			<label index="first">First</label>
 			<label index="last">Last</label>

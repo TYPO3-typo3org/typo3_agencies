@@ -5,130 +5,123 @@
 	<div class="new">
 		<f:if condition="{administrator}">
 			<f:then>
-				<f:if condition="{referenceMaxReached}">
-					<f:then>
-						<a href="javascript:history.back()"><f:translate key="cancel">cancel</f:translate></a>
-					</f:then>
-					<f:else>
-						<h1><f:translate key="aNewProject">Edit/Create Project</f:translate></h1>
-						
-						<f:form method="post" controller="Reference" action="create" name="newReference" object="{newReference}" enctype="multipart/form-data">
-							<h2>Project Information</h2>
-							<div class="b-form b-form-edit">
-								<div class="{agency:hasError(property: 'title', then: 'b-form-row b-form-error', else: 'b-form-row')}">
-									<label for="form-headline"><f:translate key="headline">Headline</f:translate><f:translate key="required"> (required)</f:translate></label>
-									<div class="b-form-inputs">
-										<f:form.textfield property="title" id="form-headline" /><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'title'}" />
-									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->
-								<div class="{agency:hasError(property: 'description', then: 'b-form-row b-form-error', else: 'b-form-row')}">
-									<label for="form-about-project"><f:translate key="aboutProject">About the project</f:translate><f:translate key="required"> (required)</f:translate></label>
-									<div class="b-form-inputs">
-										<f:form.textarea cols="20" rows="5" property="description" id="form-about-project" /><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'description'}" />
-									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->
-		
-								<div class="b-form-row">
-									<label for="form-about-project"><f:translate key="uploadMainScreen">Upload main screen</f:translate></label>
-									<div class="b-form-inputs">
-										<div class="b-form-file">
-											<agency:form.upload property="screenshot" maxlength="1" class="multi-file"/>
-											<span class="form-file-main-text"><f:translate key="chooseFile">Choose file</f:translate></span> <span class="form-file-secondary-text"><f:translate key="limits">Limits: jpg/png, 600x480px, 500KB</f:translate></span>
-										</div><!-- .b-form-file -->
-									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->
-		
-								<div class="b-form-row">
-									<label for="form-about-project"><f:translate key="uploadOtherScreen">Upload other screens</f:translate></label>
-									<div class="b-form-inputs">
-										<div class="b-form-file">
-											<input type="file" maxlength="3" class="multi-file" name="tx_typo3agencies_pi1[newReference][screenshotGallery][]"/>
-											<span class="form-file-main-text"><f:translate key="chooseFile">Choose file</f:translate></span> <span class="form-file-secondary-text"><f:translate key="limits">Limits: jpg/png, 600x480px, 500KB</f:translate></span>
-										</div><!-- .b-form-file -->
-									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->
-		
-								<div class="{agency:hasError(property: 'link', then: 'b-form-row b-form-error', else: 'b-form-row')}">
-									<label for="form-link"><f:translate key="link">Link</f:translate><f:translate key="required"> (required)</f:translate></label>
-									<div class="b-form-inputs">
-										<f:form.textfield property="link" id="form-link"/><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'link'}" />
-									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->
-								<div class="b-form-row">
-									<label for="form-pages"><f:translate key="pages">Number of pages</f:translate></label>
-									<div class="b-form-inputs">
-										<f:form.select property="pages" value="{pages}" options="{pagesList}" id="form-pages"></f:form.select>
-									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->
-								<div class="b-form-row">
-									<label for="form-languages"><f:translate key="languages">Number of languages</f:translate></label>
-									<div class="b-form-inputs">
-										<f:form.select property="languages" value="languages" options="{languagesList}" id="form-languages"></f:form.select>
-									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->
-								<div class="b-form-row">
-									<label for="form-category"><f:translate key="category">Category</f:translate></label>
-									<div class="b-form-inputs">
-										<f:form.select property="category" value="{category}" options="{categories}" id="form-category"></f:form.select>
-									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->
-								<div class="b-form-row">
-									<label for="form-industry"><f:translate key="industry">Industry</f:translate></label>
-									<div class="b-form-inputs">
-										<div class="b-form-sub-row sub-two-columns">
-											<div class="b-form-sub-column">
-												<f:form.select property="industry" value="{industry}" options="{industries}" id="form-industry"></f:form.select>
-											</div><!-- .b-form-sub-column -->
-											<div class="b-form-sub-column">
-												<label for="form-other"><f:translate key="other">other</f:translate></label>
-												<div class="b-form-row">
-													<f:form.textfield property="industryOther" id="form-other"/><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'industryOther'}" />
-												</div><!-- .b-form-row -->
-											</div><!-- .b-form-sub-column -->
-										</div><!-- .b-form-sub-row sub-two-columns -->
-									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->
-								<div class="{agency:hasError(property: 'tags', then: 'b-form-row b-form-error', else: 'b-form-row')}">
-									<label for="form-tags"><f:translate key="tags">Tags</f:translate><f:translate key="required"> (required)</f:translate></label>
-									<div class="b-form-inputs">
-										<f:form.textfield property="tags" id="form-tags"/><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'tags'}" />
-									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->
-							</div><!-- b-form -->
+				<h1><f:translate key="aNewProject">Edit/Create Project</f:translate></h1>
+				
+				<f:form method="post" controller="Reference" action="create" name="newReference" object="{newReference}" enctype="multipart/form-data">
+					<h2>Project Information</h2>
+					<div class="b-form b-form-edit">
+						<div class="{agency:hasError(property: 'title', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+							<label for="form-headline"><f:translate key="headline">Headline</f:translate><f:translate key="required"> (required)</f:translate></label>
+							<div class="b-form-inputs">
+								<f:form.textfield property="title" id="form-headline" /><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'title'}" />
+							</div><!-- b-form-inputs -->
+						</div><!-- b-form-row -->
+						<div class="{agency:hasError(property: 'description', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+							<label for="form-about-project"><f:translate key="aboutProject">About the project</f:translate><f:translate key="required"> (required)</f:translate></label>
+							<div class="b-form-inputs">
+								<f:form.textarea cols="20" rows="5" property="description" id="form-about-project" /><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'description'}" />
+							</div><!-- b-form-inputs -->
+						</div><!-- b-form-row -->
+
+						<div class="b-form-row">
+							<label for="form-about-project"><f:translate key="uploadMainScreen">Upload main screen</f:translate></label>
+							<div class="b-form-inputs">
+								<div class="b-form-file">
+									<agency:form.upload property="screenshot" maxlength="1" class="multi-file"/>
+									<span class="form-file-main-text"><f:translate key="chooseFile">Choose file</f:translate></span> <span class="form-file-secondary-text"><f:translate key="limits">Limits: jpg/png, 600x480px, 500KB</f:translate></span>
+								</div><!-- .b-form-file -->
+							</div><!-- b-form-inputs -->
+						</div><!-- b-form-row -->
+
+						<div class="b-form-row">
+							<label for="form-about-project"><f:translate key="uploadOtherScreen">Upload other screens</f:translate></label>
+							<div class="b-form-inputs">
+								<div class="b-form-file">
+									<input type="file" maxlength="3" class="multi-file" name="tx_typo3agencies_pi1[newReference][screenshotGallery][]"/>
+									<span class="form-file-main-text"><f:translate key="chooseFile">Choose file</f:translate></span> <span class="form-file-secondary-text"><f:translate key="limits">Limits: jpg/png, 600x480px, 500KB</f:translate></span>
+								</div><!-- .b-form-file -->
+							</div><!-- b-form-inputs -->
+						</div><!-- b-form-row -->
+
+						<div class="{agency:hasError(property: 'link', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+							<label for="form-link"><f:translate key="link">Link</f:translate><f:translate key="required"> (required)</f:translate></label>
+							<div class="b-form-inputs">
+								<f:form.textfield property="link" id="form-link"/><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'link'}" />
+							</div><!-- b-form-inputs -->
+						</div><!-- b-form-row -->
+						<div class="b-form-row">
+							<label for="form-pages"><f:translate key="pages">Number of pages</f:translate></label>
+							<div class="b-form-inputs">
+								<f:form.select property="pages" value="{pages}" options="{pagesList}" id="form-pages"></f:form.select>
+							</div><!-- b-form-inputs -->
+						</div><!-- b-form-row -->
+						<div class="b-form-row">
+							<label for="form-languages"><f:translate key="languages">Number of languages</f:translate></label>
+							<div class="b-form-inputs">
+								<f:form.select property="languages" value="languages" options="{languagesList}" id="form-languages"></f:form.select>
+							</div><!-- b-form-inputs -->
+						</div><!-- b-form-row -->
+						<div class="b-form-row">
+							<label for="form-category"><f:translate key="category">Category</f:translate></label>
+							<div class="b-form-inputs">
+								<f:form.select property="category" value="{category}" options="{categories}" id="form-category"></f:form.select>
+							</div><!-- b-form-inputs -->
+						</div><!-- b-form-row -->
+						<div class="b-form-row">
+							<label for="form-industry"><f:translate key="industry">Industry</f:translate></label>
+							<div class="b-form-inputs">
+								<div class="b-form-sub-row sub-two-columns">
+									<div class="b-form-sub-column">
+										<f:form.select property="industry" value="{industry}" options="{industries}" id="form-industry"></f:form.select>
+									</div><!-- .b-form-sub-column -->
+									<div class="b-form-sub-column">
+										<label for="form-other"><f:translate key="other">other</f:translate></label>
+										<div class="b-form-row">
+											<f:form.textfield property="industryOther" id="form-other"/><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'industryOther'}" />
+										</div><!-- .b-form-row -->
+									</div><!-- .b-form-sub-column -->
+								</div><!-- .b-form-sub-row sub-two-columns -->
+							</div><!-- b-form-inputs -->
+						</div><!-- b-form-row -->
+						<div class="{agency:hasError(property: 'tags', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+							<label for="form-tags"><f:translate key="tags">Tags</f:translate><f:translate key="required"> (required)</f:translate></label>
+							<div class="b-form-inputs">
+								<f:form.textfield property="tags" id="form-tags"/><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'tags'}" />
+							</div><!-- b-form-inputs -->
+						</div><!-- b-form-row -->
+					</div><!-- b-form -->
 
 
-							<h2><f:translate key="companyInformation">Company Information</f:translate></h2>
-					
-							<div class="b-form b-form-edit">
-								<div class="{agency:hasError(property: 'about', then: 'b-form-row b-form-error', else: 'b-form-row')}">
-									<label for="form-about-company"><f:translate key="aboutCompany">About the company</f:translate><f:translate key="required"> (required)</f:translate></label>
-									<div class="b-form-inputs">
-										<f:form.textarea cols="20" rows="5" property="about" id="form-about-company" /><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'about'}" />
-									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->
-								<div class="b-form-row">
-									<label for="form-company-size"><f:translate key="size">Company size</f:translate></label>
-									<div class="b-form-inputs">
-										<f:form.select property="size" value="{size}" options="{companySizes}" id="form-company-size"></f:form.select>
-									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->						
-								<div class="b-form-row">
-									<label for="form-country"><f:translate key="country">Country</f:translate></label>
-									<div class="b-form-inputs">
-										<f:form.select property="size" value="{country}" options="{countries}" id="form-country"></f:form.select>
-									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->						
-								<div class="b-form-row">
-									<div class="b-form-inputs">
-										<f:form.submit class="bu bu-confirm" value="Preview" name="preview"/>
-										<f:form.submit class="bu bu-confirm" value="Submit" />
-										<button class="bu bu-secondary" onclick="javascript:history.back()"><f:translate key="cancel">Cancel</f:translate></button>
-									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->
-							</div><!-- b-form -->
-						</f:form>
-					</f:else>
-				</f:if>
+					<h2><f:translate key="companyInformation">Company Information</f:translate></h2>
+			
+					<div class="b-form b-form-edit">
+						<div class="{agency:hasError(property: 'about', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+							<label for="form-about-company"><f:translate key="aboutCompany">About the company</f:translate><f:translate key="required"> (required)</f:translate></label>
+							<div class="b-form-inputs">
+								<f:form.textarea cols="20" rows="5" property="about" id="form-about-company" /><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'about'}" />
+							</div><!-- b-form-inputs -->
+						</div><!-- b-form-row -->
+						<div class="b-form-row">
+							<label for="form-company-size"><f:translate key="size">Company size</f:translate></label>
+							<div class="b-form-inputs">
+								<f:form.select property="size" value="{size}" options="{companySizes}" id="form-company-size"></f:form.select>
+							</div><!-- b-form-inputs -->
+						</div><!-- b-form-row -->						
+						<div class="b-form-row">
+							<label for="form-country"><f:translate key="country">Country</f:translate></label>
+							<div class="b-form-inputs">
+								<f:form.select property="size" value="{country}" options="{countries}" id="form-country"></f:form.select>
+							</div><!-- b-form-inputs -->
+						</div><!-- b-form-row -->						
+						<div class="b-form-row">
+							<div class="b-form-inputs">
+								<f:form.submit class="bu bu-confirm" value="Preview" name="preview"/>
+								<f:form.submit class="bu bu-confirm" value="Submit" />
+								<button class="bu bu-secondary" onclick="javascript:history.back()"><f:translate key="cancel">Cancel</f:translate></button>
+							</div><!-- b-form-inputs -->
+						</div><!-- b-form-row -->
+					</div><!-- b-form -->
+				</f:form>
 			</f:then>
 			<f:else>
 				<f:translate key="notAllowed">You are not allowed to perform this action!</f:translate>
