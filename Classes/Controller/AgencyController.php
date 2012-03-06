@@ -272,16 +272,6 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		$this->view->assign('industries', $allowedIndustries);
 		$this->view->assign('companySizes', $allowedCompanySizes);
 	}
-	
-	private function addCountries(){
-		$countries = $this->countryRepository->findAll();
-		$availableCountries = Array();
-		foreach($countries as $country){
-			$availableCountries[$country->getCnIso2()] = $country->getCnShortEn();
-		}
-
-		$this->view->assign('countries', $availableCountries);
-	}
 
 	/**
 	 * Edits an existing reference

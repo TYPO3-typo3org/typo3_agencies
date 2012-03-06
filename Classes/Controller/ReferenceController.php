@@ -188,13 +188,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 			$this->view->assign('companySizes', Tx_Typo3Agencies_Controller_BaseController::getCompanySizes($this, $this->extensionName, false));
 			$this->view->assign('pagesList', Tx_Typo3Agencies_Controller_BaseController::getPages($this, $this->extensionName, false));
 			$this->view->assign('languagesList', Tx_Typo3Agencies_Controller_BaseController::getLanguages($this, $this->extensionName, false));
-			$countries = $this->countryRepository->findAll();
-			$availableCountries = Array();
-			foreach($countries as $country){
-				$availableCountries[$country->getCnShortEn()] = $country->getCnShortEn();
-			}
-
-			$this->view->assign('countries', $availableCountries);
+			$this->addCountries();
 			$this->view->assign('administrator', $this->administrator);
 			$this->view->assign('galleryImages', t3lib_div::trimExplode(',',$newReference->getScreenshotGallery(),1));
 			$this->view->assign('referenceMaxReached', $this->validateMaximumReferences());
@@ -339,13 +333,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 			$this->view->assign('companySizes', Tx_Typo3Agencies_Controller_BaseController::getCompanySizes($this, $this->extensionName, false));
 			$this->view->assign('pagesList', Tx_Typo3Agencies_Controller_BaseController::getPages($this, $this->extensionName, false));
 			$this->view->assign('languagesList', Tx_Typo3Agencies_Controller_BaseController::getLanguages($this, $this->extensionName, false));
-			$countries = $this->countryRepository->findAll();
-			$availableCountries = Array();
-			foreach($countries as $country){
-				$availableCountries[$country->getCnShortEn()] = $country->getCnShortEn();
-			}
-
-			$this->view->assign('countries', $availableCountries);
+			$this->addCountries();
 			$this->view->assign('administrator', $this->administrator);
 			$this->view->assign('uploadPath', $this->settings['uploadPath']);
 			$this->view->assign('galleryImages', t3lib_div::trimExplode(',',$reference->getScreenshotGallery(),1));
@@ -571,7 +559,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 					// must be an image for the gallery
 					foreach ($error as $error_key => $error_error){
 						if($error_error == 0){
-							if( strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key][$error_key],'image/png') === 0 || strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key][$error_key],'image/jpg') === 0){
+							if( strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key][$error_key],'image/png') === 0 || strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key][$error_key],'image/jpg') === 0 || strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key][$error_key],'image/jpeg') === 0){
 								if($_FILES['tx_typo3agencies_pi1']['size'][$formName][$key][$error_key] < 500000){
 									$theFile = $_FILES['tx_typo3agencies_pi1']['tmp_name'][$formName][$key][$error_key];
 									$theDestFile = $fileFunc->getUniqueName($fileFunc->cleanFileName($_FILES['tx_typo3agencies_pi1']['name'][$formName][$key][$error_key]), $this->settings['uploadPath']);
@@ -590,7 +578,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 				} else {
 					if($error == 0){
 						if($key == 'screenshot'){
-							if( strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key],'image/png') === 0 || strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key],'image/jpg') === 0){
+							if( strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key],'image/png') === 0 || strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key],'image/jpg') === 0 || strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key],'image/jpeg') === 0){
 								if($_FILES['tx_typo3agencies_pi1']['size'][$formName][$key] < 500000){
 									$theFile = $_FILES['tx_typo3agencies_pi1']['tmp_name'][$formName][$key];
 									$theDestFile = $fileFunc->getUniqueName($fileFunc->cleanFileName($_FILES['tx_typo3agencies_pi1']['name'][$formName][$key]), $this->settings['uploadPath']);

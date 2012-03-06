@@ -131,6 +131,16 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 		}
 		return $filterObject;
 	}
+	
+	protected function addCountries(){
+		$countries = $this->countryRepository->findAll();
+		$availableCountries = Array();
+		foreach($countries as $country){
+			$availableCountries[$country->getCnIso2()] = $country->getCnShortEn();
+		}
+	
+		$this->view->assign('countries', $availableCountries);
+	}
 
 	static function getCategories(&$ref, $extensionName, $includeDescription = true){
 		$values = Array(0 => $ref->localization->translate('category',$extensionName),
