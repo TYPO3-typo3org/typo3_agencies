@@ -65,7 +65,9 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 					$this->redirect('enterInformation', 'Agency', $this->extensionName, array('newAgency' => $newAgency));
 					
 				} else {
-					$this->flashMessageContainer->add('The entered key is already used', 'Key is already used', t3lib_message_AbstractMessage::ERROR);
+					$newAgency = $this->agencyRepository->findOneByCode($agencyCode);
+					$this->redirect('enterInformation', 'Agency', $this->extensionName, array('newAgency' => $newAgency));
+					//$this->flashMessageContainer->add('The entered key is already used', 'Key is already used', t3lib_message_AbstractMessage::ERROR);
 				}
 			} else {
 				$this->flashMessageContainer->add('The entered key is not valid', 'Invalid key', t3lib_message_AbstractMessage::ERROR);
