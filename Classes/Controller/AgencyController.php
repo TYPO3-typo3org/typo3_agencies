@@ -41,12 +41,13 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 */
 	public function verifyCodeAction($agencyCode = NULL) {
 
-		$memberDataUtility = $this->objectManager->get('Tx_Typo3Agencies_Utility_MemberData');
-		
-		if($agencyCode !== NULL) {
+		$memberDataUtility = $this->objectManager->get('Tx_Typo3Agencies_Utility_MemberData'); /** @var $memberDataUtility Tx_Typo3Agencies_Utility_MemberData */
+
+		if($agencyCode) {
 			$memberData = $memberDataUtility->getMemberDataByCode($agencyCode);
+
 			if($memberData !== NULL) {
-				if((int) $this->agencyRepository->countByCode($agencyCode) == (int) 0) {
+				if((int) $this->agencyRepository->countByCode($agencyCode) == 0) {
 					$newAgency = $this->objectManager->create('Tx_Typo3Agencies_Domain_Model_Agency');
 					$newAgency->setCode($agencyCode);
 					$newAgency->setAdministrator((int) $GLOBALS['TSFE']->fe_user->user['uid']);
@@ -76,7 +77,6 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		$this->redirect('enterCode');
 	}
 
-
 	/**
 	 * Enter code, action
 	 * 
@@ -101,7 +101,9 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 			$this->view->assign('newAgency', $newAgency);
 		}
 	}
-	
+
+
+
 	/**
 	 * Update new agency information and go to step 3
 	 * 
@@ -109,15 +111,17 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 * @dontvalidata $newAgency
 	 */
 	public function updateNewAgencyAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
-		//var_dump($newAgency);die();
 		$this->agencyRepository->update($newAgency);
 		$this->geoCodeAgency($newAgency);
-		$this->redirect('enterApprovalData', 'Agency', $this->extensionName, array('newAgency' => $newAgency));
+		$this->forward('enterApprovalData', 'Agency', $this->extensionName, array('newAgency' => $newAgency));
 	}
+
+
 	
 	/**
 	 * Enter approval data
-	 * 
+	 *
+	 * @dontvalidata $newAgency
 	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
 	 */
 	public function enterApprovalDataAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
@@ -125,6 +129,8 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 			$this->view->assign('newAgency', $newAgency);
 		}	
 	}
+
+
 	
 	/**
 	 * Send approval data
