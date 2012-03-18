@@ -15,7 +15,7 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 		),
 	array(																			// An array of non-cachable controller-action-combinations (they must already be enabled)
 		'Agency' => '',
-		'Reference' => 'index,create',
+		'Reference' => 'create',
 		)
 );
 
