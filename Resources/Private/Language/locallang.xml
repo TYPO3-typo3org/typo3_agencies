@@ -83,7 +83,7 @@
 			<label index="next">Next</label>
 			<label index="agencyProfile">Your agency profile</label>
 			<label index="editAgency">Edit/Create Agency Profile</label>
-			<label index="agencyName">Name</label>
+			<label index="agencyName">Company Name</label>
 			<label index="agencyLogo">Logo (jpg/png, max size 200x100px)</label>
 			<label index="agencyUpdated">Agency %NAME% has been updated.</label>
 			<label index="logoRemoved">The logo has been removed.</label>
