@@ -124,7 +124,7 @@
 			<label index="nameOfCertifiedIntegrator">Name of the certified TYPO3 integrator (needs to be a permanent employee):</label>
 			<label index="publishedExtensionKeys">Extension key of your published extension:</label>
 			<label index="communityInvolvement">Your TYPO3 community involvement:</label>
-			<label index="realizedProjects">Online TYPO3 projects you realized:</label>
+			<label index="realizedProjects">At least eight TYPO3 references visible online:</label>
 			<label index="error.newReference.title.1221560718">Please enter a headline.</label>
 			<label index="error.newReference.description.1221560718">Please enter a description about the project.</label>
 			<label index="error.newReference.link.1221560718">Please enter a project link.</label>
