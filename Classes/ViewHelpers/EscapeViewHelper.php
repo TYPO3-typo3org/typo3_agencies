@@ -35,7 +35,7 @@ class Tx_Typo3Agencies_ViewHelpers_EscapeViewHelper extends Tx_Fluid_Core_ViewHe
      */
 	public function render() {
         $content = $this->renderChildren();
-		return str_replace("'", "\'", $content);
+        return html_entity_decode(str_replace("'", "\'", $content));
 	}
 }
 ?>
