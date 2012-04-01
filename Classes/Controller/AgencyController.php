@@ -138,8 +138,6 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 			$this->view->assign('newAgency', $newAgency);
 			$this->view->assign('errors', $errors);
 			$this->view->assign('referringArguments', $referringArguments);
-			error_log(print_r($errors, 1));
-			error_log(print_r($referringArguments, 1));
 		} else {
 			// TODO: forward to enter code screen with a flash error message
 		}
