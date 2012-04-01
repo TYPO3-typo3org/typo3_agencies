@@ -48,6 +48,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 
 			if($memberData !== NULL) {
 				if((int) $this->agencyRepository->countByCode($agencyCode) == 0) {
+						/* @var $newAgency Tx_Typo3Agencies_Domain_Model_Agency */
 					$newAgency = $this->objectManager->create('Tx_Typo3Agencies_Domain_Model_Agency');
 					$newAgency->setCode($agencyCode);
 					$newAgency->setAdministrator((int) $GLOBALS['TSFE']->fe_user->user['uid']);
@@ -65,9 +66,16 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 					$this->redirect('enterInformation', 'Agency', $this->extensionName, array('newAgency' => $newAgency));
 					
 				} else {
+						/* @var $newAgency Tx_Typo3Agencies_Domain_Model_Agency */
 					$newAgency = $this->agencyRepository->findOneByCode($agencyCode);
-					$this->redirect('enterInformation', 'Agency', $this->extensionName, array('newAgency' => $newAgency));
-					//$this->flashMessageContainer->add('The entered key is already used', 'Key is already used', t3lib_message_AbstractMessage::ERROR);
+					if (!$newAgency->getAdministrator()) {
+						$newAgency->setAdministrator((int) $GLOBALS['TSFE']->fe_user->user['uid']);
+					}
+					if ($newAgency->getAdministrator() == (int) $GLOBALS['TSFE']->fe_user->user['uid']) {
+						$this->redirect('enterInformation', 'Agency', $this->extensionName, array('newAgency' => $newAgency));
+					} else {
+						$this->flashMessageContainer->add('The entered key is already used', 'Key is already used', t3lib_message_AbstractMessage::ERROR);
+					}
 				}
 			} else {
 				$this->flashMessageContainer->add('The entered key is not valid', 'Invalid key', t3lib_message_AbstractMessage::ERROR);
@@ -110,7 +118,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 * Update new agency information and go to step 3
 	 * 
 	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
-	 * @dontvalidata $newAgency
+	 * @dontvalidate $newAgency
 	 */
 	public function updateNewAgencyAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
 		$this->agencyRepository->update($newAgency);
@@ -123,7 +131,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	/**
 	 * Enter approval data
 	 *
-	 * @dontvalidata $newAgency
+	 * @dontvalidate $newAgency
 	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
 	 */
 	public function enterApprovalDataAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
