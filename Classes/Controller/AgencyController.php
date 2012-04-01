@@ -288,14 +288,15 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 			$agency = $this->agency;
 		}
 
-		$showDeactivated = false;
+		$isAdministrator = false;
 		if ($agency->getAdministrator() == $this->administrator) {
-			$showDeactivated = true;
+			$isAdministrator = true;
 		}
-		$references = $this->referenceRepository->findAllByAgency($agency, $showDeactivated);
+		$references = $this->referenceRepository->findAllByAgency($agency, $isAdministrator);
 		$usedCredits = $this->referenceRepository->countByAgency($agency);
 		$agency->setReferences($references);
 		$this->view->assign('agency', $agency);
+		$this->view->assign('isAdministrator', $isAdministrator);
 		$this->view->assign('uploadPath', $this->settings['uploadPath']);
 		$this->view->assign('administrator', $this->administrator);
 		$this->view->assign('redirect','show');

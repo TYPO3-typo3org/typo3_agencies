@@ -16,13 +16,14 @@
 		
 		<div class="cl">
 			<div class="s-sidebar">
-				<f:if condition="{administrator}">
-				<f:form controller="Reference" action="sort" id="tx-sort-form" method="get" name="sort" enctype="multipart/form-data">
-					<f:form.hidden id="tx-sort-input-sort-uid" property="uid" />
-					<f:form.hidden id="tx-sort-input-sort-sort" property="sort" />
-					<input type="hidden" name="type" value="12536" />
-				</f:form>
-				<f:render partial="creditbox" arguments="{agency : agency, availableCredits : availableCredits, usedCredits : usedCredits}" />
+				<f:if condition="{isAdministrator}">
+					<f:form controller="Reference" action="sort" id="tx-sort-form" method="get" name="sort" enctype="multipart/form-data">
+						<f:form.hidden id="tx-sort-input-sort-uid" property="uid" />
+						<f:form.hidden id="tx-sort-input-sort-sort" property="sort" />
+						<input type="hidden" name="type" value="12536" />
+					</f:form>
+					
+					<f:render partial="creditbox" arguments="{agency : agency, availableCredits : availableCredits, usedCredits : usedCredits}" />
 				</f:if>
 				
 				<div class="b-box">
