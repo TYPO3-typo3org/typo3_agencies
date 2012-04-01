@@ -32,7 +32,7 @@ require_once('ReferenceController.php');
 class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_Controller_BaseController {
 
 	/**
-	 * Index action for this controller. Displays a list of references.
+	 * Index (cacheable) action for this controller. Displays a list of references.
 	 *
 	 * @param array $filter The filter to filter
 	 * @param string $filterString A passed on filterString to be tokenized
@@ -40,7 +40,6 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 	 * @dontvalidate $filter
 	 */
 	public function indexAction(array $filter = null, $filterString = null) {
-
 		$filterObject = $this->createFilterObject($filter);
 		
 		if($this->settings['showAgencyIfLoggedIn']==1 && $this->administrator>0){
@@ -140,6 +139,18 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 			$this->view->assign('redirect','index');
 			$this->view->assign('redirectController','Reference');
 		}
+	}
+	
+	/**
+	 * Filter (non-cacheable) action for this controller. Displays a list of references.
+	 *
+	 * @param array $filter The filter to filter
+	 * @param string $filterString A passed on filterString to be tokenized
+	 * @return string The rendered view
+	 * @dontvalidate $filter
+	 */
+	public function filterAction(array $filter = null, $filterString = null) {
+		$this->forward('index');
 	}
 	
 	public function categoriesAction(){
