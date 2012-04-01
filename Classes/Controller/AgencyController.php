@@ -100,12 +100,12 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 * Enter agency information, action
 	 * 
 	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
-	 * 
 	 * @dontvalidate $newAgency
 	 * 
 	 * @return void
 	 */
 	public function enterInformationAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency = NULL) {
+		$this->flashMessageContainer->getAllAndFlush();
 		if ($newAgency->getAdministrator() == $this->administrator) {
 			$this->addCountries();
 			$this->view->assign('newAgency', $newAgency);
@@ -118,29 +118,32 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 * Update new agency information and go to step 3
 	 * 
 	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
-	 * @dontvalidate $newAgency
 	 */
 	public function updateNewAgencyAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
 		$this->agencyRepository->update($newAgency);
 		$this->geoCodeAgency($newAgency);
 		$this->forward('enterApprovalData', 'Agency', $this->extensionName, array('newAgency' => $newAgency));
 	}
-
-
 	
 	/**
 	 * Enter approval data
 	 *
-	 * @dontvalidate $newAgency
 	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
+	 * @dontvalidate $newAgency
+	 * @param array $errors
+	 * @param array $referringArguments
 	 */
-	public function enterApprovalDataAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
+	public function enterApprovalDataAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency, $errors = null, $referringArguments = null) {
 		if ($newAgency->getAdministrator() == $this->administrator) {
 			$this->view->assign('newAgency', $newAgency);
-		}	
+			$this->view->assign('errors', $errors);
+			$this->view->assign('referringArguments', $referringArguments);
+			error_log(print_r($errors, 1));
+			error_log(print_r($referringArguments, 1));
+		} else {
+			// TODO: forward to enter code screen with a flash error message
+		}
 	}
-
-
 	
 	/**
 	 * Send approval data
@@ -148,23 +151,36 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
 	 */
 	public function sendApprovalDataAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
-		$this->view->assign('agency', $newAgency);
-		$this->view->assign('typo3Version', $this->request->getArgument('typo3version'));
-		$this->view->assign('certifiedEmployee', $this->request->getArgument('certifiedintegrator'));
-		$this->view->assign('developmentKnowledge', $this->request->getArgument('knowledge'));
-		$this->view->assign('substansialContribution', $this->request->getArgument('contributions'));
-		$this->view->assign('caseStudies', $this->request->getArgument('casestudies'));
-		
-		$bodyContent = $this->view->render();
-		
-		$mail = t3lib_div::makeInstance('t3lib_mail_Message');
-		$mail->setFrom(array($newAgency->getEmail() => $newAgency->getName()));
-		$mail->setTo(array('psl@typo3.org' => 'Agency Listing'));
-		$mail->setSubject('PSL approval request from ' . $newAgency->getName());
-		$mail->setBody($bodyContent);
-		$mail->send();
-		
-		$this->forward('confirmAgencySubmission');
+		if (!$this->request->getArgument('typo3version')) {
+			$this->forward(
+					'enterApprovalData', 
+					null, 
+					null, 
+					array(
+							'newAgency' => $newAgency, 
+							'errors' => array ('typo3version' => '12312376'), 
+							'referringArguments' => $this->request->getArguments()
+					)
+			);
+		} else {
+			$this->view->assign('agency', $newAgency);
+			$this->view->assign('typo3Version', $this->request->getArgument('typo3version'));
+			$this->view->assign('certifiedEmployee', $this->request->getArgument('certifiedintegrator'));
+			$this->view->assign('developmentKnowledge', $this->request->getArgument('knowledge'));
+			$this->view->assign('substansialContribution', $this->request->getArgument('contributions'));
+			$this->view->assign('caseStudies', $this->request->getArgument('casestudies'));
+			
+			$bodyContent = $this->view->render();
+			
+			$mail = t3lib_div::makeInstance('t3lib_mail_Message');
+			$mail->setFrom(array($newAgency->getEmail() => $newAgency->getName()));
+			$mail->setTo(array('psl@typo3.org' => 'Agency Listing'));
+			$mail->setSubject('PSL approval request from ' . $newAgency->getName());
+			$mail->setBody($bodyContent);
+			$mail->send();
+			
+			$this->forward('confirmAgencySubmission');
+		}
 	}
 	
 	/**
