@@ -81,7 +81,7 @@
 				<div class="hr"><hr /> </div>
 				<p class="pic">
 					<f:if condition="{reference.screenshot}">
-						<img src="{uploadPath}/{reference.screenshot}" width="515" height="264" alt="pic" />
+						<f:image src="{uploadPath}/{reference.screenshot}" width="515c-100" height="264c-100" alt="" />
 					</f:if>
 				</p>
 				<f:if condition="{galleryImages}">
@@ -127,7 +127,7 @@
 				<div class="b-agency">
 					<div class="agency-img">
 						<f:if condition="{reference.agency.logo}">
-							<img src="{uploadPath}/{reference.agency.logo}" alt="" style="width:178px;"/>
+							<f:image src="{uploadPath}/{reference.agency.logo}" maxWidth="178" alt="logo"/>
 						</f:if>
 						<f:image src="{f:uri.resource(path:'Media/Images/membership/{reference.agency.member}-widen.jpg')}" alt="" />
 					</div><!-- .agency-img -->

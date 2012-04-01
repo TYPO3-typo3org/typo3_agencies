@@ -19,7 +19,7 @@
 <p>Case Study <span style="color:#F58006">{reference.title}</span></p>
 <f:if condition="{reference.screenshot}">
 <p class="pic">
-	<img src="{uploadPath}/{reference.screenshot}" width="515" height="264" alt="pic" />
+	<f:image src="{uploadPath}/{reference.screenshot}" width="515c-100" height="264c-100" alt="" />
 </p>
 </f:if>
 <p>
@@ -83,7 +83,7 @@
 	<tr>
 		<td>
 			<f:if condition="{reference.agency.logo}">
-				<img src="{uploadPath}/{reference.agency.logo}" alt="" style="width:178px;"/>
+				<f:image src="{uploadPath}/{reference.agency.logo}" alt="" width="178"/>
 			</f:if>
 			<f:image src="{f:uri.resource(path:'Media/Images/membership/{reference.agency.member}-widen.jpg')}" alt="" />
 		</td>

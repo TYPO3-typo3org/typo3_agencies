@@ -57,7 +57,7 @@
 					<div class="b-agency">
 						<div class="agency-img">
 							<f:if condition="{agency.logo}">
-								<img src="{uploadPath}/{agency.logo}" alt="" style="width:178px"/>
+								<f:image src="{uploadPath}/{agency.logo}" alt="" width="178"/>
 							</f:if>
 							<f:image src="{f:uri.resource(path:'Media/Images/membership/{agency.member}-widen.jpg')}" alt="" />
 						</div><!-- .agency-img -->
