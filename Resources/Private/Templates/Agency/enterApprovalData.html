@@ -1,46 +1,52 @@
 {namespace agency=Tx_Typo3Agencies_ViewHelpers}
-<h1>Create agency profile - Step 3</h1>
+	
+<f:layout name="withoutFlashMessages" />
 
-<f:format.html>{settings.stepThreeText}</f:format.html>
+<f:section name="content">
 
-<agency:flashMessages renderMode="div" class="tx-extbase-flash-message" />
-
-<f:form action="sendApprovalData" arguments="{newAgency : newAgency}">
-	<div class="b-form b-form-edit">
-		<div class="b-form-row">
-			<label for="form-name"><f:translate key="ourWebsiteRunsVersion">Our website runs on TYPO3 version:</f:translate><f:translate key="required"> (required)</f:translate></label>
-			<div class="b-form-inputs">
-				<f:form.textfield name="typo3version" />
-			</div><!-- b-form-inputs -->
-		</div><!-- b-form-row -->
-		<div class="b-form-row">
-			<label for="form-name"><f:translate key="nameOfCertifiedIntegrator">Name of the certified TYPO3 integrator (needs to be a permanent employee):</f:translate></label>
-			<div class="b-form-inputs">
-				<f:form.textfield name="certifiedintegrator" />
-			</div><!-- b-form-inputs -->
-		</div><!-- b-form-row -->
-		<div class="b-form-row">
-			<label for="form-about-project"><f:translate key="publishedExtensionKeys">Extension key of your published extension:</f:translate></label>
-			<div class="b-form-inputs">
-				<f:form.textarea cols="1" rows="1" name="knowledge"/>
-			</div><!-- b-form-inputs -->
-		</div><!-- b-form-row -->
-		<div class="b-form-row">
-			<label for="form-about-project"><f:translate key="communityInvolvement">Your TYPO3 community involvement:</f:translate></label>
-			<div class="b-form-inputs">
-				<f:form.textarea cols="1" rows="1" name="contributions"/>
-			</div><!-- b-form-inputs -->
-		</div><!-- b-form-row -->
-		<div class="b-form-row">
-			<label for="form-about-project"><f:translate key="realizedProjects">At least eight TYPO3 references visible online:</f:translate></label>
-			<div class="b-form-inputs">
-				<f:form.textarea cols="1" rows="1" name="casestudies"/>
-			</div><!-- b-form-inputs -->
-		</div><!-- b-form-row -->
-		<div class="b-form-row">
-			<div class="b-form-inputs">
-				<button type="submit" class="bu bu-confirm"><b>Send request</b></button>
-			</div><!-- b-form-inputs -->
-		</div><!-- b-form-row -->
-	</div>
-</f:form>
+	<h1>Create agency profile - Step 3</h1>
+	
+	<f:format.html>{settings.stepThreeText}</f:format.html>
+	
+	<agency:flashMessages renderMode="div" class="tx-extbase-flash-message" />
+	
+	<f:form action="sendApprovalData" arguments="{newAgency : newAgency}">
+		<div class="b-form b-form-edit">
+			<div class="b-form-row">
+				<label for="form-name"><f:translate key="ourWebsiteRunsVersion">Our website runs on TYPO3 version:</f:translate><f:translate key="required"> (required)</f:translate></label>
+				<div class="b-form-inputs">
+					<f:form.textfield name="typo3version" />
+				</div><!-- b-form-inputs -->
+			</div><!-- b-form-row -->
+			<div class="b-form-row">
+				<label for="form-name"><f:translate key="nameOfCertifiedIntegrator">Name of the certified TYPO3 integrator (needs to be a permanent employee):</f:translate></label>
+				<div class="b-form-inputs">
+					<f:form.textfield name="certifiedintegrator" />
+				</div><!-- b-form-inputs -->
+			</div><!-- b-form-row -->
+			<div class="b-form-row">
+				<label for="form-about-project"><f:translate key="publishedExtensionKeys">Extension key of your published extension:</f:translate></label>
+				<div class="b-form-inputs">
+					<f:form.textarea cols="1" rows="1" name="knowledge"/>
+				</div><!-- b-form-inputs -->
+			</div><!-- b-form-row -->
+			<div class="b-form-row">
+				<label for="form-about-project"><f:translate key="communityInvolvement">Your TYPO3 community involvement:</f:translate></label>
+				<div class="b-form-inputs">
+					<f:form.textarea cols="1" rows="1" name="contributions"/>
+				</div><!-- b-form-inputs -->
+			</div><!-- b-form-row -->
+			<div class="b-form-row">
+				<label for="form-about-project"><f:translate key="realizedProjects">At least eight TYPO3 references visible online:</f:translate></label>
+				<div class="b-form-inputs">
+					<f:form.textarea cols="1" rows="1" name="casestudies"/>
+				</div><!-- b-form-inputs -->
+			</div><!-- b-form-row -->
+			<div class="b-form-row">
+				<div class="b-form-inputs">
+					<button type="submit" class="bu bu-confirm"><b>Send request</b></button>
+				</div><!-- b-form-inputs -->
+			</div><!-- b-form-row -->
+		</div>
+	</f:form>
+</f:section>
