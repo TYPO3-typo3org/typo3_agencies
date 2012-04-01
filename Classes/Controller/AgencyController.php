@@ -101,12 +101,23 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 * 
 	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
 	 * @dontvalidate $newAgency
+	 * @param boolean $logo Delete the logo
 	 * 
 	 * @return void
 	 */
-	public function enterInformationAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency = NULL) {
+	public function enterInformationAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency = NULL, $logo = FALSE) {
 		$this->flashMessageContainer->getAllAndFlush();
 		if ($newAgency->getAdministrator() == $this->administrator) {
+			if ($logo) {
+				$newAgency->setLogo('');
+				$this->agencyRepository->update($newAgency);
+				$this->flashMessages->add($this->localization->translate('logoRemoved', $this->extensionName),'',t3lib_message_AbstractMessage::OK);
+			}
+			$this->handleFiles($newAgency);
+			if($submit){
+				$this->agencyRepository->update($agency);
+				$this->flashMessages->add(str_replace('%NAME%', $agency->getName(), $this->localization->translate('agencyUpdated', $this->extensionName)),'',t3lib_message_AbstractMessage::OK);
+			}
 			$this->addCountries();
 			$this->view->assign('newAgency', $newAgency);
 		}
@@ -120,8 +131,11 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
 	 */
 	public function updateNewAgencyAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
-		$this->agencyRepository->update($newAgency);
-		$this->geoCodeAgency($newAgency);
+		if ($newAgency->getAdministrator() == $this->administrator) {
+			$this->agencyRepository->update($newAgency);
+			$this->geoCodeAgency($newAgency);
+			$this->handleFiles($newAgency);
+		}
 		$this->forward('enterApprovalData', 'Agency', $this->extensionName, array('newAgency' => $newAgency));
 	}
 	
