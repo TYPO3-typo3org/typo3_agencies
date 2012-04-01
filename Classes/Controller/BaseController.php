@@ -138,7 +138,7 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 		foreach($countries as $country){
 			$availableCountries[$country->getCnIso2()] = $country->getCnShortEn();
 		}
-	
+		uasort($availableCountries, create_function('$a,$b', 'return strcasecmp($a, $b);'));
 		$this->view->assign('countries', $availableCountries);
 	}
 
