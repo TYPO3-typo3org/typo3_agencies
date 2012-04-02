@@ -38,12 +38,12 @@
 					<f:translate key="industry">Industry</f:translate>: 
 					<f:if condition="{reference.industryOther}">
 						<f:then>
-							<f:link.action action="index" controller="Reference" arguments="{filter : null, filterString : 'industry#{reference.industryOther}'}">
+							<f:link.action action="index" controller="Reference" arguments="{filterString : 'industry#{reference.industryOther}'}">
 								{reference.industryOther}
 							</f:link.action>
 						</f:then>
 						<f:else>
-							<f:link.action action="index" controller="Reference" arguments="{filter : null, filterString : 'industry#{reference.industry}'}">
+							<f:link.action action="index" controller="Reference" arguments="{filterString : 'industry#{reference.industry}'}">
 								<f:translate key="industry{reference.industry}">Industry</f:translate>
 							</f:link.action>
 						</f:else>
