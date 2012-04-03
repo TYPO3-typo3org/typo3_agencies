@@ -519,30 +519,30 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 
 		$ok = true;
 		
-		if (is_array($_FILES['tx_typo3agencies_pi1'])) {
-
+		$namespace = $this->getNamespace();
+		if (is_array($_FILES[$namespace])) {
 			$fileFunc = t3lib_div::makeInstance('t3lib_basicFileFunctions');
 			$all_files = Array();
 			$all_files['webspace']['allow'] = '*';
 			$all_files['webspace']['deny'] = '';
 			$fileFunc->init('', $all_files);
-			$formName = array_shift(array_keys($_FILES['tx_typo3agencies_pi1']['error']));
-			foreach ($_FILES['tx_typo3agencies_pi1']['error'][$formName] as $key => $error) {
+			$formName = array_shift(array_keys($_FILES[$namespace]['error']));
+			foreach ($_FILES[$namespace]['error'][$formName] as $key => $error) {
 				if($error == 0){
 					if($key == 'logo'){
-						if( strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key],'image/png') === 0 || strpos($_FILES['tx_typo3agencies_pi1']['type'][$formName][$key],'image/jpg') === 0){
-							if($_FILES['tx_typo3agencies_pi1']['size'][$formName][$key] < 500000){
-								$theFile = $_FILES['tx_typo3agencies_pi1']['tmp_name'][$formName][$key];
-								$theDestFile = $fileFunc->getUniqueName($fileFunc->cleanFileName($_FILES['tx_typo3agencies_pi1']['name'][$formName][$key]), $this->settings['uploadPath']);
+						if( strpos($_FILES[$namespace]['type'][$formName][$key],'image/png') === 0 || strpos($_FILES[$namespace]['type'][$formName][$key],'image/jpg') === 0){
+							if($_FILES[$namespace]['size'][$formName][$key] < 5 * 1024 * 1024){
+								$theFile = $_FILES[$namespace]['tmp_name'][$formName][$key];
+								$theDestFile = $fileFunc->getUniqueName($fileFunc->cleanFileName($_FILES[$namespace]['name'][$formName][$key]), $this->settings['uploadPath']);
 								t3lib_div::upload_copy_move($theFile,$theDestFile);
 								$agency->setLogo(basename($theDestFile));
 							} else {
 								$ok = false;
-								$this->flashMessages->add(str_replace('%FILE%', $_FILES['tx_typo3agencies_pi1']['name'][$formName][$key], $this->localization->translate('wrongFileSize',$this->extensionName)),'',t3lib_message_AbstractMessage::ERROR);
+								$this->flashMessages->add(str_replace('%FILE%', $_FILES[$namespace]['name'][$formName][$key], $this->localization->translate('wrongFileSize',$this->extensionName)),'',t3lib_message_AbstractMessage::ERROR);
 							}
 						} else {
 							$ok = false;
-							$this->flashMessages->add(str_replace('%FILE%', $_FILES['tx_typo3agencies_pi1']['name'][$formName][$key], $this->localization->translate('wrongFileType',$this->extensionName)),'',t3lib_message_AbstractMessage::ERROR);
+							$this->flashMessages->add(str_replace('%FILE%', $_FILES[$namespace]['name'][$formName][$key], $this->localization->translate('wrongFileType',$this->extensionName)),'',t3lib_message_AbstractMessage::ERROR);
 						}
 					}
 				}

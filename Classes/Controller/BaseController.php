@@ -238,6 +238,16 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 		}
 		$allowedCompanySizes = array_diff_key($allowedCompanySizes,$remove);
 	}
+	
+	/**
+	 * Get the namespace of the uploaded file
+	 *
+	 * @return string
+	 */
+	protected function getNamespace() {
+		$frameworkSettings = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
+		return strtolower('tx_' . $frameworkSettings['extensionName'] . '_' . $frameworkSettings['pluginName']);
+	}	
 }
 
 ?>

@@ -71,7 +71,7 @@
 			<label index="screenshot">Screenshot (jpg/png, max size 800x600px)</label>
 			<label index="screenshotGallery">Screenshot for gallery (jpg/png, max size 800x600px)</label>
 			<label index="wrongFileType">"%FILE%" has the wrong type. Only jpg and png are allowed.</label>
-			<label index="wrongFileSize">"%FILE%" is too large. The maximum is 500KB.</label>
+			<label index="wrongFileSize">"%FILE%" is too large. The maximum is 5MB.</label>
 			<label index="premium">Premium member of the </label>
 			<label index="platin">Platin member of the </label>
 			<label index="association">TYPO3 Association</label>
