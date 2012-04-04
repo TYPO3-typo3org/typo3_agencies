@@ -12,6 +12,7 @@ return array(
 	'tx_typo3agencies_controller_referencecontroller' => $extensionClassesPath . 'Controller/ReferenceController.php',
 	'tx_typo3agencies_controller_agencycontroller' => $extensionClassesPath . 'Controller/AgencyController.php',
 	'tx_typo3agencies_viewhelpers_haserrorviewhelper' => $extensionClassesPath . 'ViewHelpers/HasErrorViewHelper.php',
+	'tx_typo3agencies_viewhelpers_imageviewhelper' => $extensionClassesPath . 'ViewHelpers/ImageViewHelper.php',
 
 	'tx_typo3agencies_scheduler_updatememberships' => $extensionClassesPath . 'Scheduler/UpdateMemberships.php',
 );

@@ -8,7 +8,7 @@
 </f:if>
 <div class="pic">
 	<f:if condition="{reference.screenshot}">
-		<f:image src="{uploadPath}/{reference.screenshot}" width="149" height="120" alt="" />
+		<agency:image src="{uploadPath}/{reference.screenshot}" width="149" height="120" alt="" />
 	</f:if> 
 	<f:render partial="referenceActions" arguments="{reference: reference, administrator : administrator, controller : controller, redirectController : redirectController, redirect : redirect}" />
 </div>
