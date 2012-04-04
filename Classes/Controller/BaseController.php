@@ -160,7 +160,15 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 					1 => $ref->localization->translate('industry1',$extensionName),
 					2 => $ref->localization->translate('industry2',$extensionName),
 					3 => $ref->localization->translate('industry3',$extensionName),
-					4 => $ref->localization->translate('industry4',$extensionName));
+					4 => $ref->localization->translate('industry4',$extensionName),
+					5 => $ref->localization->translate('industry5',$extensionName),
+					6 => $ref->localization->translate('industry6',$extensionName),
+					7 => $ref->localization->translate('industry7',$extensionName),
+					8 => $ref->localization->translate('industry8',$extensionName),
+					9 => $ref->localization->translate('industry9',$extensionName),
+					10 => $ref->localization->translate('industry10',$extensionName),
+					11 => $ref->localization->translate('industry11',$extensionName),
+					12 => $ref->localization->translate('industry12',$extensionName));
 		if(!$includeDescription){
 			unset($values[0]);
 		}
