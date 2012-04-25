@@ -44,6 +44,10 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 	 */
 	protected $countryRepository;
 	/**
+	 * @var Tx_Typo3Agencies_Domain_Repository_IndustryRepository
+	 */
+	protected $industryRepository;
+	/**
 	 * @var Tx_Typo3Agencies_Domain_Model_Administrator
 	 */
 	protected $administrator;

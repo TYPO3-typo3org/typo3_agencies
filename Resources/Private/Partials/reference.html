@@ -1,3 +1,4 @@
+{namespace agency=Tx_Typo3Agencies_ViewHelpers}
 <f:if condition="{reference.deactivated} == 1">
 <f:then>
 <li class="b-project disabled" id="casestudy_{reference.uid}">
@@ -24,8 +25,8 @@
 		</f:link.page>
 		<span class="sep">|</span> 
 		<f:translate key="industry">Industry</f:translate>:
-		<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'industry#{reference.industry}'}}">
-			<f:translate key="industry{reference.industry}"></f:translate>
+		<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'industry#{reference.industry.uid}'}}">
+			{reference.industry.title}
 		</f:link.page>
 	</p>
 	<div class="hr">

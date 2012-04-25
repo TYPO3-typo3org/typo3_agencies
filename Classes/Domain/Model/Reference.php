@@ -103,9 +103,9 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	/**
 	 * Industry of the reference
 	 *
-	 * @var integer
+	 * @var Tx_Typo3Agencies_Domain_Model_Industry
 	 */
-	protected $industry = 0;
+	protected $industry;
 	
 	/**
 	 * Other industry of the reference
@@ -293,7 +293,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	/**
 	 * Sets the industry for the reference
 	 *
-	 * @param int $industry
+	 * @param Tx_Typo3Agencies_Domain_Model_Industry $industry
 	 * @return void
 	 */
 	public function setIndustry($industry) {
@@ -301,9 +301,9 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	}
 
 	/**
-	 * Returns the industry
+	 * Returns the Tx_Typo3Agencies_Domain_Model_Industry
 	 *
-	 * @return int
+	 * @return Tx_Typo3Agencies_Domain_Model_Industry
 	 */
 	public function getIndustry() {
 		return $this->industry;

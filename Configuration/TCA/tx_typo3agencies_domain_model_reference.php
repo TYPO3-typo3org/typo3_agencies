@@ -160,24 +160,8 @@ $TCA['tx_typo3agencies_domain_model_reference'] = array(
 			'label'   => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.industry',
 			'config'  => array(
 				'type' => 'select',
-				'size' => '1',
-				'minitems' => 1,
-				'maxitems' => 1,
-				'items' => Array(
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.select',0),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.industry0',1),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.industry1',2),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.industry2',3),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.industry3',4),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.industry4',5),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.industry5',6),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.industry6',7),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.industry7',8),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.industry8',9),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.industry9',10),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.industry10',11),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.industry11',12)
-				)
+				'foreign_table' => 'tx_typo3agencies_domain_model_industry',
+				'foreign_table_where' => 'ORDER BY tx_typo3agencies_domain_model_industry.title',
 			)
 		),
 		'industry_other' => array(
