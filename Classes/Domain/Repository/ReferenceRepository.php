@@ -182,22 +182,22 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 		if($includeDeactivated){
 			$where[] = '1=1';
 		} else {
-			$where[] = 'deactivated = 0';
+			$where[] = 'tx_typo3agencies_domain_model_reference.deactivated = 0';
 		}
 		if($filter->getSearchTerm() != ''){
-			$where[] = '(about LIKE \'%' . $filter->getSearchTerm() . '%\' OR title LIKE \'%' . $filter->getSearchTerm() . '%\' OR description LIKE \'%' . $filter->getSearchTerm() . '%\' OR tags LIKE \'%' . $filter->getSearchTerm() . '%\' OR conclusion LIKE \'%' . $filter->getSearchTerm() . '%\')';
+			$where[] = '(tx_typo3agencies_domain_model_reference.about LIKE \'%' . $filter->getSearchTerm() . '%\' OR tx_typo3agencies_domain_model_reference.title LIKE \'%' . $filter->getSearchTerm() . '%\' OR tx_typo3agencies_domain_model_reference.description LIKE \'%' . $filter->getSearchTerm() . '%\' OR tx_typo3agencies_domain_model_reference.tags LIKE \'%' . $filter->getSearchTerm() . '%\' OR tx_typo3agencies_domain_model_reference.conclusion LIKE \'%' . $filter->getSearchTerm() . '%\')';
 		}
 		if($filter->getCategory() > 0){
-			$where[] = 'category = ' . $filter->getCategory();
+			$where[] = 'tx_typo3agencies_domain_model_reference.category = ' . $filter->getCategory();
 		}
 		if($filter->getIndustry() > 0){
-			$where[] = 'industry = ' . $filter->getIndustry();
+			$where[] = 'tx_typo3agencies_domain_model_reference.industry = ' . $filter->getIndustry();
 		}
 		if($filter->getCompanySize() > 0){
-			$where[] = 'size = ' . $filter->getCompanySize();
+			$where[] = 'tx_typo3agencies_domain_model_reference.size = ' . $filter->getCompanySize();
 		}
 		if($filter->isListed()){
-			$where[] = 'listed = 1';
+			$where[] = 'tx_typo3agencies_domain_model_reference.listed = 1';
 		}
 		
 		$limit = ' LIMIT ' . $offset . ', ' . $rowsPerPage;
