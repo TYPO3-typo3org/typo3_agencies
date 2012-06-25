@@ -76,8 +76,8 @@
 			<label index="referenceRemoved">The reference "%NAME%" has been removed.</label>
 			<label index="referenceUpdated">The reference "%NAME%" has been updated.</label>
 			<label index="referenceCreated">The reference "%NAME%" was created.</label>
-			<label index="screenshot">Screenshot (jpg/png, max size 800x600px)</label>
-			<label index="screenshotGallery">Screenshot for gallery (jpg/png, max size 800x600px)</label>
+			<label index="screenshot">Screenshot (jpg/png, max size 600x480px)</label>
+			<label index="screenshotGallery">Screenshot for gallery (jpg/png, max size 600x480px)</label>
 			<label index="wrongFileType">"%FILE%" has the wrong type. Only jpg and png are allowed.</label>
 			<label index="wrongFileSize">"%FILE%" is too large. The maximum is 5MB.</label>
 			<label index="premium">Premium member of the </label>
