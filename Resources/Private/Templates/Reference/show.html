@@ -58,8 +58,8 @@
 							</f:link.action>
 						</f:then>
 						<f:else>
-							<f:link.action action="index" controller="Reference" arguments="{filterString : 'industry#{reference.industry}'}">
-								<f:translate key="industry{reference.industry}">Industry</f:translate>
+							<f:link.action action="index" controller="Reference" arguments="{filterString : 'industry#{reference.industry.uid}'}">
+								{reference.industry.title}
 							</f:link.action>
 						</f:else>
 					</f:if>
