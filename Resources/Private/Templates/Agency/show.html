@@ -26,15 +26,7 @@
 					<f:render partial="creditbox" arguments="{agency : agency, availableCredits : availableCredits, usedCredits : usedCredits}" />
 				</f:if>
 				
-				<div class="b-box">
-					<h3>Filter Options</h3>
-					<f:form method="post" controller="Reference" action="index" name="filter" object="{filter}" >
-						<p class="form-row"><f:form.select property="category" value="{filter.category}" options="{categories}"></f:form.select></p>
-						<p class="form-row"><f:form.select property="industry" value="{filter.industry}" options="{industries}"></f:form.select></p>
-						<p class="form-row"><f:form.select property="companySize" value="{filter.companySize}" options="{companySizes}"></f:form.select></p>
-						<p><f:form.submit class="bu bu-mini" value="Submit"/></p>
-					</f:form>
-				</div><!-- b-box -->
+				<f:render partial="filter" arguments="{categories : categories, industries : industries, companySizes : companySizes, filter : filter}" />
 
 			</div><!-- s-sidebar -->
 			<div class="s-body">

@@ -3,17 +3,7 @@
 <f:section name="content">
 	<div class="cl">
 		<div class="s-sidebar">
-			<div class="b-box">
-				<h3>Filter Options</h3>
-				<f:form method="post" controller="Reference" action="filter" name="filter" object="{filter}" >
-					<p class="form-row"><f:form.select property="category" value="{filter.category}" options="{categories}"></f:form.select></p>
-					<p class="form-row"><f:form.select property="industry" value="{filter.industry}" options="{industries}"></f:form.select></p>
-					<p class="form-row"><f:form.select property="companySize" value="{filter.companySize}" options="{companySizes}"></f:form.select></p>
-					<p><f:form.submit class="bu bu-mini" value="Filter"/>
-					<f:link.action controller="Reference" action="index" class="bu bu-mini">Clear</f:link.action>
-					</p>
-				</f:form>
-			</div><!-- b-box -->
+			<f:render partial="filter" arguments="{categories : categories, industries : industries, companySizes : companySizes, filter : filter}" />
 			
 			<h4>Tag cloud</h4>
 			<ul class="b-tag-cloud">
