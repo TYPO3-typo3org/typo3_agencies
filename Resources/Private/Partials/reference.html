@@ -24,7 +24,7 @@
 			<f:then>
 				<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'industry#{reference.industryOther}'}}">
 					{reference.industryOther}
-				</f:link.action>
+				</f:link.page>
 			</f:then>
 			<f:else>
 				<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'industry#{reference.industry.uid}'}}">
@@ -38,12 +38,12 @@
 			<f:then>
 				<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'category#{reference.categoryOther}'}}">
 					{reference.categoryOther}
-				</f:link.action>
+				</f:link.page>
 			</f:then>
 			<f:else>
 				<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'category#{reference.category}'}}">
 					<f:translate key="category{reference.category}">Category</f:translate>
-				</f:link.action>
+				</f:link.page>
 			</f:else>
 		</f:if>
 	</p>
