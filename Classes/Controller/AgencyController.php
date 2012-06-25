@@ -226,7 +226,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	public function indexAction() {
 		
 		// Add Google API
-		$this->response->addAdditionalHeaderData('<script src="http://maps.google.com/maps/api/js?sensor=true"></script>');
+		$this->response->addAdditionalHeaderData('<script src="http://maps.google.com/maps/api/js?sensor=true&language=en"></script>');
 
 		$this->view->assign('countries', $this->agencyRepository->findAllCountries());
 		$this->view->assign('imagePath', t3lib_extMgm::extRelPath('typo3_agencies') . 'Resources/Public/Media/Images/');
