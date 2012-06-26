@@ -64,7 +64,7 @@
 						<div class="b-form-row">
 							<label for="form-category"><f:translate key="category">Category</f:translate></label>
 							<div class="b-form-inputs">
-								<f:form.select property="category" value="{category}" options="{categories}" id="form-category"></f:form.select>
+								<f:form.select property="category" value="{category}" optionValueField="uid" optionLabelField="title" options="{categories}" id="form-category"></f:form.select>
 							</div><!-- b-form-inputs -->
 						</div><!-- b-form-row -->
 						<div class="b-form-row">
@@ -72,7 +72,7 @@
 							<div class="b-form-inputs">
 								<div class="b-form-sub-row sub-two-columns">
 									<div class="b-form-sub-column">
-										<f:form.select property="industry" value="{industry}" options="{industries}" id="form-industry"></f:form.select>
+										<f:form.select property="industry" value="{industry}" optionValueField="uid" optionLabelField="title" options="{industries}" id="form-industry"></f:form.select>
 									</div><!-- .b-form-sub-column -->
 								</div><!-- .b-form-sub-row sub-two-columns -->
 							</div><!-- b-form-inputs -->
@@ -98,7 +98,7 @@
 						<div class="b-form-row">
 							<label for="form-company-revenue"><f:translate key="revenue">Revenue</f:translate></label>
 							<div class="b-form-inputs">
-								<f:form.select property="revenue" value="{revenue}" options="{revenues}" id="form-company-revenue"></f:form.select>
+								<f:form.select property="revenue" value="{revenue}" optionValueField="uid" optionLabelField="title" options="{revenues}" id="form-company-revenue"></f:form.select>
 							</div><!-- b-form-inputs -->
 						</div><!-- b-form-row -->						
 						<div class="b-form-row">
