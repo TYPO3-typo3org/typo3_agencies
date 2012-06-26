@@ -1,5 +1,5 @@
-jQuery(document).ready(function() {
-	jQuery("#sortable").sortable({
+$(function() {
+	$("#sortable").sortable({
 		placeholder: 'ui-state-highlight',
 		handle: $('.i-move'),
 		axis: 'y',
