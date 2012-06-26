@@ -104,14 +104,14 @@
 						<div class="b-form-row">
 							<label for="form-country"><f:translate key="country">Country</f:translate></label>
 							<div class="b-form-inputs">
-								<f:form.select property="size" value="{country}" options="{countries}" id="form-country"></f:form.select>
+								<f:form.select property="country" value="{country}" options="{countries}" id="form-country"></f:form.select>
 							</div><!-- b-form-inputs -->
 						</div><!-- b-form-row -->						
 						<div class="b-form-row">
 							<div class="b-form-inputs">
 								<f:form.submit class="bu bu-confirm" value="Preview" name="preview"/>
 								<f:form.submit class="bu bu-confirm" value="Submit" />
-								<button class="bu bu-secondary" onclick="javascript:history.back()"><f:translate key="cancel">Cancel</f:translate></button>
+								<f:link.page class="bu bu-secondary"><f:translate key="cancel">Cancel</f:translate></f:link.page>
 							</div><!-- b-form-inputs -->
 						</div><!-- b-form-row -->
 					</div><!-- b-form -->
