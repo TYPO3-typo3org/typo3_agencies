@@ -1,11 +1,12 @@
 <div class="b-box">
 	<h3>Filter Options</h3>
+
 	<f:form method="post" controller="Reference" action="filter" name="filter" object="{filter}" >
-		<p class="form-row"><f:form.select property="category" value="{filter.category}" options="{categories}" additionalAttributes="{onchange:'submit()'}"></f:form.select></p>
-		<p class="form-row"><f:form.select property="industry" value="{filter.industry}" options="{industries}" additionalAttributes="{onchange:'submit()'}"></f:form.select></p>
-		<p class="form-row"><f:form.select property="companySize" value="{filter.companySize}" options="{companySizes}" additionalAttributes="{onchange:'submit()'}"></f:form.select></p>
+		<p class="form-row"><f:translate key="category">Category</f:translate><f:form.select property="category" optionValueField="uid" optionLabelField="title" value="{filter.category.uid}" options="{categories}" additionalAttributes="{onchange:'submit()'}"></f:form.select></p>
+		<p class="form-row"><f:translate key="industry">Industry</f:translate><f:form.select property="industry" optionValueField="uid" optionLabelField="title" value="{filter.industry.uid}" options="{industries}" additionalAttributes="{onchange:'submit()'}"></f:form.select></p>
+		<p class="form-row"><f:translate key="revenue">Revenue</f:translate><f:form.select property="revenue" optionValueField="uid" optionLabelField="title" value="{filter.revenue.uid}" options="{revenues}" additionalAttributes="{onchange:'submit()'}"></f:form.select></p>
 		<p>
-		<f:link.action controller="Reference" action="index" class="bu bu-mini">Clear</f:link.action>
+		<f:link.action controller="Reference" action="index" class="bu bu-mini"><f:translate key="clear">Clear</f:translate></f:link.action>
 		</p>
 	</f:form>
 </div><!-- b-box -->

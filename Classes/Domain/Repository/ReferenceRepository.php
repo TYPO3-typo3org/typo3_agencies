@@ -91,7 +91,7 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 	 * @param int $ignore
 	 * @return array The references
 	 */
-	public function findRecentlyAdded($offset, $rowsPerPage, $includeDeactivated = false, $agency = null, $limit = 30, $ignore = 0){
+	public function findAllByRevenue($offset, $rowsPerPage, $includeDeactivated = false, $agency = null, $limit = 30, $ignore = 0){
 		$query = $this->createQuery();
 		$constrains = array();
 		if(!$includeDeactivated){
@@ -121,7 +121,7 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 		$query->getQuerySettings()->setRespectEnableFields(TRUE);
 		$query->setLimit((int)$rowsPerPage);
 		$query->setOffset($offset);
-		$query->setOrderings(Array('crdate'=>Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING));
+		$query->setOrderings(Array('revenue'=>Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING));
 		return $query->execute();
 	}
 	
@@ -193,8 +193,8 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 		if($filter->getIndustry() > 0){
 			$where[] = 'tx_typo3agencies_domain_model_reference.industry = ' . $filter->getIndustry();
 		}
-		if($filter->getCompanySize() > 0){
-			$where[] = 'tx_typo3agencies_domain_model_reference.size = ' . $filter->getCompanySize();
+		if($filter->getRevenue() > 0){
+			$where[] = 'tx_typo3agencies_domain_model_reference.revenue = ' . $filter->getRevenue();
 		}
 		if($filter->isListed()){
 			$where[] = 'tx_typo3agencies_domain_model_reference.listed = 1';
@@ -222,7 +222,7 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 	 * @param boolean $includeDeactivated
 	 * @return int Number of records
 	 */
-	public function countByOption($selectedCategory=0, $selectedIndustry = 0, $selectedCompanySize = 0, $includeDeactivated = false) {
+	public function countByOption($selectedCategory=0, $selectedIndustry = 0, $selectedRevenue = 0, $includeDeactivated = false) {
 		$query = $this->createQuery();
 		
 		if($includeDeactivated){
@@ -236,9 +236,10 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 		if($selectedIndustry > 0){
 			$where[] = 'industry = ' . $selectedIndustry;
 		}
-		if($selectedCompanySize > 0){
-			$where[] = 'size = ' . $selectedCompanySize;
+		if($selectedRevenue > 0){
+			$where[] = 'revenue = ' . $selectedRevenue;
 		}
+
 		$query->statement('SELECT * FROM tx_typo3agencies_domain_model_reference WHERE ' . implode(' AND ',$where) . $GLOBALS['TSFE']->sys_page->enableFields('tx_typo3agencies_domain_model_reference'));
 		return count($query->execute()->toArray());
 	}

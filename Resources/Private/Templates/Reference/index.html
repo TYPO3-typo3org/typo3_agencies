@@ -3,7 +3,7 @@
 <f:section name="content">
 	<div class="cl">
 		<div class="s-sidebar">
-			<f:render partial="filter" arguments="{categories : categories, industries : industries, companySizes : companySizes, filter : filter}" />
+			<f:render partial="filter" arguments="{categories : categories, industries : industries, revenues : revenues, filter : filter}" />
 			
 			<h4>Tag cloud</h4>
 			<ul class="b-tag-cloud">
@@ -37,8 +37,8 @@
 								</f:link.action>
 							</f:then>
 							<f:else>
-								<f:link.action action="index" controller="Reference" arguments="{filterString : 'industry#{topReference.industry}'}">
-									<f:translate key="industry{topReference.industry}">Industry</f:translate>
+								<f:link.action action="index" controller="Reference" arguments="{filterString : 'industry#{topReference.industry.uid}'}">
+									{topReference.industry.title}
 								</f:link.action>
 							</f:else>
 						</f:if>
@@ -51,8 +51,8 @@
 								</f:link.action>
 							</f:then>
 							<f:else>
-								<f:link.action action="index" controller="Reference"	arguments="{filterString : 'category#{topReference.category}'}">
-									<f:translate key="category{topReference.category}">Category</f:translate>
+								<f:link.action action="index" controller="Reference"	arguments="{filterString : 'category#{topReference.category.uid}'}">
+									{topReference.category.uid}
 								</f:link.action>
 							</f:else>
 						</f:if>

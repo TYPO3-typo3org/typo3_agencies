@@ -41,19 +41,10 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 	 */
 	public function indexAction(array $filter = null, $filterString = null) {
 		$filterObject = $this->createFilterObject($filter);
-		
 		if($this->settings['showAgencyIfLoggedIn']==1 && $this->administrator>0){
 			 $this->redirect('show','Agency');
 		} else {
-			$allowedCategories = Tx_Typo3Agencies_Controller_BaseController::getCategories($this, $this->extensionName);
-			$allowedIndustries = Tx_Typo3Agencies_Controller_BaseController::getIndustries($this, $this->extensionName);
-			$allowedCompanySizes = Tx_Typo3Agencies_Controller_BaseController::getCompanySizes($this, $this->extensionName);
-			
-			Tx_Typo3Agencies_Controller_BaseController::removeNotSet($this, $this->request, $allowedCategories, $allowedIndustries, $allowedCompanySizes);
-			
-			$this->view->assign('categories', $allowedCategories);
-			$this->view->assign('industries', $allowedIndustries);
-			$this->view->assign('companySizes', $allowedCompanySizes);
+			$this->addFilterOptions();
 			
 			$this->pager = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Pager');
 			
@@ -98,15 +89,14 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 				}
 				$this->filter = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Filter');
 				$count = $this->referenceRepository->countRecentlyAdded(false, $this->agency, (int) $this->settings['recentCaseStudies']);
-				$references = $this->referenceRepository->findRecentlyAdded($offset, $this->pager->getItemsPerPage(), false, $this->agency, (int) $this->settings['recentCaseStudies'], $ignore);
+				$references = $this->referenceRepository->findAllByRevenue($offset, $this->pager->getItemsPerPage(), false, $this->agency, (int) $this->settings['recentCaseStudies'], $ignore);
 			} else {
 				$this->filter = $filterObject;
 				$references = $this->referenceRepository->findAllByFilter($this->filter,null,null,false,$this->showDeactivated);
-				$count = count($references);
+				$count = count($references->toArray());
 				$this->filter->setResultCount($count);
 				$references = $this->referenceRepository->findAllByFilter($this->filter, $offset, $this->pager->getItemsPerPage(), false, false);
 			}
-			
 			$this->pager->setCount($count);
 			$this->view->assign('pager', $this->pager);
 			$this->view->assign('filter', $this->filter);
@@ -150,17 +140,17 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 	 * @dontvalidate $filter
 	 */
 	public function filterAction(array $filter = null, $filterString = null) {
-		$this->forward('index');
+		$this->forward('index');		
 	}
 	
 	public function categoriesAction(){
 		$this->request->setFormat('json');
 		
-		$allowedCategories = Tx_Typo3Agencies_Controller_BaseController::getCategories($this);
-		$allowedIndustries = Tx_Typo3Agencies_Controller_BaseController::getIndustries($this);
-		$allowedCompanySizes = Tx_Typo3Agencies_Controller_BaseController::getCompanySizes($this);
+		$allowedCategories = $this->getCategories();
+		$allowedIndustries = $this->getIndustries();
+		$allowedRevenues = $this->getRevenues();
 		
-		Tx_Typo3Agencies_Controller_BaseController::removeNotSet($this, $this->request, $allowedCategories, $allowedIndustries, $allowedCompanySizes);
+		$this->removeNotSet($this->request, $allowedCategories, $allowedIndustries, $allowedRevenues);
 		
 		$categoryString = Array();
 		foreach($allowedCategories as $key => $value){
@@ -170,11 +160,11 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 		foreach($allowedIndustries as $key => $value){
 			$industryString[] = '{"optionValue":'.$key.',"optionDisplay":"'.$value.'"}';
 		}
-		$companySizeString = Array();
-		foreach($allowedCompanySizes as $key => $value){
-			$companySizeString[] = '{"optionValue":'.$key.',"optionDisplay":"'.$value.'"}';
+		$revenueString = Array();
+		foreach($allowedRevenues as $key => $value){
+			$revenueString[] = '{"optionValue":'.$key.',"optionDisplay":"'.$value.'"}';
 		}
-		$this->view->assign('jsonString', '[['.implode(',',$categoryString).'],['.implode(',',$industryString).'],['.implode(',',$companySizeString).']]');
+		$this->view->assign('jsonString', '[['.implode(',',$categoryString).'],['.implode(',',$industryString).'],['.implode(',',$revenueString).']]');
 	}
 	
 	/**
@@ -194,11 +184,11 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 		} else {
 			$this->view->assign('newReference', $newReference);
 			$this->view->assign('uploadPath', $this->settings['uploadPath']);
-			$this->view->assign('categories', Tx_Typo3Agencies_Controller_BaseController::getCategories($this, $this->extensionName, false));
-			$this->view->assign('industries', Tx_Typo3Agencies_Controller_BaseController::getIndustries($this, $this->extensionName, false));
-			$this->view->assign('companySizes', Tx_Typo3Agencies_Controller_BaseController::getCompanySizes($this, $this->extensionName, false));
-			$this->view->assign('pagesList', Tx_Typo3Agencies_Controller_BaseController::getPages($this, $this->extensionName, false));
-			$this->view->assign('languagesList', Tx_Typo3Agencies_Controller_BaseController::getLanguages($this, $this->extensionName, false));
+			$this->view->assign('categories', $this->getCategories(false));
+			$this->view->assign('industries', $this->getIndustries(false));
+			$this->view->assign('revenues', $this->getRevenues(false));
+			$this->view->assign('pagesList', $this->getPages(false));
+			$this->view->assign('languagesList', $this->getLanguages(false));
 			$this->addCountries();
 			$this->view->assign('administrator', $this->administrator);
 			$this->view->assign('galleryImages', t3lib_div::trimExplode(',',$newReference->getScreenshotGallery(),1));
@@ -339,11 +329,11 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 			$this->handleFiles($reference);
 			$this->view->assign('reference', $reference);
 			$this->view->assign('maxFiles', 3 - count(t3lib_div::trimExplode(',',$reference->getScreenshotGallery(),1)));
-			$this->view->assign('categories', Tx_Typo3Agencies_Controller_BaseController::getCategories($this, $this->extensionName, false));
-			$this->view->assign('industries', Tx_Typo3Agencies_Controller_BaseController::getIndustries($this, $this->extensionName, false));
-			$this->view->assign('companySizes', Tx_Typo3Agencies_Controller_BaseController::getCompanySizes($this, $this->extensionName, false));
-			$this->view->assign('pagesList', Tx_Typo3Agencies_Controller_BaseController::getPages($this, $this->extensionName, false));
-			$this->view->assign('languagesList', Tx_Typo3Agencies_Controller_BaseController::getLanguages($this, $this->extensionName, false));
+			$this->view->assign('categories', $this->getCategories(false));
+			$this->view->assign('industries', $this->getIndustries(false));
+			$this->view->assign('revenues', $this->getRevenues(false));
+			$this->view->assign('pagesList', $this->getPages(false));
+			$this->view->assign('languagesList', $this->getLanguages(false));
 			$this->addCountries();
 			$this->view->assign('administrator', $this->administrator);
 			$this->view->assign('uploadPath', $this->settings['uploadPath']);

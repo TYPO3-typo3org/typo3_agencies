@@ -306,18 +306,6 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		$this->addFilterOptions();
 	}
 
-	private function addFilterOptions(){
-		$allowedCategories = Tx_Typo3Agencies_Controller_BaseController::getCategories($this, $this->extensionName);
-		$allowedIndustries = Tx_Typo3Agencies_Controller_BaseController::getIndustries($this, $this->extensionName);
-		$allowedCompanySizes = Tx_Typo3Agencies_Controller_BaseController::getCompanySizes($this, $this->extensionName);
-		
-		Tx_Typo3Agencies_Controller_BaseController::removeNotSet($this, $this->request, $allowedCategories, $allowedIndustries, $allowedCompanySizes);
-		
-		$this->view->assign('categories', $allowedCategories);
-		$this->view->assign('industries', $allowedIndustries);
-		$this->view->assign('companySizes', $allowedCompanySizes);
-	}
-
 	/**
 	 * Edits an existing reference
 	 *

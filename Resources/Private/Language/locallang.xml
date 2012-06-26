@@ -27,7 +27,9 @@
 			<label index="category3">Extranet</label>
 			<label index="category4">Microsite</label>
 			<label index="category5">Application</label>
-			<label index="size">Company size</label>
+			<label index="revenue">Revenue</label>
+			<label index="all">All</label>
+			<label index="euro"> EUR</label>
 			<label index="size1">&lt;1Mio</label>
 			<label index="size2">1-49Mio</label>
 			<label index="size3">50-500Mio</label>

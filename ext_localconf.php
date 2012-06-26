@@ -32,7 +32,7 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 
 
 /**
- * Scheduler Corn Job
+ * Scheduler Cron Job
  */
 $TYPO3_CONF_VARS['SC_OPTIONS']['scheduler']['tasks']['Tx_Typo3Agencies_Scheduler_UpdateMemberships'] = array(
 	'extension' => $_EXTKEY,

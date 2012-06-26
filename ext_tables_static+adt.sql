@@ -10,8 +10,6 @@ CREATE TABLE tx_typo3agencies_domain_model_industry (
 	UNIQUE uid (uid)
 );
 
-INSERT INTO tx_typo3agencies_domain_model_industry (uid,pid,title) VALUES (0,329,'Industry');
-UPDATE tx_typo3agencies_domain_model_industry SET uid = 0 WHERE uid = 1;
 INSERT INTO tx_typo3agencies_domain_model_industry (uid,pid,title) VALUES (1,329,'Automotive');
 INSERT INTO tx_typo3agencies_domain_model_industry (uid,pid,title) VALUES (2,329,'Insurance and Finance');
 INSERT INTO tx_typo3agencies_domain_model_industry (uid,pid,title) VALUES (3,329,'Services');
@@ -24,3 +22,19 @@ INSERT INTO tx_typo3agencies_domain_model_industry (uid,pid,title) VALUES (9,329
 INSERT INTO tx_typo3agencies_domain_model_industry (uid,pid,title) VALUES (10,329,'Media and Communication');
 INSERT INTO tx_typo3agencies_domain_model_industry (uid,pid,title) VALUES (11,329,'Social');
 INSERT INTO tx_typo3agencies_domain_model_industry (uid,pid,title) VALUES (12,329,'Tourism');
+INSERT INTO tx_typo3agencies_domain_model_industry (uid,pid,title) VALUES (99,329,'Other');
+
+
+INSERT INTO tx_typo3agencies_domain_model_category (uid,pid,title) VALUES (1,329,'Intranet');
+INSERT INTO tx_typo3agencies_domain_model_category (uid,pid,title) VALUES (2,329,'Internet');
+INSERT INTO tx_typo3agencies_domain_model_category (uid,pid,title) VALUES (3,329,'Extranet');
+INSERT INTO tx_typo3agencies_domain_model_category (uid,pid,title) VALUES (4,329,'Microsite');
+INSERT INTO tx_typo3agencies_domain_model_category (uid,pid,title) VALUES (5,329,'Application');
+INSERT INTO tx_typo3agencies_domain_model_category (uid,pid,title) VALUES (99,329,'Other');
+
+INSERT INTO tx_typo3agencies_domain_model_revenue (uid,pid,title,sorting) VALUES (1,329,'unknown',0);
+INSERT INTO tx_typo3agencies_domain_model_revenue (uid,pid,title,sorting) VALUES (2,329,'1-49 million',1);
+INSERT INTO tx_typo3agencies_domain_model_revenue (uid,pid,title,sorting) VALUES (3,329,'50-199 million',50);
+INSERT INTO tx_typo3agencies_domain_model_revenue (uid,pid,title,sorting) VALUES (4,329,'200-499 million',200);
+INSERT INTO tx_typo3agencies_domain_model_revenue (uid,pid,title,sorting) VALUES (5,329,'500-999 million',500);
+INSERT INTO tx_typo3agencies_domain_model_revenue (uid,pid,title,sorting) VALUES (6,329,'over 1 billion',999);

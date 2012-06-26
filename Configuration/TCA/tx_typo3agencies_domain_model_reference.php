@@ -4,7 +4,7 @@ if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 $TCA['tx_typo3agencies_domain_model_reference'] = array(
 	'ctrl' => $TCA['tx_typo3agencies_domain_model_reference']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'deactivated,title,description,link,pages,languages,category,category_other,tags,industry,industry_other,screenshot,screeshot_gallery,casestudy,conclusion,about,size,country,listed'
+		'showRecordFieldList' => 'deactivated,title,description,link,pages,languages,category,category_other,tags,industry,industry_other,screenshot,screeshot_gallery,casestudy,conclusion,about,revenue,size,country,listed'
 	),
 	'columns' => array(
 		'sys_language_uid' => Array (
@@ -122,17 +122,8 @@ $TCA['tx_typo3agencies_domain_model_reference'] = array(
 			'label'   => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.category',
 			'config'  => array(
 				'type' => 'select',
-				'size' => '1',
-				'minitems' => 1,
-				'maxitems' => 1,
-				'items' => Array(
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.select',0),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.category0',1),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.category1',2),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.category2',3),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.category3',4),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.category4',5)
-				)
+				'foreign_table' => 'tx_typo3agencies_domain_model_category',
+				'foreign_table_where' => 'ORDER BY tx_typo3agencies_domain_model_category.title',
 			)
 		),
 		'category_other' => array(
@@ -255,6 +246,15 @@ $TCA['tx_typo3agencies_domain_model_reference'] = array(
 				'cols' => 80,
 			)
 		),
+		'revenue' => array(
+			'exclude' => 0,
+			'label'   => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.revenue',
+			'config'  => array(
+				'type' => 'select',
+				'foreign_table' => 'tx_typo3agencies_domain_model_revenue',
+				'foreign_table_where' => 'ORDER BY tx_typo3agencies_domain_model_revenue.sorting',
+			)
+		),
 		'size' => array(
 			'exclude' => 0,
 			'label'   => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.size',
@@ -300,7 +300,7 @@ $TCA['tx_typo3agencies_domain_model_reference'] = array(
 		),
 	),
 	'types' => array(
-		'1' => array('showitem' => 'sys_language_uid, hidden, deactivated, agency, title,description,link,pages,languages,category,category_other,tags,industry,industry_other,screenshot,screenshot_gallery,casestudy,conclusion,about,size,country,listed,sorting')
+		'1' => array('showitem' => 'sys_language_uid, hidden, deactivated, agency, title,description,link,pages,languages,category,category_other,tags,industry,industry_other,screenshot,screenshot_gallery,casestudy,conclusion,about,revenue,size,country,listed,sorting')
 	),
 	'palettes' => array(
 		'1' => array('showitem' => '')

@@ -7,92 +7,87 @@
 		<div id="map_canvas"></div><!-- #map_canvas -->
 
 		<agency:script>
-
 			// global variables comes here
 			var imagePath = '{f:uri.resource(path:'Media/Images/',absolute:'TRUE')}';
 			var doRenderMap = 1;
 			var latestAgencyRequestId = null;
 
 			// <![CDATA[
-			(function($) {
-				$(function() {
-					$(document).ready(function(){
+			jQuery(document).ready(function(){
 
-						/*
-						 * Whenever the user update the input, this should refresh the list of agencies
-						 */
-						$('.tx-agencies-form-field').change(function() {
+				/*
+				 * Whenever the user update the input, this should refresh the list of agencies
+				 */
+				$('.tx-agencies-form-field').change(function() {
 
-							// should refresh the map
-							doRenderMap = 1;
-							$('#tx-agencies-input-pager-page').val('0');
-							$('#tx-agencies-form').submit();
-						});
-						
-						/*
-						 * Action when event sumbit is fired on form #tx-agencies-form
-						 */
-						$('#speacialist-search-form').submit(function() {
-							doRenderMap = 1;
-							$('#tx-agencies-input-pager-page').val('0');
-							$('#tx-agencies-input-filter-location').val($('#s-search').val());
-							$('#tx-agencies-form').submit();
-							return false;
-						});
+					// should refresh the map
+					doRenderMap = 1;
+					$('#tx-agencies-input-pager-page').val('0');
+					$('#tx-agencies-form').submit();
+				});
+				
+				/*
+				 * Action when event sumbit is fired on form #tx-agencies-form
+				 */
+				$('#speacialist-search-form').submit(function() {
+					doRenderMap = 1;
+					$('#tx-agencies-input-pager-page').val('0');
+					$('#tx-agencies-input-filter-location').val($('#s-search').val());
+					$('#tx-agencies-form').submit();
+					return false;
+				});
 
-						/*
-						 * Action when event sumbit is fired on form #tx-agencies-form
-						 */
-						$('#tx-agencies-form').submit(function() {
-							var members;
-							members = new Array();
+				/*
+				 * Action when event sumbit is fired on form #tx-agencies-form
+				 */
+				$('#tx-agencies-form').submit(function() {
+					var members;
+					members = new Array();
 
-							var requestId = (new Date()).getTime();
-							latestAgencyRequestId = requestId;
+					var requestId = (new Date()).getTime();
+					latestAgencyRequestId = requestId;
 
-							// set wating message
-							$('#tx-agencies-ajax-result').addClass('tx-agencies-box-waiting');
+					// set wating message
+					$('#tx-agencies-ajax-result').addClass('tx-agencies-box-waiting');
 
-							// "member" case
-							if ($('#s-filter-platinum:checked').length) {
-								members.push('4');
-							}
-							if ($('#s-filter-gold:checked').length) {
-								members.push('3');
-							}
-							if ($('#s-filter-silver:checked').length) {
-								members.push('2');
-							}
-							if ($('#s-filter-bronze:checked').length) {
-								members.push('1');
-							}
+					// "member" case
+					if ($('#s-filter-platinum:checked').length) {
+						members.push('4');
+					}
+					if ($('#s-filter-gold:checked').length) {
+						members.push('3');
+					}
+					if ($('#s-filter-silver:checked').length) {
+						members.push('2');
+					}
+					if ($('#s-filter-bronze:checked').length) {
+						members.push('1');
+					}
 
-							$('#tx-agencies-input-filter-member').val(members.toString());
+					$('#tx-agencies-input-filter-member').val(members.toString());
 
-							// "service" case
-							$('#tx-agencies-input-filter-trainingservice').val($('#s-filter-training:checked').length)
-							$('#tx-agencies-input-filter-hostingservice').val($('#s-filter-hosting:checked').length)
-							$('#tx-agencies-input-filter-developmentservice').val($('#s-filter-development:checked').length)
+					// "service" case
+					$('#tx-agencies-input-filter-trainingservice').val($('#s-filter-training:checked').length)
+					$('#tx-agencies-input-filter-hostingservice').val($('#s-filter-hosting:checked').length)
+					$('#tx-agencies-input-filter-developmentservice').val($('#s-filter-development:checked').length)
 
-							// "country" case
-							$('#tx-agencies-input-filter-country').val($('#s-filter-country').val())
+					// "country" case
+					$('#tx-agencies-input-filter-country').val($('#s-filter-country').val())
 
-							$(this).ajaxSubmit(function (data) {
-								handleResponse(data, requestId);
-							});
+					$(this).ajaxSubmit(function (data) {
+						handleResponse(data, requestId);
+					});
 
-							// return false to prevent normal browser submit
-							return false;
-						});
+					// return false to prevent normal browser submit
+					return false;
+				});
 
-						/*
-						 * Load the list of agencies whenever the DOM is ready
-						 */
-						$('#tx-agencies-form').submit();
+				/*
+				 * Load the list of agencies whenever the DOM is ready
+				 */
+				$('#tx-agencies-form').submit();
 
-					}); // end DOM ready
-				}); // end of clausure
-			})(jQuery);
+			}); // end DOM ready
 
 			/**
 			 * Handles an AJAX response.
@@ -143,6 +138,7 @@
 
 				var myOptions = {
 					zoom: defaultZoom,
+					language: 'en',
 					center: new google.maps.LatLng(0, 0),
 					mapTypeId: google.maps.MapTypeId.ROADMAP
 				}

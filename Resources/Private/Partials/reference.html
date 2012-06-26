@@ -20,32 +20,14 @@
 	
 	<p class="b-project-cat">
 		<f:translate key="industry">Industry</f:translate>:
-		<f:if condition="{reference.industryOther}">
-			<f:then>
-				<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'industry#{reference.industryOther}'}}">
-					{reference.industryOther}
-				</f:link.page>
-			</f:then>
-			<f:else>
-				<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'industry#{reference.industry.uid}'}}">
-					{reference.industry.title}
-				</f:link.page>
-			</f:else>
-		</f:if>
+		<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'industry#{reference.industry.uid}'}}">
+			{reference.industry.title}
+		</f:link.page>
 		<span class="sep">|</span>
 		<f:translate key="category">Category</f:translate>:
-		<f:if condition="{reference.categoryOther}">
-			<f:then>
-				<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'category#{reference.categoryOther}'}}">
-					{reference.categoryOther}
-				</f:link.page>
-			</f:then>
-			<f:else>
-				<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'category#{reference.category}'}}">
-					<f:translate key="category{reference.category}">Category</f:translate>
-				</f:link.page>
-			</f:else>
-		</f:if>
+		<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'category#{reference.category.uid}'}}">
+			{reference.category.title}
+		</f:link.page>
 	</p>
 	<div class="hr">
 		<hr />

@@ -94,6 +94,32 @@ $TCA['tx_typo3agencies_domain_model_industry'] = Array (
 		)
 );
 
+$TCA['tx_typo3agencies_domain_model_revenue'] = Array (
+		'ctrl' => Array (
+				'title'             => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.revenue',
+				'label' 			=> 'title',
+				'default_sortby' 	=> 'sorting',
+				'dividers2tabs' => TRUE,
+				'enablecolumns' 	=> Array(
+				),
+				'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/tx_typo3agencies_domain_model_revenue.php',
+				'iconfile' 			=> t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/icon_tx_typo3agencies_domain_model_agency.gif'
+		)
+);
+
+$TCA['tx_typo3agencies_domain_model_category'] = Array (
+		'ctrl' => Array (
+				'title'             => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.category',
+				'label' 			=> 'title',
+				'default_sortby' 	=> 'title',
+				'dividers2tabs' => TRUE,
+				'enablecolumns' 	=> Array(
+				),
+				'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/tx_typo3agencies_domain_model_category.php',
+				'iconfile' 			=> t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/icon_tx_typo3agencies_domain_model_agency.gif'
+		)
+);
+
 $extensionName = t3lib_div::underscoredToUpperCamelCase($_EXTKEY);
 $pluginSignature = strtolower($extensionName) . '_pi1';  
  

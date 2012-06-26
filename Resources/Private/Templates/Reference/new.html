@@ -74,12 +74,6 @@
 									<div class="b-form-sub-column">
 										<f:form.select property="industry" value="{industry}" options="{industries}" id="form-industry"></f:form.select>
 									</div><!-- .b-form-sub-column -->
-									<div class="b-form-sub-column">
-										<label for="form-other"><f:translate key="other">other</f:translate></label>
-										<div class="b-form-row">
-											<f:form.textfield property="industryOther" id="form-other"/><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'industryOther'}" />
-										</div><!-- .b-form-row -->
-									</div><!-- .b-form-sub-column -->
 								</div><!-- .b-form-sub-row sub-two-columns -->
 							</div><!-- b-form-inputs -->
 						</div><!-- b-form-row -->
@@ -102,9 +96,9 @@
 							</div><!-- b-form-inputs -->
 						</div><!-- b-form-row -->
 						<div class="b-form-row">
-							<label for="form-company-size"><f:translate key="size">Company size</f:translate></label>
+							<label for="form-company-revenue"><f:translate key="revenue">Revenue</f:translate></label>
 							<div class="b-form-inputs">
-								<f:form.select property="size" value="{size}" options="{companySizes}" id="form-company-size"></f:form.select>
+								<f:form.select property="revenue" value="{revenue}" options="{revenues}" id="form-company-revenue"></f:form.select>
 							</div><!-- b-form-inputs -->
 						</div><!-- b-form-row -->						
 						<div class="b-form-row">

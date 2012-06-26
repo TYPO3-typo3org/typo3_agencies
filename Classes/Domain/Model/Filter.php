@@ -54,11 +54,11 @@ class Tx_Typo3Agencies_Domain_Model_Filter extends Tx_Extbase_DomainObject_Abstr
 	protected $industry = 0;
 	
 	/**
-	 * The company size to filter by
+	 * The revenue to filter by
 	 *
 	 * @var integer
 	 */
-	protected $companySize = 0;
+	protected $revenue = 0;
 	
 	/**
 	 * Filter only by Fortune1000 company
@@ -252,22 +252,22 @@ class Tx_Typo3Agencies_Domain_Model_Filter extends Tx_Extbase_DomainObject_Abstr
 	}
 	
 	/**
-	 * Sets this filter company size
+	 * Sets this filter revenue
 	 *
-	 * @param int $companySize The filter company size
+	 * @param int $revenue The filter revenue
 	 * @return void
 	 */
-	public function setCompanySize($companySize) {
-		$this->companySize = $companySize;
+	public function setRevenue($revenue) {
+		$this->revenue = $revenue;
 	}
 
 	/**
-	 * Returns the filter company size
+	 * Returns the filter revenue
 	 *
-	 * @return int The filter company size
+	 * @return int The filter revenue
 	 */
-	public function getCompanySize() {
-		return $this->companySize;
+	public function getRevenue() {
+		return $this->revenue;
 	}
 	
 	/**

@@ -22,6 +22,7 @@ CREATE TABLE tx_typo3agencies_domain_model_reference (
 	conclusion text NOT NULL,
 	about text NOT NULL,
 	size tinyint(2) unsigned DEFAULT '0' NOT NULL,
+	revenue tinyint(2) unsigned DEFAULT '0' NOT NULL,
 	country varchar(50) DEFAULT '' NOT NULL,
 	listed tinyint(1) unsigned DEFAULT '0' NOT NULL,
 	deactivated tinyint(1) unsigned DEFAULT '0' NOT NULL,
@@ -115,3 +116,22 @@ CREATE TABLE tx_typo3agencies_domain_model_industry (
 	PRIMARY KEY (uid),
 	UNIQUE uid (uid)
 );
+
+CREATE TABLE tx_typo3agencies_domain_model_revenue (
+	uid int(11) unsigned DEFAULT '0' NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+	title varchar(255) DEFAULT '' NOT NULL,
+	sorting int(3) unsigned DEFAULT '0' NOT NULL,
+	PRIMARY KEY (uid),
+	UNIQUE uid (uid)
+);
+
+CREATE TABLE tx_typo3agencies_domain_model_category (
+	uid int(11) unsigned DEFAULT '0' NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+	title varchar(255) DEFAULT '' NOT NULL,
+	PRIMARY KEY (uid),
+	UNIQUE uid (uid)
+);
+
+

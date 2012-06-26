@@ -38,7 +38,7 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 	/**
 	 * @var Tx_Typo3Agencies_Domain_Repository_ReferenceRepository
 	 */
-	public $referenceRepository;
+	protected  $referenceRepository;
 	/**
 	 * @var Tx_Typo3Agencies_Domain_Repository_CountryRepository
 	 */
@@ -47,6 +47,14 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 	 * @var Tx_Typo3Agencies_Domain_Repository_IndustryRepository
 	 */
 	protected $industryRepository;
+	/**
+	 * @var Tx_Typo3Agencies_Domain_Repository_CategoryRepository
+	 */
+	protected $categoryRepository;
+	/**
+	 * @var Tx_Typo3Agencies_Domain_Repository_RevenueRepository
+	 */
+	protected $revenueRepository;
 	/**
 	 * @var Tx_Typo3Agencies_Domain_Model_Administrator
 	 */
@@ -64,12 +72,12 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 	/**
 	 * @var Tx_Extbase_Utility_Localization
 	 */
-	public $localization;
+	protected  $localization;
 	
 	/**
 	 * @var boolean Show deactivated references
 	 */
-	public $showDeactivated;
+	protected  $showDeactivated;
 
 	/**
 	 * Initializes the current action
@@ -81,6 +89,9 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 		$this->referenceRepository = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Repository_ReferenceRepository');
 		$this->localization = t3lib_div::makeInstance('Tx_Extbase_Utility_Localization');
 		$this->countryRepository = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Repository_CountryRepository');
+		$this->industryRepository = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Repository_IndustryRepository');
+		$this->categoryRepository = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Repository_CategoryRepository');
+		$this->revenueRepository = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Repository_RevenueRepository');
 		$this->showDeactivated = false;
 		if($GLOBALS['TSFE']->loginUser){
 			$uid = intval($GLOBALS['TSFE']->fe_user->user['uid']);
@@ -93,6 +104,32 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 				}
 			}
 		}
+	}
+	
+	protected function addFilterOptions(){
+		$allowedCategories = $this->getCategories();
+		$allowedIndustries = $this->getIndustries();
+		$allowedRevenues = $this->getRevenues();
+	
+		$this->removeNotSet($this->request, $allowedCategories, $allowedIndustries, $allowedRevenues);
+		
+		$all = $this->localization->translate('all',$this->extensionName);
+	
+		$allCategories = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Category');
+		$allCategories->setTitle($all);
+		array_unshift($allowedCategories,$allCategories);
+	
+		$allIndustries = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Industry');
+		$allIndustries->setTitle($all);
+		array_unshift($allowedIndustries,$allIndustries);
+	
+		$allRevenues = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Revenue');
+		$allRevenues->setTitle($all);
+		array_unshift($allowedRevenues,$allRevenues);
+	
+		$this->view->assign('categories', $allowedCategories);
+		$this->view->assign('industries', $allowedIndustries);
+		$this->view->assign('revenues', $allowedRevenues);
 	}
 	
 	protected function createFilterObject(array $filter = null) {
@@ -116,8 +153,8 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 			if($filter['industry']){
 				$filterObject->setIndustry($filter['industry']);
 			}
-			if($filter['companySize']){
-				$filterObject->setCompanySize($filter['companySize']);
+			if($filter['revenue']){
+				$filterObject->setRevenue($filter['revenue']);
 			}
 			$filterObject->setTrainingService($filter['trainingService']);
 			$filterObject->setHostingService($filter['hostingService']);
@@ -146,64 +183,31 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 		$this->view->assign('countries', $availableCountries);
 	}
 
-	static function getCategories(&$ref, $extensionName, $includeDescription = true){
-		$values = Array(0 => $ref->localization->translate('category',$extensionName),
-					1 => $ref->localization->translate('category1',$extensionName),
-					2 => $ref->localization->translate('category2',$extensionName),
-					3 => $ref->localization->translate('category3',$extensionName),
-					4 => $ref->localization->translate('category4',$extensionName),
-					5 => $ref->localization->translate('category5',$extensionName));
-		if(!$includeDescription){
-			unset($values[0]);
-		}
-		return $values;	
+	protected function getCategories($includeDescription = true){
+		return $this->categoryRepository->findAll()->toArray();
 	}
 	
-	static function getIndustries(&$ref, $extensionName, $includeDescription = true){
-		$values = Array(0 => $ref->localization->translate('industry',$extensionName),
-					1 => $ref->localization->translate('industry1',$extensionName),
-					2 => $ref->localization->translate('industry2',$extensionName),
-					3 => $ref->localization->translate('industry3',$extensionName),
-					4 => $ref->localization->translate('industry4',$extensionName),
-					5 => $ref->localization->translate('industry5',$extensionName),
-					6 => $ref->localization->translate('industry6',$extensionName),
-					7 => $ref->localization->translate('industry7',$extensionName),
-					8 => $ref->localization->translate('industry8',$extensionName),
-					9 => $ref->localization->translate('industry9',$extensionName),
-					10 => $ref->localization->translate('industry10',$extensionName),
-					11 => $ref->localization->translate('industry11',$extensionName),
-					12 => $ref->localization->translate('industry12',$extensionName));
-		if(!$includeDescription){
-			unset($values[0]);
-		}
-		return $values;	
+	protected function getIndustries($includeDescription = true){
+		return $this->industryRepository->findAll()->toArray();
 	}
 	
-	static function getCompanySizes(&$ref, $extensionName, $includeDescription = true){
-		$values = Array(0 => $ref->localization->translate('size',$extensionName),
-					1 => $ref->localization->translate('size1',$extensionName),
-					2 => $ref->localization->translate('size2',$extensionName),
-					3 => $ref->localization->translate('size3',$extensionName),
-					4 => $ref->localization->translate('size4',$extensionName));
+	protected function getRevenues($includeDescription = true){
+		return $this->revenueRepository->findAll()->toArray();
+	}
+		
+	protected function getPages($includeDescription = true){
+		$values = Array(0 => $this->localization->translate('page',$this->extensionName),
+					1 => $this->localization->translate('page1',$this->extensionName),
+					2 => $this->localization->translate('page2',$this->extensionName),
+					3 => $this->localization->translate('page3',$this->extensionName),
+					4 => $this->localization->translate('page4',$this->extensionName));
 		if(!$includeDescription){
 			unset($values[0]);
 		}
 		return $values;
 	}
 	
-	static function getPages(&$ref, $extensionName, $includeDescription = true){
-		$values = Array(0 => $ref->localization->translate('page',$extensionName),
-					1 => $ref->localization->translate('page1',$extensionName),
-					2 => $ref->localization->translate('page2',$extensionName),
-					3 => $ref->localization->translate('page3',$extensionName),
-					4 => $ref->localization->translate('page4',$extensionName));
-		if(!$includeDescription){
-			unset($values[0]);
-		}
-		return $values;
-	}
-	
-	static function getLanguages(&$ref, $extensionName, $includeDescription = true){
+	protected function getLanguages($includeDescription = true){
 		$values = Array();
 		for($i=1;$i<10;$i++){
 			$values[$i] = $i;
@@ -211,44 +215,47 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 		return $values;
 	}
 	
-	static function removeNotSet(&$ref, &$request, &$allowedCategories, &$allowedIndustries, &$allowedCompanySizes){
-		$category = 0;
-		if($request->hasArgument('category')){
-			$category = intval($request->getArgument('category')); // 5
+	protected function removeNotSet(&$request, &$allowedCategories, &$allowedIndustries, &$allowedRevenues){
+		$arguments = $request->getArguments();
+		$categoryValue = 0;
+		if($arguments['filter']['category']){
+			$categoryValue = intval($arguments['filter']['category']); // 5
 		}
-		$industry = 0;
-		if($request->hasArgument('industry')){
-			$industry = intval($request->getArgument('industry')); // 4
+		$industryValue = 0;
+		if($arguments['filter']['industry']){
+			$industryValue = intval($arguments['filter']['industry']); // 4
 		}
-		$companySize = 0;
-		if($request->hasArgument('companySize')){
-			$companySize = intval($request->getArgument('companySize')); // 4
+		$revenueValue = 0;
+		if($arguments['filter']['revenue']){
+			$revenueValue = intval($arguments['filter']['revenue']); // 4
 		}
 		
 		$remove = Array();
-		for($i=1;$i<count($allowedCategories); $i++){
-			$count = $ref->referenceRepository->countByOption($i,$industry,$companySize,$ref->showDeactivated);
+		foreach($allowedCategories as $uid => $category){
+			$count = $this->referenceRepository->countByOption($category->getUid(),$industryValue,$revenueValue,$this->showDeactivated);
 			if($count == 0){
-				$remove[$i] = 'remove';
+				$remove[$uid] = 'remove';
 			}
 		}
 		$allowedCategories = array_diff_key($allowedCategories,$remove);
+		
 		$remove = Array();
-		for($i=1;$i<count($allowedIndustries); $i++){
-			$count = $ref->referenceRepository->countByOption($category,$i,$companySize,$ref->showDeactivated);
+		foreach($allowedIndustries as $uid => $industry){
+			$count = $this->referenceRepository->countByOption($categoryValue,$industry->getUid(),$revenueValue,$this->showDeactivated);
 			if($count == 0){
-				$remove[$i] = 'remove';
+				$remove[$uid] = 'remove';
 			}
 		}
 		$allowedIndustries = array_diff_key($allowedIndustries,$remove);
+		
 		$remove = Array();
-		for($i=1;$i<count($allowedCompanySizes); $i++){
-			$count = $ref->referenceRepository->countByOption($category,$industry,$i,$ref->showDeactivated);
+		foreach($allowedRevenues as $uid => $revenue){
+			$count = $this->referenceRepository->countByOption($categoryValue,$industryValue,$revenue->getUid(),$this->showDeactivated);
 			if($count == 0){
-				$remove[$i] = 'remove';
+				$remove[$uid] = 'remove';
 			}
 		}
-		$allowedCompanySizes = array_diff_key($allowedCompanySizes,$remove);
+		$allowedRevenues = array_diff_key($allowedRevenues,$remove);
 	}
 	
 	/**

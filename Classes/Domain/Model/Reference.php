@@ -80,9 +80,9 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	/**
 	 * Category of the reference
 	 *
-	 * @var integer
+	 * @var Tx_Typo3Agencies_Domain_Model_Category
 	 */
-	protected $category = '';
+	protected $category;
 	
 	/**
 	 * Other category of the reference
@@ -160,11 +160,11 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	protected $agency;
 	
 	/**
-	 * Agency size
+	 * Agency revenue
 	 *
-	 * @var integer
+	 * @var Tx_Typo3Agencies_Domain_Model_Revenue
 	 */
-	protected $size = 0;
+	protected $revenue;
 	
 	/**
 	 * Reference sorting
@@ -236,7 +236,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	/**
 	 * Sets the category for the reference
 	 *
-	 * @param int $category
+	 * @param Tx_Typo3Agencies_Domain_Model_Category $category
 	 * @return void
 	 */
 	public function setCategory($category) {
@@ -246,7 +246,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	/**
 	 * Returns the category
 	 *
-	 * @return int
+	 * @return Tx_Typo3Agencies_Domain_Model_Category
 	 */
 	public function getCategory() {
 		return $this->category;
@@ -538,22 +538,22 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	}
 	
 	/**
-	 * Sets the size for the company
+	 * Sets the revenue for the company
 	 *
-	 * @param int $size
+	 * @param Tx_Typo3Agencies_Domain_Model_Revenue $revenue
 	 * @return void
 	 */
-	public function setSize($size) {
-		$this->size = $size;
+	public function setRevenue($revenue) {
+		$this->revenue = $revenue;
 	}
 
 	/**
-	 * Returns the size
+	 * Returns the revenue
 	 *
-	 * @return int
+	 * @return Tx_Typo3Agencies_Domain_Model_Revenue
 	 */
-	public function getSize() {
-		return $this->size;
+	public function getRevenue() {
+		return $this->revenue;
 	}
 	
 	/**

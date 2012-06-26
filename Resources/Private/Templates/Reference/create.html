@@ -11,8 +11,8 @@
 			<div class="b-box b-stat">
 				<ul class="linear-list">
 					<li>
-						<p class="n-m"><strong><f:translate key="size">Company size</f:translate>:</strong></p>
-						<p class="n-m"><f:translate key="employees"> employees</f:translate></p>
+						<p class="n-m"><strong><f:translate key="revenue">Revenue</f:translate>:</strong></p>
+						<p class="n-m"><f:translate key="euro"> EUR</f:translate></p>
 					</li>
 					<li>
 						<p class="n-m"><strong><f:translate key="pages">Number of pages</f:translate>:</strong></p>
@@ -36,32 +36,14 @@
 
 				<p class="b-project-cat">
 					<f:translate key="industry">Industry</f:translate>: 
-					<f:if condition="{reference.industryOther}">
-						<f:then>
-							<f:link.action action="index" controller="Reference" arguments="{filterString : 'industry#{reference.industryOther}'}">
-								{reference.industryOther}
-							</f:link.action>
-						</f:then>
-						<f:else>
-							<f:link.action action="index" controller="Reference" arguments="{filterString : 'industry#{reference.industry}'}">
-								<f:translate key="industry{reference.industry}">Industry</f:translate>
-							</f:link.action>
-						</f:else>
-					</f:if>
+					<f:link.action action="index" controller="Reference" arguments="{filterString : 'industry#{reference.industry.uid}'}">
+						{reference.industry.title}
+					</f:link.action>
 					 <span class="sep">|</span> 
 					<f:translate key="category">Category</f:translate>: 
-					<f:if condition="{reference.categoryOther}">
-						<f:then>
-							<f:link.action action="index" controller="Reference"	arguments="{filterString : 'category#{reference.categoryOther}'}">
-								{reference.categoryOther}
-							</f:link.action>
-						</f:then>
-						<f:else>
-							<f:link.action action="index" controller="Reference"	arguments="{filterString : 'category#{reference.category}'}">
-								<f:translate key="category{reference.category}">Category</f:translate>
-							</f:link.action>
-						</f:else>
-					</f:if>
+					<f:link.action action="index" controller="Reference"	arguments="{filterString : 'category#{reference.category.uid}'}">
+						{reference.category.title}
+					</f:link.action>
 				</p>
 				
 				<div class="hr"><hr /> </div>
@@ -103,7 +85,7 @@
 						<f:form.hidden property="screenshotGallery" />
 						<f:form.hidden property="casestudy" />
 						<f:form.hidden property="about" />
-						<f:form.hidden property="size" />
+						<f:form.hidden property="revenue" />
 						<f:form.hidden property="country" />
 						<f:form.hidden property="listed" />
 						<f:form.submit value="Publish project" class="bu bu-confirm"></f:form.submit>
@@ -124,7 +106,7 @@
 						<f:form.hidden property="screenshotGallery" />
 						<f:form.hidden property="casestudy" />
 						<f:form.hidden property="about" />
-						<f:form.hidden property="size" />
+						<f:form.hidden property="revenue" />
 						<f:form.hidden property="country" />
 						<f:form.hidden property="listed" />
 						<f:form.submit value="Back to edit" class="bu bu-confirm"></f:form.submit>

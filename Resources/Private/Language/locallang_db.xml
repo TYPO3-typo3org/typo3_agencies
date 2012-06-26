@@ -49,6 +49,7 @@
 			<label index="tx_typo3agencies_domain_model_reference.size1">1-49Mio</label>
 			<label index="tx_typo3agencies_domain_model_reference.size2">50-500Mio</label>
 			<label index="tx_typo3agencies_domain_model_reference.size3">&gt;500Mio</label>
+			<label index="tx_typo3agencies_domain_model_reference.revenue">Revenue</label>
 			<label index="tx_typo3agencies_domain_model_reference.country">Company country</label>
 			<label index="tx_typo3agencies_domain_model_reference.listed">The company is listed in the Fortune1000</label>
 			<label index="tx_typo3agencies_domain_model_reference.about">About the company</label>
