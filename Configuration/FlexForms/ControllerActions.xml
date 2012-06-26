@@ -16,11 +16,11 @@
           <items>
             <numIndex index="0">
                <numIndex index="0">Agency index</numIndex>
-               <numIndex index="1">Agency->index;Agency->index;Agency->show;Agency->edit;Agency->list;Agency->update;Agency->geocode;Reference->index;Reference->show;Reference->new;Reference->search;Reference->create;Reference->preview;Reference->remove;Reference->delete;Reference->edit;Reference->update;Reference->deactivate;Reference->reactivate;Reference->categories</numIndex>
+               <numIndex index="1">Agency->index;Agency->index;Agency->show;Agency->edit;Agency->list;Agency->update;Agency->geocode;Reference->index;Reference->filter;Reference->show;Reference->new;Reference->search;Reference->create;Reference->preview;Reference->remove;Reference->delete;Reference->edit;Reference->update;Reference->deactivate;Reference->reactivate;Reference->categories</numIndex>
             </numIndex>
             <numIndex index="1">
                <numIndex index="0">Reference index</numIndex>
-               <numIndex index="1">Reference->index;Agency->index;Agency->index;Agency->show;Agency->edit;Agency->list;Agency->update;Agency->geocode;Reference->show;Reference->new;Reference->search;Reference->create;Reference->preview;Reference->remove;Reference->delete;Reference->edit;Reference->update;Reference->deactivate;Reference->reactivate;Reference->categories</numIndex>
+               <numIndex index="1">Reference->index;Reference->filter;Agency->index;Agency->index;Agency->show;Agency->edit;Agency->list;Agency->update;Agency->geocode;Reference->show;Reference->new;Reference->search;Reference->create;Reference->preview;Reference->remove;Reference->delete;Reference->edit;Reference->update;Reference->deactivate;Reference->reactivate;Reference->categories</numIndex>
             </numIndex>
             </items>
           </config>
