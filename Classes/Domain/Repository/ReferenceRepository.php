@@ -218,7 +218,7 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 	 * 
 	 * @param int $selectedCategory
 	 * @param int $selectedIndustry
-	 * @param int $selectedCompanySize
+	 * @param int $selectedRevenue
 	 * @param boolean $includeDeactivated
 	 * @return int Number of records
 	 */
