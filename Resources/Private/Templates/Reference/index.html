@@ -30,32 +30,14 @@
 					</p>
 					<p class="b-project-cat">
 						<f:translate key="industry">Industry</f:translate>: 
-						<f:if condition="{topReference.industryOther}">
-							<f:then>
-								<f:link.action action="index" controller="Reference" arguments="{filterString : 'industry#{topReference.industryOther}'}">
-									{topReference.industryOther}
-								</f:link.action>
-							</f:then>
-							<f:else>
-								<f:link.action action="index" controller="Reference" arguments="{filterString : 'industry#{topReference.industry.uid}'}">
-									{topReference.industry.title}
-								</f:link.action>
-							</f:else>
-						</f:if>
+						<f:link.action action="index" controller="Reference" arguments="{filterString : 'industry#{topReference.industry.uid}'}">
+							{topReference.industry.title}
+						</f:link.action>
 						 <span class="sep">|</span> 
 						<f:translate key="category">Category</f:translate>: 
-						<f:if condition="{topReference.categoryOther}">
-							<f:then>
-								<f:link.action action="index" controller="Reference"	arguments="{filterString : 'category#{topReference.categoryOther}'}">
-									{topReference.categoryOther}
-								</f:link.action>
-							</f:then>
-							<f:else>
-								<f:link.action action="index" controller="Reference"	arguments="{filterString : 'category#{topReference.category.uid}'}">
-									{topReference.category.uid}
-								</f:link.action>
-							</f:else>
-						</f:if>
+						<f:link.action action="index" controller="Reference" arguments="{filterString : 'category#{topReference.category.uid}'}">
+							{topReference.category.uid}
+						</f:link.action>
 					</p>
 					
 					<div class="hr"><hr /> </div>
@@ -93,7 +75,7 @@
 				<h3>Recently Added</h3>
 			</f:if>
 
-			<ul class="b-projects-list">
+			<ul class="b-projects-list" id="sortable">
 				<f:for each="{references}" as="reference">
 					<f:if condition="{reference.deactivated == 0}">
 						<f:render partial="reference" arguments="{reference: reference, administrator : administrator, uploadPath : uploadPath, controller : 'Reference', redirectController : redirectController, redirect : redirect}" />
