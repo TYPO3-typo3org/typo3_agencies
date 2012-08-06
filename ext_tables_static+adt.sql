@@ -1,9 +1,9 @@
 #
 # Table structure for table 'tx_typo3agencies_domain_model_industry'
 #
-DROP TABLE IF EXISTS tx_typo3agencies_domain_model_industry
+DROP TABLE IF EXISTS tx_typo3agencies_domain_model_industry;
 CREATE TABLE tx_typo3agencies_domain_model_industry (
-	uid int(11) unsigned DEFAULT '0' NOT NULL auto_increment,
+	uid int(11) unsigned NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 	title varchar(255) DEFAULT '' NOT NULL,
 	PRIMARY KEY (uid),
