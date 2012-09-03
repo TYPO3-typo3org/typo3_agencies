@@ -179,7 +179,8 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 			$this->view->assign('typo3Version', $this->request->getArgument('typo3version'));
 			$this->view->assign('certifiedEmployee', $this->request->getArgument('certifiedintegrator'));
 			$this->view->assign('developmentKnowledge', $this->request->getArgument('knowledge'));
-			$this->view->assign('substansialContribution', $this->request->getArgument('contributions'));
+			$this->view->assign('financialContribution', $this->request->getArgument('financialContributions'));
+			$this->view->assign('activeContribution', $this->request->getArgument('activeContributions'));
 			$this->view->assign('caseStudies', $this->request->getArgument('casestudies'));
 			
 			$bodyContent = $this->view->render();
