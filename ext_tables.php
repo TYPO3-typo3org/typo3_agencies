@@ -90,7 +90,10 @@ $TCA['tx_typo3agencies_domain_model_industry'] = Array (
 				'enablecolumns' 	=> Array(
 				),
 				'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/tx_typo3agencies_domain_model_industry.php',
-				'iconfile' 			=> t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/icon_tx_typo3agencies_domain_model_agency.gif'
+				'iconfile' 			=> t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/icon_tx_typo3agencies_domain_model_agency.gif',
+			    'hideTable' => 1,
+			    'is_static' => 1,
+			    'readOnly' => 1
 		)
 );
 
@@ -103,7 +106,10 @@ $TCA['tx_typo3agencies_domain_model_revenue'] = Array (
 				'enablecolumns' 	=> Array(
 				),
 				'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/tx_typo3agencies_domain_model_revenue.php',
-				'iconfile' 			=> t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/icon_tx_typo3agencies_domain_model_agency.gif'
+				'iconfile' 			=> t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/icon_tx_typo3agencies_domain_model_agency.gif',
+			    'hideTable' => 1,
+			    'is_static' => 1,
+			    'readOnly' => 1
 		)
 );
 
@@ -116,7 +122,10 @@ $TCA['tx_typo3agencies_domain_model_category'] = Array (
 				'enablecolumns' 	=> Array(
 				),
 				'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/tx_typo3agencies_domain_model_category.php',
-				'iconfile' 			=> t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/icon_tx_typo3agencies_domain_model_agency.gif'
+				'iconfile' 			=> t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/icon_tx_typo3agencies_domain_model_agency.gif',
+			    'hideTable' => 1,
+			    'is_static' => 1,
+			    'readOnly' => 1
 		)
 );
 
