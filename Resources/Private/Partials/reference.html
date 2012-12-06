@@ -20,14 +20,10 @@
 	
 	<p class="b-project-cat">
 		<f:translate key="industry">Industry</f:translate>:
-		<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'industry#{reference.industry.uid}'}}">
-			{reference.industry.title}
-		</f:link.page>
+		<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'industry#{reference.industry.uid}'}}">{reference.industry.title}</f:link.page>
 		<span class="sep">|</span>
 		<f:translate key="category">Category</f:translate>:
-		<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'category#{reference.category.uid}'}}">
-			{reference.category.title}
-		</f:link.page>
+		<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'category#{reference.category.uid}'}}">{reference.category.title}</f:link.page>
 	</p>
 	<div class="hr">
 		<hr />
