@@ -50,17 +50,11 @@
 					<f:render partial="referenceActions" arguments="{reference: reference, administrator : administrator, controller : controller, redirectController : redirectController, redirect : redirect}" />
 				</p>
 				<p class="b-project-cat">
-					<f:translate key="industry">Industry</f:translate>: 
-					<f:link.action action="index" controller="Reference" arguments="{filterString : 'industry#{reference.industry.uid}'}">
-						{reference.industry.title}
-					</f:link.action>
-					 <span class="sep">|</span> 
-					<f:translate key="category">Category</f:translate>: 
-					<f:link.action action="index" controller="Reference"	arguments="{filterString : 'category#{reference.category.uid}'}">
-						{reference.category.title}
-					</f:link.action>
+					<f:translate key="industry">Industry</f:translate>:
+						<f:link.action action="index" controller="Reference" arguments="{filterString : 'industry#{reference.industry.uid}'}">{reference.industry.title}</f:link.action>
+						<span class="sep">|</span>
+						<f:translate key="category">Category</f:translate>: <f:link.action action="index" controller="Reference" arguments="{filterString : 'category#{reference.category.uid}'}">{reference.category.title}</f:link.action>
 				</p>
-				
 				<div class="hr"><hr /> </div>
 				<p class="pic">
 					<f:if condition="{reference.screenshot}">

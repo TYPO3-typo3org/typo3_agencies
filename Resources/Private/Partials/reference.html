@@ -33,18 +33,7 @@
 	</p>
 	<p class="b-project-created">
 		Created by: 
-		<f:link.external uri="{reference.agency.link}" target="_blank" class="b-project-created-by" > 
-			<strong> 
-				<f:if condition="{reference.agency.name}">
-					<f:then>
-						{reference.agency.name}
-					</f:then>
-					<f:else>
-						{reference.agency.firstName} {reference.agency.lastName}
-					</f:else>
-				</f:if> 
-			</strong>
-		</f:link.external>
+		<f:link.external uri="{reference.agency.link}" target="_blank" class="b-project-created-by" ><strong><f:if condition="{reference.agency.name}"><f:then>{reference.agency.name}</f:then><f:else>{reference.agency.firstName} {reference.agency.lastName}</f:else></f:if></strong></f:link.external>
 		(<f:link.page pageUid="{settings.agenciesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'show',controller:'Agency',agency:reference.agency.uid}}">See all projects</f:link.page>)
 	</p>
 	<p>
