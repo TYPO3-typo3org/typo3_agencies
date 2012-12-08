@@ -4,14 +4,14 @@
 	<div class="cl">
 		<div class="s-sidebar">
 			<f:render partial="filter" arguments="{categories : categories, industries : industries, revenues : revenues, filter : filter}" />
-			
+
 			<h4>Tag cloud</h4>
 			<ul class="b-tag-cloud">
 				<agency:tagCloud mode="html" tags="{tagCloud}" fontSizeMin="10" fontSizeMax="20" divider="</li><li>" tagName="li"/>
 			</ul><!-- b-tag-cloud -->
 			<f:link.action controller="Reference" action="index">Show all</f:link.action>
 		</div><!-- s-sidebar -->
-		
+
 		<div class="s-body">
 			<f:if condition="{administrator}">
 				<p class="b-project-add">
@@ -21,7 +21,7 @@
 				</p>
 			</f:if>
 			<h1>Case Studies</h1>
-			
+
 			<f:if condition="{topReference}">
 				<div class="b-project">
 					<h2>{topReference.title}</h2>
@@ -29,27 +29,27 @@
 						<f:render partial="referenceActions" arguments="{reference: topReference, administrator : administrator, controller : controller, redirectController : redirectController, redirect : redirect}" />
 					</p>
 					<p class="b-project-cat">
-						<f:translate key="industry">Industry</f:translate>: 
+						<f:translate key="industry">Industry</f:translate>:
 						<f:link.action action="index" controller="Reference" arguments="{filterString : 'industry#{topReference.industry.uid}'}">
 							{topReference.industry.title}
 						</f:link.action>
-						 <span class="sep">|</span> 
-						<f:translate key="category">Category</f:translate>: 
+						<span class="sep">|</span>
+						<f:translate key="category">Category</f:translate>:
 						<f:link.action action="index" controller="Reference" arguments="{filterString : 'category#{topReference.category.uid}'}">
 							{topReference.category.uid}
 						</f:link.action>
 					</p>
-					
+
 					<div class="hr"><hr /> </div>
 					<p class="pic">
 						<f:if condition="{topReference.screenshot}">
-							<agency:image src="{uploadPath}/{topReference.screenshot}" width="515c-100" height="264c-100" alt="" />
+							<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'show',controller:'Reference',reference:topReference}}"><agency:image src="{uploadPath}/{topReference.screenshot}" width="515c-100" height="264c-100" alt="" /></f:link.page>
 						</f:if>
 					</p>
 					<p class="b-project-created">
-						Created by: 
-						<f:link.external uri="{topReference.agency.link}" target="_blank" class="b-project-created-by" > 
-							<strong> 
+						Created by:
+						<f:link.external uri="{topReference.agency.link}" target="_blank" class="b-project-created-by" >
+							<strong>
 								<f:if condition="{topReference.agency.name}">
 									<f:then>
 										{topReference.agency.name}
@@ -57,7 +57,7 @@
 									<f:else>
 										{topReference.agency.firstName} {topReference.agency.lastName}
 									</f:else>
-								</f:if> 
+								</f:if>
 							</strong>
 						</f:link.external>
 						(<f:link.page pageUid="{settings.agenciesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'show',controller:'Agency',agency:topReference.agency.uid}}">See all projects</f:link.page>)
@@ -71,7 +71,7 @@
 						</f:link.page>
 					</p>
 				</div><!-- b-project -->
-				
+
 				<h3>Recently Added</h3>
 			</f:if>
 
@@ -82,8 +82,8 @@
 					</f:if>
 				</f:for>
 			</ul><!-- b-projects-list -->
-			
-			
+
+
 			<f:if condition="{pager.displayItems}">
 				<ul class="b-pager">
 					<f:if condition="{pager.page} != 1">

@@ -9,15 +9,15 @@
 </f:if>
 <div class="pic">
 	<f:if condition="{reference.screenshot}">
-		<agency:image src="{uploadPath}/{reference.screenshot}" width="149" height="120" alt="" />
-	</f:if> 
+		<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'show',controller:'Reference',reference:reference}}"><agency:image src="{uploadPath}/{reference.screenshot}" width="149" height="120" alt="" /></f:link.page>
+	</f:if>
 	<f:render partial="referenceActions" arguments="{reference: reference, administrator : administrator, controller : controller, redirectController : redirectController, redirect : redirect}" />
 </div>
 
 <div class="b-project-body">
-	
+
 	<h4>{reference.title}</h4>
-	
+
 	<p class="b-project-cat">
 		<f:translate key="industry">Industry</f:translate>:
 		<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'index',controller:'Reference',filterString:'industry#{reference.industry.uid}'}}">{reference.industry.title}</f:link.page>
@@ -32,7 +32,7 @@
 		<f:format.nl2br><f:format.crop maxCharacters="150">{reference.description}</f:format.crop></f:format.nl2br>
 	</p>
 	<p class="b-project-created">
-		Created by: 
+		Created by:
 		<f:link.external uri="{reference.agency.link}" target="_blank" class="b-project-created-by" ><strong><f:if condition="{reference.agency.name}"><f:then>{reference.agency.name}</f:then><f:else>{reference.agency.firstName} {reference.agency.lastName}</f:else></f:if></strong></f:link.external>
 		(<f:link.page pageUid="{settings.agenciesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'show',controller:'Agency',agency:reference.agency.uid}}">See all projects</f:link.page>)
 	</p>
