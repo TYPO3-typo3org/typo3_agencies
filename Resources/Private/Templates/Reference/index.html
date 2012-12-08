@@ -1,23 +1,16 @@
 {namespace agency=Tx_Typo3Agencies_ViewHelpers}
 <f:layout name="default" />
+
 <f:section name="content">
 	<div class="cl">
 		<div class="s-sidebar">
-			<f:render partial="filter" arguments="{categories : categories, industries : industries, revenues : revenues, filter : filter}" />
-
-			<h4>Tag cloud</h4>
-			<ul class="b-tag-cloud">
-				<agency:tagCloud mode="html" tags="{tagCloud}" fontSizeMin="10" fontSizeMax="20" divider="</li><li>" tagName="li"/>
-			</ul><!-- b-tag-cloud -->
-			<f:link.action controller="Reference" action="index">Show all</f:link.action>
-		</div><!-- s-sidebar -->
+			<f:render partial="referenceFilter" arguments="{filterOptions: filterOptions}" />
+		</div>
 
 		<div class="s-body">
 			<f:if condition="{administrator}">
 				<p class="b-project-add">
-					<f:link.action action="new" controller="Reference"	arguments="{reference : topReference}">
-						<f:translate key="newProject">Add your project</f:translate>
-					</f:link.action>
+					<f:link.action action="new" controller="Reference"	arguments="{reference : topReference}"><f:translate key="newProject">Add your project</f:translate></f:link.action>
 				</p>
 			</f:if>
 			<h1>Case Studies</h1>
@@ -81,43 +74,9 @@
 						<f:render partial="reference" arguments="{reference: reference, administrator : administrator, uploadPath : uploadPath, controller : 'Reference', redirectController : redirectController, redirect : redirect}" />
 					</f:if>
 				</f:for>
-			</ul><!-- b-projects-list -->
+			</ul>
+			<f:render partial="referencePager" arguments="{pager: pager}" />
+		</div>
+	</div>
 
-
-			<f:if condition="{pager.displayItems}">
-				<ul class="b-pager">
-					<f:if condition="{pager.page} != 1">
-						<f:then>
-							<li><f:link.action controller="Reference" action="index" arguments="{reference : reference, page : 1}"><f:translate key="first">First</f:translate></f:link.action></li>
-							<li><f:link.action controller="Reference" action="index" arguments="{reference : reference, page : pager.previousPage}"><f:translate key="previous">Previous</f:translate></f:link.action></li>
-						</f:then>
-						<f:else>
-							<li class="cur"><f:translate key="first">First</f:translate></li>
-						</f:else>
-					</f:if>
-			</f:if>
-			<f:for each="{pager.displayItems}" as="pageItem">
-				<f:if condition="{pageItem.key} == {pager.page}">
-					<f:then>
-						<li class="cur">{pageItem.value}</li>
-					</f:then>
-					<f:else>
-						<li><f:link.action controller="Reference" action="index" arguments="{reference : reference, page : pageItem.key}">{pageItem.value}</f:link.action></li>
-					</f:else>
-				</f:if>
-			</f:for>
-			<f:if condition="{pager.displayItems}">
-				<f:if condition="{pager.page} != {pager.LastPage}">
-					<f:then>
-						<li><f:link.action controller="Reference" action="index" arguments="{reference : reference, page : pager.nextPage}"><f:translate key="next">Next</f:translate></f:link.action></li>
-						<li><f:link.action controller="Reference" action="index" arguments="{reference : reference, page : pager.lastPage}"><f:translate key="last">Last</f:translate></f:link.action></li>
-					</f:then>
-					<f:else>
-						<li class="cur"><f:translate key="last">Last</f:translate></li>
-					</f:else>
-				</f:if>
-				</ul>
-			</f:if>
-		</div><!-- s-body -->
-	</div><!-- cl -->
 </f:section>

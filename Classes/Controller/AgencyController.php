@@ -33,10 +33,10 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 
 	/**
 	 * Verify code action
-	 * 
-	 * @param string $agencyCode 
+	 *
+	 * @param string $agencyCode
 	 * @dontvalidate $agencyCode
-	 * 
+	 *
 	 * @return void
 	 */
 	public function verifyCodeAction($agencyCode = NULL) {
@@ -52,19 +52,19 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 					$newAgency = $this->objectManager->create('Tx_Typo3Agencies_Domain_Model_Agency');
 					$newAgency->setCode($agencyCode);
 					$newAgency->setAdministrator((int) $GLOBALS['TSFE']->fe_user->user['uid']);
-					
+
 					$approved = $memberData['isApproved'] == 1 ? true : false;
 					$allowedCaseStudies = $approved ? (int) $memberData['caseStudies'] : 0;
-	
+
 					$newAgency->setApproved($approved);
 					$newAgency->setCaseStudies($allowedCaseStudies);
 					$newAgency->setMember($memberData['membershipLevel']);
-					
+
 					$this->agencyRepository->add($newAgency);
 					$this->objectManager->get('Tx_Extbase_Persistence_Manager')->persistAll();
-					
+
 					$this->redirect('enterInformation', 'Agency', $this->extensionName, array('newAgency' => $newAgency));
-					
+
 				} else {
 						/* @var $newAgency Tx_Typo3Agencies_Domain_Model_Agency */
 					$newAgency = $this->agencyRepository->findOneByCode($agencyCode);
@@ -83,26 +83,26 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		} else {
 			$this->flashMessageContainer->add('No agency code was entered', '', t3lib_message_AbstractMessage::WARNING);
 		}
-		
+
 		$this->redirect('enterCode');
 	}
 
 	/**
 	 * Enter code, action
-	 * 
+	 *
 	 * @return void
 	 */
 	public function enterCodeAction() {
-		
+
 	}
 
 	 /**
 	 * Enter agency information, action
-	 * 
+	 *
 	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
 	 * @dontvalidate $newAgency
 	 * @param boolean $logo Delete the logo
-	 * 
+	 *
 	 * @return void
 	 */
 	public function enterInformationAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency = NULL, $logo = FALSE) {
@@ -127,7 +127,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 
 	/**
 	 * Update new agency information and go to step 3
-	 * 
+	 *
 	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
 	 */
 	public function updateNewAgencyAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
@@ -138,7 +138,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		}
 		$this->forward('enterApprovalData', 'Agency', $this->extensionName, array('newAgency' => $newAgency));
 	}
-	
+
 	/**
 	 * Enter approval data
 	 *
@@ -156,21 +156,21 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 			// TODO: forward to enter code screen with a flash error message
 		}
 	}
-	
+
 	/**
 	 * Send approval data
-	 * 
+	 *
 	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
 	 */
 	public function sendApprovalDataAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
 		if (!$this->request->getArgument('typo3version')) {
 			$this->forward(
-					'enterApprovalData', 
-					null, 
-					null, 
+					'enterApprovalData',
+					null,
+					null,
 					array(
-							'newAgency' => $newAgency, 
-							'errors' => array ('typo3version' => '12312376'), 
+							'newAgency' => $newAgency,
+							'errors' => array ('typo3version' => '12312376'),
 							'referringArguments' => $this->request->getArguments()
 					)
 			);
@@ -182,31 +182,31 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 			$this->view->assign('financialContribution', $this->request->getArgument('financialContributions'));
 			$this->view->assign('activeContribution', $this->request->getArgument('activeContributions'));
 			$this->view->assign('caseStudies', $this->request->getArgument('casestudies'));
-			
+
 			$bodyContent = $this->view->render();
-			
+
 			$mail = t3lib_div::makeInstance('t3lib_mail_Message');
 			$mail->setFrom(array($newAgency->getEmail() => $newAgency->getName()));
 			$mail->setTo(array('psl@typo3.org' => 'Agency Listing'));
 			$mail->setSubject('PSL approval request from ' . $newAgency->getName());
 			$mail->setBody($bodyContent);
 			$mail->send();
-			
+
 			$this->forward('confirmAgencySubmission');
 		}
 	}
-	
+
 	/**
 	 * Confirm agency submission
 	 */
 	public function confirmAgencySubmissionAction() {
 	}
-	
+
 	/**
 	 * Create agency
-	 * 
+	 *
 	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
-	 * 
+	 *
 	 * @return void
 	 */
 	public function createAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency = NULL) {
@@ -218,14 +218,14 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		$this->flashMessageContainer->add('Agency created', 'yehaaa!');
 		#$this->redirect('verifyCode');
 	}
-	
+
 	/**
 	 * Index action for this controller. Displays a list of agencies.
 	 *
 	 * @return string The rendered view
 	 */
 	public function indexAction() {
-		
+
 		// Add Google API
 		$this->response->addAdditionalHeaderData('<script src="http://maps.google.com/maps/api/js?sensor=true&language=en"></script>');
 
@@ -243,24 +243,24 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		// Initialize delay in geocode speed
 		$delay = 0;
 		$base_url = 'http://maps.google.com/maps/geo?output=xml&key=' . $this->settings['googleMapsKey'];
-	
+
 		$geocode_pending = true;
 
 		while ($geocode_pending) {
-			
+
 			$countries = $this->countryRepository->findByCnIso2($agency->getCountry());
 			if(count($countries) == 1){
 				$address = $agency->getAddress().', '.$agency->getZip().' '.$agency->getCity().', '.$countries->getFirst()->getCnShortEn();
 				$request_url = $base_url . '&q=' . urlencode($address);
 				$xml = simplexml_load_file($request_url);
-	
+
 				$status = $xml->Response->Status->code;
 				if (strcmp($status, '200') == 0) {
 					// Successful geocode
 					$geocode_pending = false;
 					$coordinates = $xml->Response->Placemark->Point->coordinates;
 					$coordinatesSplit = explode(',', $coordinates);
-					
+
 					$agency->setLatitude($coordinatesSplit[1]);
 					$agency->setLongitude($coordinatesSplit[0]);
 					$this->agencyRepository->update($agency);
@@ -289,6 +289,8 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 			$agency = $this->agency;
 		}
 
+		$GLOBALS['TSFE']->page['title'] = $GLOBALS['TSFE']->indexedDocTitle =
+			$agency->getName();
 		$isAdministrator = false;
 		if ($agency->getAdministrator() == $this->administrator) {
 			$isAdministrator = true;
@@ -335,13 +337,13 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 			$this->view->assign('uploadPath', $this->settings['uploadPath']);
 			$this->view->assign('administrator', $this->administrator);
 			$this->addCountries();
-			
+
 			$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
 		} else {
 			$this->redirect('show', 'Agency',$this->extensionName,Array('agency'=>$agency));
 		}
 	}
-	
+
 	/**
 	 * Edits an existing reference
 	 *
@@ -359,7 +361,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 				$this->agencyRepository->update($agency);
 				$this->geoCodeAgency($agency);
 				$this->flashMessages->add(str_replace('%NAME%', $agency->getName(), $this->localization->translate('agencyUpdated', $this->extensionName)),'',t3lib_message_AbstractMessage::OK);
-				
+
 				$references = $this->referenceRepository->findAllByAgency($agency, $showDeactivated);
 				$usedCredits = $this->referenceRepository->countByAgency($agency);
 				$agency->setReferences($references);
@@ -369,7 +371,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 				$this->view->assign('availableCredits',$agency->getCasestudies() - $usedCredits);
 				$this->view->assign('usedCredits',$usedCredits);
 				$this->addFilterOptions();
-				
+
 				$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
 			} else {
 				$this->agencyRepository->update($agency);
@@ -381,7 +383,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 			$this->redirect('show', 'Agency',null,Array('agency'=>$agency));
 		}
 	}
-	
+
 	/**
 	 * List action for this controller. Displays a list of agencies
 	 *
@@ -398,7 +400,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		$order = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Order');
 		$order->addOrdering('member', Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING);
 		$order->addOrdering('name', Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING);
-		
+
 		// Initialize the pager
 		$pager = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Pager');
 
@@ -412,7 +414,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		$pager->setItemsPerPage($this->settings['pageBrowser']['itemsPerPage']);
 		$offset = ($pager->getPage() - 1) * $pager->getItemsPerPage();
 		$count = 0;
-		
+
 		if($filterObject->getLocation() != ''){
 			//geocode the location
 			$url = 'http://maps.google.com/maps/geo?'.
@@ -422,7 +424,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 
 			$csv = t3lib_div::getURL($url);
 			$csv = explode(',', $csv);
-			
+
 			switch($csv[0]) {
 				case 200:
 					/*
@@ -490,24 +492,24 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 				return parent::getErrorFlashMessage();
 		}
 	}
-	
+
 	private function buildURL($name, $value){
 		if($value) {
 			return $name.'='.urlencode($value).'&';
 		}
 	}
-	
+
 
 
 	/**
-	 * 
+	 *
 	 * Enter description here ...
 	 * @param unknown_type $agency
 	 */
 	private function handleFiles(&$agency) {
 
 		$ok = true;
-		
+
 		$namespace = $this->getNamespace();
 		if (is_array($_FILES[$namespace])) {
 			$fileFunc = t3lib_div::makeInstance('t3lib_basicFileFunctions');

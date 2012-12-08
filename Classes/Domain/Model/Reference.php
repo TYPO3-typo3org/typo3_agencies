@@ -31,13 +31,13 @@
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License, version 2
  */
 class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_AbstractEntity {
-	
+
 	/**
 	 * Deactivate this reference
 	 * @var boolean
 	 */
 	protected $deactivated = false;
-	
+
 	/**
 	 * The reference title.
 	 *
@@ -53,7 +53,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	 * @validate NotEmpty
 	 */
 	protected $description = '';
-	
+
 	/**
 	 * A link of the reference
 	 *
@@ -61,14 +61,14 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	 * @validate NotEmpty
 	 */
 	protected $link = '';
-	
+
 	/**
 	 * Index of pages attribute of the reference
 	 *
 	 * @var integer
 	 */
 	protected $pages = 0;
-	
+
 	/**
 	 * Languages of the reference
 	 *
@@ -76,14 +76,14 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	 * @validate NotEmpty,StringLength(maximum = 256)
 	 */
 	protected $languages = '';
-	
+
 	/**
 	 * Category of the reference
 	 *
 	 * @var Tx_Typo3Agencies_Domain_Model_Category
 	 */
 	protected $category;
-	
+
 	/**
 	 * Other category of the reference
 	 *
@@ -91,7 +91,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	 * @validate StringLength(maximum = 256)
 	 */
 	protected $categoryOther = '';
-	
+
 	/**
 	 * Tags of the reference
 	 *
@@ -99,14 +99,14 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	 * @validate NotEmpty
 	 */
 	protected $tags = '';
-	
+
 	/**
 	 * Industry of the reference
 	 *
 	 * @var Tx_Typo3Agencies_Domain_Model_Industry
 	 */
 	protected $industry;
-	
+
 	/**
 	 * Other industry of the reference
 	 *
@@ -114,35 +114,35 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	 * @validate StringLength(maximum = 256)
 	 */
 	protected $industryOther = '';
-	
+
 	/**
 	 * Screenshot of the reference
 	 *
 	 * @var string
 	 */
 	protected $screenshot = '';
-	
+
 	/**
 	 * Screenshot gallery of the reference
 	 *
 	 * @var string
 	 */
 	protected $screenshotGallery = '';
-	
+
 	/**
 	 * Casestudy of the reference
 	 *
 	 * @var string
 	 */
 	protected $casestudy = '';
-	
+
 	/**
 	 * A short conclusion of the reference
 	 *
 	 * @var string
 	 */
 	protected $conclusion = '';
-	
+
 	/**
 	 * About the company
 	 *
@@ -150,7 +150,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	 * @validate NotEmpty
 	 */
 	protected $about = '';
-	
+
 	/**
 	 * Reference Agency
 	 *
@@ -158,35 +158,35 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	 * @lazy
 	 */
 	protected $agency;
-	
+
 	/**
 	 * Agency revenue
 	 *
 	 * @var Tx_Typo3Agencies_Domain_Model_Revenue
 	 */
 	protected $revenue;
-	
+
 	/**
 	 * Reference sorting
 	 *
 	 * @var integer
 	 */
 	protected $sorting = 0;
-	
+
 	/**
 	 * Agency country
 	 *
 	 * @var string
 	 */
 	protected $country = '';
-	
+
 	/**
 	 * Agency listed in fortune 1000
 	 *
 	 * @var boolean
 	 */
 	protected $listed = false;
-	
+
 
 	/**
 	 * Constructs a new Reference
@@ -232,7 +232,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function getDescription() {
 		return $this->description;
 	}
-	
+
 	/**
 	 * Sets the category for the reference
 	 *
@@ -251,7 +251,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function getCategory() {
 		return $this->category;
 	}
-	
+
 	/**
 	 * Sets the categoryOther for the reference
 	 *
@@ -270,7 +270,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function getCategoryOther() {
 		return $this->categoryOther;
 	}
-	
+
 	/**
 	 * Sets the agency
 	 *
@@ -284,12 +284,12 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	/**
 	 * Returns the Tx_Typo3Agencies_Doamin_Model_Agency
 	 *
-	 * @return Tx_Typo3Agencies_Doamin_Model_Agency
+	 * @return Tx_Typo3Agencies_Domain_Model_Agency
 	 */
 	public function getAgency() {
 		return $this->agency;
 	}
-	
+
 	/**
 	 * Sets the industry for the reference
 	 *
@@ -308,7 +308,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function getIndustry() {
 		return $this->industry;
 	}
-	
+
 	/**
 	 * Sets the industryOther for the reference
 	 *
@@ -327,7 +327,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function getIndustryOther() {
 		return $this->industryOther;
 	}
-	
+
 	/**
 	 * Sets the languages for the reference
 	 *
@@ -346,7 +346,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function getLanguages() {
 		return $this->languages;
 	}
-	
+
 	/**
 	 * Sets the link for the reference
 	 *
@@ -365,7 +365,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function getLink() {
 		return $this->link;
 	}
-	
+
 	/**
 	 * Sets the pages for the reference
 	 *
@@ -384,7 +384,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function getPages() {
 		return $this->pages;
 	}
-	
+
 	/**
 	 * Sets the screenshot for the reference
 	 *
@@ -403,7 +403,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function getScreenshot() {
 		return $this->screenshot;
 	}
-	
+
 	/**
 	 * Sets the screenshotGallery for the reference
 	 *
@@ -422,7 +422,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function getScreenshotGallery() {
 		return $this->screenshotGallery;
 	}
-	
+
 	/**
 	 * Sets the casestudy for the reference
 	 *
@@ -441,7 +441,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function getCasestudy() {
 		return $this->casestudy;
 	}
-	
+
 	/**
 	 * Sets the tags for the reference
 	 *
@@ -460,7 +460,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function getTags() {
 		return $this->tags;
 	}
-	
+
 	/**
 	 * Sets the about for the conclusion
 	 *
@@ -479,7 +479,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function getConclusion() {
 		return $this->conclusion;
 	}
-	
+
 	/**
 	 * Sets the about for the reference
 	 *
@@ -498,7 +498,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function getAbout() {
 		return $this->about;
 	}
-	
+
 	/**
 	 * Sets the country of the company
 	 *
@@ -517,7 +517,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function getCountry() {
 		return $this->country;
 	}
-	
+
 	/**
 	 * Sets the listed attribute for the company
 	 *
@@ -536,7 +536,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function getListed() {
 		return $this->listed;
 	}
-	
+
 	/**
 	 * Sets the revenue for the company
 	 *
@@ -555,7 +555,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function getRevenue() {
 		return $this->revenue;
 	}
-	
+
 	/**
 	 * Sets the deactivation flag
 	 * @param boolean $deactivated
@@ -564,7 +564,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function setDeactivated($deactivated){
 		$this->deactivated = $deactivated;
 	}
-	
+
 	/**
 	 * Returns the deactivation flag
 	 * @return boolean The deactivation flag
@@ -572,7 +572,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function isDeactivated(){
 		return $this->deactivated;
 	}
-	
+
 	/**
 	 * Sets the sorting index
 	 * @param integer $sorting
@@ -580,7 +580,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	public function setSorting($sorting){
 		$this->sorting = $sorting;
 	}
-	
+
 	/**
 	 * Returns the sorting index
 	 * @return integer The sorting index

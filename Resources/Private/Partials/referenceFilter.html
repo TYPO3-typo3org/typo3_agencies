@@ -1,0 +1,37 @@
+<div class="b-box">
+	<h3>Filter Options</h3>
+
+	<f:form action="index" name="tx_typo3agencies_pi1">
+		<p class="form-row">
+			<label for="category"><f:translate key="category">Category</f:translate></label>
+			<select id="category">
+				<f:for each="{filterOptions.category}" as="category"><option value="{category.value}" data-link="{category.link}" {f:if(condition: category.selected, then:'selected')}>{category.label} ({category.count})</option></f:for>
+			</select>
+		</p>
+		<p class="form-row">
+			<label for="industry"><f:translate key="industry">Industry</f:translate></label>
+			<select id="industry">
+				<f:for each="{filterOptions.industry}" as="industry"><option value="{industry.value}" data-link="{industry.link}" {f:if(condition: industry.selected, then:'selected')}>{industry.label} ({industry.count})</option></f:for>
+			</select>
+		</p>
+		<p class="form-row">
+			<label for="revenue"><f:translate key="revenue">Revenue</f:translate></label>
+			<select id="revenue">
+				<f:for each="{filterOptions.revenue}" as="revenue"><option value="{revenue.value}" data-link="{revenue.link}" {f:if(condition: revenue.selected, then:'selected')}>{revenue.label} ({revenue.count})</option></f:for>
+			</select>
+		</p>
+		<!--<p class="form-row">
+			<f:translate key="membershipType">membership level of agency</f:translate>
+			<select id="membershipType">
+				<f:for each="{filterOptions.membershipType}" as="membershipType"><option value="{membershipType.value}" data-link="{membershipType.link}">{membershipType.label} ({category.count})</option></f:for>
+			</select>
+		</p>-->
+		<p class="form-row">
+			<f:translate key="fortune500">Fortune 500</f:translate>
+			<f:form.hidden name="fortune500" value="0" /><f:form.checkbox name="fortune500" value="1" checked="{filterOptions.listed.selected}" additionalAttributes="{data-link: filterOptions.listed.link}" />
+		</p>
+		<p>
+			<f:link.action controller="Reference" action="index" class="bu bu-mini"><f:translate key="clear">Clear</f:translate></f:link.action>
+		</p>
+	</f:form>
+</div>

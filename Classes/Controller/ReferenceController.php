@@ -32,22 +32,36 @@ require_once('ReferenceController.php');
 class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_Controller_BaseController {
 
 	/**
+	 * @var Tx_Typo3Agencies_Domain_Model_Pager
+	 */
+	protected $pager;
+
+	/**
 	 * Index (cacheable) action for this controller. Displays a list of references.
 	 *
-	 * @param array $filter The filter to filter
-	 * @param string $filterString A passed on filterString to be tokenized
 	 *
-	 * @return string The rendered view
-	 * @dontvalidate $filter
+	 * @param Tx_Typo3Agencies_Domain_Model_Category $category
+	 * @param Tx_Typo3Agencies_Domain_Model_Industry $industry
+	 * @param Tx_Typo3Agencies_Domain_Model_Revenue $revenue
+	 * @param integer $membershipType
+	 * @param integer $listed
 	 */
-	public function indexAction(array $filter = NULL, $filterString = NULL) {
-		$filterObject = $this->createFilterObject($filter);
+	public function indexAction(Tx_Typo3Agencies_Domain_Model_Category $category = NULL, Tx_Typo3Agencies_Domain_Model_Industry $industry = NULL, Tx_Typo3Agencies_Domain_Model_Revenue $revenue = NULL, $membershipType = -1, $listed = -1) {
 		if ($this->settings['showAgencyIfLoggedIn'] == 1 && $this->administrator > 0) {
 			$this->redirect('show', 'Agency');
 		} else {
-			$this->addFilterOptions();
+			if ($listed == -1) {
+				if ($category == NULL && $industry == NULL && $revenue == NULL) {
+					$fortune500 = TRUE;
+				} else {
+					$fortune500 = FALSE;
+				}
+			} else {
+				$fortune500 = ($listed == 1);
+			}
 
 			$this->pager = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Pager');
+			$this->pager->setItemsPerPage($this->settings['pageBrowser']['itemsPerPage']);
 
 			if ($this->request->hasArgument('page')) {
 				$this->pager->setPage($this->request->getArgument('page'));
@@ -55,74 +69,15 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 					$this->pager->setPage(1);
 				}
 			}
+			$allReferences = $this->referenceRepository->findByFilterSelection($category, $industry, $revenue, $membershipType, $fortune500, NULL, NULL, FALSE);
+			$selectedReferences = $this->referenceRepository->findByFilterSelection($category, $industry, $revenue, $membershipType, $fortune500, $this->pager->getOffset(), $this->pager->getItemsPerPage(), FALSE);
 
-			if ($filterObject == NULL && isset($filterString)) {
-				$filterObject = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Filter');
-				if (strpos($filterString, 'industry#') !== FALSE) {
-					$filterObject->setIndustry(substr($filterString, 9));
-				}
-				if (strpos($filterString, 'category#') !== FALSE) {
-					$filterObject->setCategory(substr($filterString, 9));
-				}
-				if (strpos($filterString, 'tag#') !== FALSE) {
-					$filterObject->setSearchTerm(substr($filterString, 4));
-					$this->view->assign('filterString', TRUE);
-				}
-			}
+			$this->pager->setCount($allReferences->count());
 
-			$tagArray = Array();
-
-			$this->pager->setItemsPerPage($this->settings['pageBrowser']['itemsPerPage']);
-			$offset = ($this->pager->getPage() - 1) * $this->pager->getItemsPerPage();
-			$count = 0;
-			if ($filterObject == NULL) {
-				$ignore = 0;
-				if ($this->settings['topReferences'] != '') {
-					$topReferences = $this->referenceRepository->findValidTopReferences($this->settings['topReferences']);
-					$rand = rand(0, count($topReferences) - 1);
-					$ignore = $topReferences[$rand];
-					$topReference = $this->referenceRepository->findByUid($ignore);
-					$tags = t3lib_div::trimExplode(',', $topReference->getTags(), 1);
-					foreach ($tags as $tag) {
-						$tagArray[$tag][] = 1;
-					}
-					$this->view->assign('topReference', $topReference);
-				}
-				$this->filter = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Filter');
-				$count = $this->referenceRepository->countRecentlyAdded(FALSE, $this->agency, (int) $this->settings['recentCaseStudies']);
-				$references = $this->referenceRepository->findAllByRevenue($offset, $this->pager->getItemsPerPage(), FALSE, $this->agency, (int) $this->settings['recentCaseStudies'], $ignore);
-			} else {
-				$this->filter = $filterObject;
-				$references = $this->referenceRepository->findAllByFilter($this->filter, NULL, NULL, FALSE, $this->showDeactivated);
-				$count = count($references->toArray());
-				$this->filter->setResultCount($count);
-				$references = $this->referenceRepository->findAllByFilter($this->filter, $offset, $this->pager->getItemsPerPage(), FALSE, FALSE);
-			}
-			$this->pager->setCount($count);
+			$this->view->assign('filterOptions', $this->buildDataForFilterModule($category, $industry, $revenue, $membershipType, $fortune500));
+			$this->view->assign('tagCloud', $this->generateTagCloudFromReferences($selectedReferences));
 			$this->view->assign('pager', $this->pager);
-			$this->view->assign('filter', $this->filter);
-			$this->view->assign('references', $references);
-
-
-			foreach ($references->toArray() as $reference) {
-				$tags = t3lib_div::trimExplode(',', $reference->getTags(), 1);
-				foreach ($tags as $tag) {
-					$tagArray[$tag][] = 1;
-				}
-			}
-
-			$tagCloudArray = Array();
-			foreach ($tagArray as $tag => $values) {
-				$tagCloudArray[] = Array('tag' => $tag . ' ', 'occurrences' => count($values), 'href' => $this->uriBuilder->uriFor('index', Array('filterString' => 'tag#' . $tag), 'Reference'), 'title' => NULL, 'style' => NULL);
-			}
-			$this->view->assign('tagCloud', $tagCloudArray);
-
-
-			$request = t3lib_div::makeInstance('Tx_Extbase_MVC_Web_Request');
-			$request->setBaseUri($_SERVER['HTTP_HOST']);
-			$request->setFormat('json');
-
-			$this->view->assign('ajaxUrl', '');
+			$this->view->assign('references', $selectedReferences);
 			$this->view->assign('administrator', $this->administrator);
 			$this->view->assign('agency', $this->agency);
 			$this->view->assign('uploadPath', $this->settings['uploadPath']);
@@ -132,40 +87,90 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 	}
 
 	/**
-	 * Filter (non-cacheable) action for this controller. Displays a list of references.
-	 *
-	 * @param array $filter The filter to filter
-	 * @param string $filterString A passed on filterString to be tokenized
-	 *
-	 * @return string The rendered view
-	 * @dontvalidate $filter
+	 * @param Tx_Typo3Agencies_Domain_Model_Category $category
+	 * @param Tx_Typo3Agencies_Domain_Model_Industry $industry
+	 * @param Tx_Typo3Agencies_Domain_Model_Revenue $revenue
+	 * @param $membershipStatus
+	 * @param boolean $fortune500
 	 */
-	public function filterAction(array $filter = NULL, $filterString = NULL) {
-		$this->forward('index');
-	}
+	protected function buildDataForFilterModule(Tx_Typo3Agencies_Domain_Model_Category $category = NULL, Tx_Typo3Agencies_Domain_Model_Industry $industry = NULL, Tx_Typo3Agencies_Domain_Model_Revenue $revenue = NULL, $membershipStatus = -1, $fortune500 = FALSE) {
 
-	public function categoriesAction() {
-		$this->request->setFormat('json');
+		$currentSelection = array();
+		$currentSelection['category'] = $category;
+		$currentSelection['industry'] = $industry;
+		$currentSelection['revenue'] = $revenue;
+		$currentSelection['listed'] = $fortune500;
 
-		$allowedCategories = $this->getCategories();
-		$allowedIndustries = $this->getIndustries();
-		$allowedRevenues = $this->getRevenues();
+		$filterOptions = array();
+		$filteredPropertiesInReferences = array('category' => TRUE, 'industry' => TRUE, 'revenue' => TRUE, 'listed' => FALSE);
 
-		$this->removeNotSet($this->request, $allowedCategories, $allowedIndustries, $allowedRevenues);
+		/**
+		 * Helper function to retrieve an id
+		 * @param $column
+		 *
+		 * @return int
+		 */
+		$idFinder = function ($column) {
+			if (empty($column)) {
+				return NULL;
+			} elseif (is_object($column)) {
+				$id = $column->getUid();
+			} else {
+				$id = intval($column);
+			}
+			return $id;
+		};
 
-		$categoryString = Array();
-		foreach ($allowedCategories as $key => $value) {
-			$categoryString[] = '{"optionValue":' . $key . ',"optionDisplay":"' . $value . '"}';
+		/**
+		 * Builds an array of URL arguments
+		 */
+		$buildUrlValue = function($currentSelection, $overrideColumn, $overrideValue) {
+			if ($overrideValue === NULL) {
+				unset($currentSelection[$overrideColumn]);
+			} else {
+				$currentSelection[$overrideColumn] = $overrideValue;
+			}
+			return $currentSelection;
+		};
+
+		foreach ($filteredPropertiesInReferences as $column => $isTable) {
+			if ($isTable) {
+				$where = 'ref.deactivated = 0';
+				$whereParts = array($where);
+				foreach (array_keys($filteredPropertiesInReferences) as $checkColumn) {
+					if ($checkColumn == $currentSelection) {
+						continue;
+					}
+					$id = $idFinder($currentSelection[$checkColumn]);
+					if ($id !== NULL) {
+						$whereParts[] = 'ref.' . $checkColumn . '=' . intval($id);
+					}
+				}
+				$where = implode (' AND ', $whereParts);
+				$resultSet = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+					'ref.' . $column . ' as value, COUNT(ref.' . $column . ') as count, content.title as label',
+					'tx_typo3agencies_domain_model_reference ref LEFT JOIN tx_typo3agencies_domain_model_' . $column . ' content ON ref.' . $column . ' = content.uid',
+					$where,
+					'ref.' . $column
+				);
+
+				foreach ($resultSet as $result) {
+					$result['link'] = $this->uriBuilder->uriFor('index', $buildUrlValue($currentSelection, $column, $result['value']));
+					if (!trim($result['label'])) {
+						$result['label'] = 'unknown'; // @Todo Make language dependent
+					}
+					$filterOptions[$column][$result['value']] = $result;
+					$filterOptions[$column][$result['value']]['value'] = intval($filterOptions[$column][$result['value']]['value']);
+					$filterOptions[$column][$result['value']]['selected'] = ($idFinder($currentSelection[$column]) == $filterOptions[$column][$result['value']]['value']);
+				}
+			} else {
+				if ($column == 'listed') {
+					$filterOptions[$column]['selected'] =$currentSelection[$column];
+					$filterOptions[$column]['link'] = $this->uriBuilder->uriFor('index', $buildUrlValue($currentSelection, $column, $currentSelection[$column] ? 0 : 1));
+				}
+			}
 		}
-		$industryString = Array();
-		foreach ($allowedIndustries as $key => $value) {
-			$industryString[] = '{"optionValue":' . $key . ',"optionDisplay":"' . $value . '"}';
-		}
-		$revenueString = Array();
-		foreach ($allowedRevenues as $key => $value) {
-			$revenueString[] = '{"optionValue":' . $key . ',"optionDisplay":"' . $value . '"}';
-		}
-		$this->view->assign('jsonString', '[[' . implode(',', $categoryString) . '],[' . implode(',', $industryString) . '],[' . implode(',', $revenueString) . ']]');
+		return $filterOptions;
 	}
 
 	/**
@@ -197,6 +202,34 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 			$this->view->assign('galleryImages', t3lib_div::trimExplode(',', $newReference->getScreenshotGallery(), 1));
 			$this->view->assign('referenceMaxReached', $this->validateMaximumReferences());
 		}
+	}
+
+	/**
+	 * @param Traversable $references
+	 *
+	 * @return array
+	 */
+	protected function generateTagCloudFromReferences(Traversable $references) {
+		$tagCounter = array();
+		foreach ($references as $reference) { /** @var $reference Tx_Typo3Agencies_Domain_Model_Reference */
+			$tagsOfReference = t3lib_div::trimExplode(',', $reference->getTags(), 1);
+			foreach ($tagsOfReference as $tagId) {
+				$tagCounter[trim(strtolower($tagId))][$tagId] = 1;
+			}
+		}
+
+		$tagCloudArray = array();
+		foreach ($tagCounter as $tagId => $occurences) {
+			$tagCloudArray[] = array(
+				'tag' => trim(array_pop(array_keys($occurences))),
+				'occurrences' => count($occurences),
+				'href' => $this->uriBuilder->uriFor('index', Array('filterString' => 'tag#' . $tagId), 'Reference'),
+				'title' => NULL,
+				'style' => NULL
+			);
+		}
+
+		return $tagCloudArray;
 	}
 
 	/**
@@ -281,9 +314,8 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 					$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
 				} else {
 					$newReference->setSorting($count);
-					if ($count >= $referenceMaxReached) {
-						$newReference->setDeactivated(TRUE);
-					}
+					$newReference->setDeactivated(TRUE);
+
 					$this->referenceRepository->add($newReference);
 					$this->flashMessages->add(str_replace('%NAME%', $newReference->getTitle(), $this->localization->translate('referenceCreated', $this->extensionName)), '', t3lib_message_AbstractMessage::OK);
 					$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
@@ -490,6 +522,8 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 	 * @return string The rendered view
 	 */
 	public function showAction(Tx_Typo3Agencies_Domain_Model_Reference $reference) {
+		$GLOBALS['TSFE']->page['title'] = $GLOBALS['TSFE']->indexedDocTitle =
+			'Case Study "' . $reference->getTitle(). '" produced by ' . $reference->getAgency()->getName();
 		$this->view->assign('reference', $reference);
 		$this->view->assign('administrator', $this->administrator);
 		$this->view->assign('uploadPath', $this->settings['uploadPath']);

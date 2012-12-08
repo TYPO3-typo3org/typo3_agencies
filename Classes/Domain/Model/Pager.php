@@ -37,13 +37,13 @@ class Tx_Typo3Agencies_Domain_Model_Pager extends Tx_Extbase_DomainObject_Abstra
 	 * @var integer
 	 */
 	protected $count;
-	
+
 	/**
 	 * Current page index
 	 * @var integer
 	 */
 	protected $page;
-	
+
 	/**
 	 * Number of items per page
 	 * @var integer
@@ -57,7 +57,7 @@ class Tx_Typo3Agencies_Domain_Model_Pager extends Tx_Extbase_DomainObject_Abstra
 	public function __construct() {
 		$this->page = 1;
 	}
-	
+
 	/**
 	 * Returns the total amount of entries
 	 * @return int
@@ -65,7 +65,7 @@ class Tx_Typo3Agencies_Domain_Model_Pager extends Tx_Extbase_DomainObject_Abstra
 	public function getCount(){
 		return $this->count;
 	}
-	
+
 	/**
 	 * Sets the total amount of entries
 	 * @param int $count
@@ -73,7 +73,7 @@ class Tx_Typo3Agencies_Domain_Model_Pager extends Tx_Extbase_DomainObject_Abstra
 	public function setCount($count){
 		$this->count = $count;
 	}
-	
+
 	/**
 	 * Returns the current page index
 	 * @return int
@@ -81,7 +81,7 @@ class Tx_Typo3Agencies_Domain_Model_Pager extends Tx_Extbase_DomainObject_Abstra
 	public function getPage(){
 		return $this->page;
 	}
-	
+
 	/**
 	 * Sets the current page index
 	 * @param int $page
@@ -89,7 +89,7 @@ class Tx_Typo3Agencies_Domain_Model_Pager extends Tx_Extbase_DomainObject_Abstra
 	public function setPage($page){
 		$this->page = $page;
 	}
-	
+
 	/**
 	 * Returns the current itemsPerPage index
 	 * @return int
@@ -97,7 +97,7 @@ class Tx_Typo3Agencies_Domain_Model_Pager extends Tx_Extbase_DomainObject_Abstra
 	public function getItemsPerPage(){
 		return $this->itemsPerPage;
 	}
-	
+
 	/**
 	 * Sets the current itemsPerPage index
 	 * @param int $itemsPerPage
@@ -105,14 +105,14 @@ class Tx_Typo3Agencies_Domain_Model_Pager extends Tx_Extbase_DomainObject_Abstra
 	public function setItemsPerPage($itemsPerPage){
 		$this->itemsPerPage = $itemsPerPage;
 	}
-	
+
 	/**
 	 * @return Array Items to display
 	 */
 	public function getDisplayItems(){
 		$last = $this->getLastPage();
 		if($last == 1){
-			return null;
+			return NULL;
 		}
 		$values = Array();
 		for($i = 1; $i <= $last; $i++){
@@ -120,7 +120,7 @@ class Tx_Typo3Agencies_Domain_Model_Pager extends Tx_Extbase_DomainObject_Abstra
 		}
 		return $values;
 	}
-	
+
 	/**
 	 * @return int The last page index
 	 */
@@ -131,7 +131,7 @@ class Tx_Typo3Agencies_Domain_Model_Pager extends Tx_Extbase_DomainObject_Abstra
 		}
 		return $last;
 	}
-	
+
 	/**
 	 * @return int The previous page index. Minimum value is 1
 	 */
@@ -142,7 +142,7 @@ class Tx_Typo3Agencies_Domain_Model_Pager extends Tx_Extbase_DomainObject_Abstra
 		}
 		return $prev;
 	}
-	
+
 	/**
 	 * @return int The next page index. Maximum valus is the last page
 	 */
@@ -153,6 +153,13 @@ class Tx_Typo3Agencies_Domain_Model_Pager extends Tx_Extbase_DomainObject_Abstra
 			$next = $last;
 		}
 		return $next;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getOffset() {
+		return ($this->getPage() - 1) * $this->getItemsPerPage();
 	}
 }
 ?>

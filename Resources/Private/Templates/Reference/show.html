@@ -4,16 +4,19 @@
 	<div class="hgroup">
 		<h1>{reference.title}</h1>
 	</div>
-					
+
 	<div class="cl">
 		<div class="s-sidebar">
-			
+
 			<h4>Project Facts</h4>
 			<div class="b-box b-stat">
 				<ul class="linear-list">
 					<li>
 						<p class="n-m"><strong><f:translate key="revenue">Revenue</f:translate>:</strong></p>
-						<p class="n-m">{reference.revenue.title} <f:translate key="euro"> EUR</f:translate></p>
+						<f:if condition="{reference.revenue}">
+							<f:then><p class="n-m">{reference.revenue.title} <f:translate key="euro"> EUR</f:translate></p></f:then>
+							<f:else><p class="n-m">unknown</p></f:else>
+						</f:if>
 					</li>
 					<li>
 						<p class="n-m"><strong><f:translate key="pages">Number of pages</f:translate>:</strong></p>
@@ -28,7 +31,7 @@
 				</ul>
 				<p><f:link.external uri="{reference.link}" class="bu"><i class="ico i-arr-right-big"></i>Open Site</f:link.external></p>
 			</div><!-- b-box -->
-			
+
 			<!-- h4>Download Case Study</h4>
 			<div class="b-box">
 				<p class="n-m"><img src="{f:uri.resource(path:'Media/Images/folders.png')}" alt="" /></p>
@@ -39,8 +42,8 @@
 					</f:link.page>
 				</p>
 			</div><!-- b-box -->
-			
-			
+
+
 
 		</div><!-- s-sidebar -->
 		<div class="s-body">
@@ -51,9 +54,9 @@
 				</p>
 				<p class="b-project-cat">
 					<f:translate key="industry">Industry</f:translate>:
-						<f:link.action action="index" controller="Reference" arguments="{filterString : 'industry#{reference.industry.uid}'}">{reference.industry.title}</f:link.action>
+						<f:link.action action="index" controller="Reference" arguments="{industry: reference.industry}">{reference.industry.title}</f:link.action>
 						<span class="sep">|</span>
-						<f:translate key="category">Category</f:translate>: <f:link.action action="index" controller="Reference" arguments="{filterString : 'category#{reference.category.uid}'}">{reference.category.title}</f:link.action>
+						<f:translate key="category">Category</f:translate>: <f:link.action action="index" controller="Reference" arguments="{category: reference.category}">{reference.category.title}</f:link.action>
 				</p>
 				<div class="hr"><hr /> </div>
 				<p class="pic">
@@ -73,19 +76,19 @@
 					</p>
 				</f:if>
 			</div><!-- b-project -->
-		
+
 			<div class="hgroup">
 				<h2>Description</h2>
 			</div>
-			
+
 			<p><f:format.nl2br>{reference.description}</f:format.nl2br></p>
-			
+
 			<div class="hgroup">
 				<h2>About the company</h2>
 			</div>
-			
+
 			<p><f:format.nl2br>{reference.about}</f:format.nl2br></p>
-			
+
 			<h2>
 				<f:if condition="{reference.agency.name}">
 					<f:then>
@@ -110,7 +113,7 @@
 					<f:link.external uri="{reference.agency.link}" target="_blank"><strong>{reference.agency.link}</strong></f:link.external>
 				</p>
 				<div class="hr"><hr /> </div>
-				
+
 				<div class="b-agency">
 					<div class="agency-img">
 						<f:if condition="{reference.agency.logo}">
@@ -125,8 +128,8 @@
 				</div><!-- .b-agency -->
 
 			</div><!-- b-project -->
-			
+
 		</div><!-- s-body -->
-		
+
 	</div><!-- cl -->
 </f:section>

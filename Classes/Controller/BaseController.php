@@ -73,7 +73,7 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 	 * @var Tx_Extbase_Utility_Localization
 	 */
 	protected  $localization;
-	
+
 	/**
 	 * @var boolean Show deactivated references
 	 */
@@ -105,33 +105,36 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 			}
 		}
 	}
-	
+
+
 	protected function addFilterOptions(){
 		$allowedCategories = $this->getCategories();
 		$allowedIndustries = $this->getIndustries();
 		$allowedRevenues = $this->getRevenues();
-	
+
 		$this->removeNotSet($this->request, $allowedCategories, $allowedIndustries, $allowedRevenues);
-		
+
 		$all = $this->localization->translate('all',$this->extensionName);
-	
+
 		$allCategories = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Category');
 		$allCategories->setTitle($all);
 		array_unshift($allowedCategories,$allCategories);
-	
+
 		$allIndustries = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Industry');
 		$allIndustries->setTitle($all);
 		array_unshift($allowedIndustries,$allIndustries);
-	
+
 		$allRevenues = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Revenue');
 		$allRevenues->setTitle($all);
 		array_unshift($allowedRevenues,$allRevenues);
-	
+
 		$this->view->assign('categories', $allowedCategories);
 		$this->view->assign('industries', $allowedIndustries);
 		$this->view->assign('revenues', $allowedRevenues);
 	}
-	
+
+
+
 	protected function createFilterObject(array $filter = null) {
 		if($filter == null){
 			return null;
@@ -164,7 +167,7 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 		if($this->administrator > 0) {
 			$filterObject->setFeUser($this->administrator);
 		}
-		
+
 		// Process member value
 		$members = t3lib_div::trimExplode(',', $filterObject->getMember(),1);
 		foreach ($members as $member) {
@@ -172,7 +175,7 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 		}
 		return $filterObject;
 	}
-	
+
 	protected function addCountries(){
 		$countries = $this->countryRepository->findAll();
 		$availableCountries = Array();
@@ -186,15 +189,15 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 	protected function getCategories($includeDescription = true){
 		return $this->categoryRepository->findAll()->toArray();
 	}
-	
+
 	protected function getIndustries($includeDescription = true){
 		return $this->industryRepository->findAll()->toArray();
 	}
-	
+
 	protected function getRevenues($includeDescription = true){
 		return $this->revenueRepository->findAll()->toArray();
 	}
-		
+
 	protected function getPages($includeDescription = true){
 		$values = Array(0 => $this->localization->translate('page',$this->extensionName),
 					1 => $this->localization->translate('page1',$this->extensionName),
@@ -206,7 +209,7 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 		}
 		return $values;
 	}
-	
+
 	protected function getLanguages($includeDescription = true){
 		$values = Array();
 		for($i=1;$i<10;$i++){
@@ -214,7 +217,8 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 		}
 		return $values;
 	}
-	
+
+
 	protected function removeNotSet(&$request, &$allowedCategories, &$allowedIndustries, &$allowedRevenues){
 		$arguments = $request->getArguments();
 		$categoryValue = 0;
@@ -229,7 +233,7 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 		if($arguments['filter']['revenue']){
 			$revenueValue = intval($arguments['filter']['revenue']); // 4
 		}
-		
+
 		$remove = Array();
 		foreach($allowedCategories as $uid => $category){
 			$count = $this->referenceRepository->countByOption($category->getUid(),$industryValue,$revenueValue,$this->showDeactivated);
@@ -238,7 +242,7 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 			}
 		}
 		$allowedCategories = array_diff_key($allowedCategories,$remove);
-		
+
 		$remove = Array();
 		foreach($allowedIndustries as $uid => $industry){
 			$count = $this->referenceRepository->countByOption($categoryValue,$industry->getUid(),$revenueValue,$this->showDeactivated);
@@ -247,7 +251,7 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 			}
 		}
 		$allowedIndustries = array_diff_key($allowedIndustries,$remove);
-		
+
 		$remove = Array();
 		foreach($allowedRevenues as $uid => $revenue){
 			$count = $this->referenceRepository->countByOption($categoryValue,$industryValue,$revenue->getUid(),$this->showDeactivated);
@@ -257,7 +261,7 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 		}
 		$allowedRevenues = array_diff_key($allowedRevenues,$remove);
 	}
-	
+
 	/**
 	 * Get the namespace of the uploaded file
 	 *
@@ -266,7 +270,7 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 	protected function getNamespace() {
 		$frameworkSettings = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_FRAMEWORK);
 		return strtolower('tx_' . $frameworkSettings['extensionName'] . '_' . $frameworkSettings['pluginName']);
-	}	
+	}
 }
 
 ?>

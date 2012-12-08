@@ -35,7 +35,7 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 	 * @param boolean $includeDeactivated
 	 * @return array The references
 	 */
-	public function findAllByAgency(Tx_Typo3Agencies_Domain_Model_Agency $agency, $includeDeactivated = false) {
+	public function findAllByAgency(Tx_Typo3Agencies_Domain_Model_Agency $agency, $includeDeactivated = FALSE) {
 		$query = $this->createQuery();
 		if($includeDeactivated){
 			$query->matching($query->equals('agency', $agency));
@@ -45,7 +45,7 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 		$query->setOrderings(Array('sorting'=>Tx_Extbase_Persistence_QueryInterface::ORDER_ASCENDING));
 		return $query->execute();
 	}
-	
+
 	public function findValidTopReferences($uidList = ''){
 		$returnArray = Array();
 		if($uidList != ''){
@@ -53,45 +53,45 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 			$query->matching($query->logicalAnd($query->in('uid', t3lib_div::trimExplode(',',$uidList,1)),$query->equals('deactivated',0)));
 			$query->setOrderings(Array('crdate'=>Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING));
 			$result = $query->execute();
-			
+
 			foreach($result as $reference){
 				$returnArray[] = $reference->getUid();
 			}
-			
+
 		}
 		return $returnArray;
 	}
-	
+
 	/**
 	 * Finds records within a certain range
-	 * 
+	 *
 	 * @param int $offset
 	 * @param int $rowsPerPage
 	 * @param boolean $includeDeactivated
 	 * @return array The references
 	 */
-	public function findAllByRange($offset, $rowsPerPage, $includeDeactivated = false){
+	public function findAllByRange($offset, $rowsPerPage, $includeDeactivated = FALSE){
 		$query = $this->createQuery();
 		if(!$includeDeactivated){
 			$query->matching($query->equals('deactivated',0));
 		}
-		
+
 		$query->getQuerySettings()->setRespectEnableFields(TRUE);
 		$query->setLimit(intval($rowsPerPage));
 		$query->setOffset($offset);
 		return $query->execute();
 	}
-	
+
 	/**
 	 * Finds the recently added records
-	 * 
+	 *
 	 * @param int $offset
 	 * @param int $rowsPerPage
 	 * @param boolean $includeDeactivated
 	 * @param int $ignore
 	 * @return array The references
 	 */
-	public function findAllByRevenue($offset, $rowsPerPage, $includeDeactivated = false, $agency = null, $limit = 30, $ignore = 0){
+	public function findAllByRevenue($offset, $rowsPerPage, $includeDeactivated = FALSE, $agency = NULL, $limit = 30, $ignore = 0){
 		$query = $this->createQuery();
 		$constrains = array();
 		if(!$includeDeactivated){
@@ -124,16 +124,16 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 		$query->setOrderings(Array('revenue'=>Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING));
 		return $query->execute();
 	}
-	
+
 	/**
 	 * Counts the recently added records
-	 * 
+	 *
 	 * @param int $offset
 	 * @param int $rowsPerPage
 	 * @param int $limit
 	 * @return int Number of recently added
 	 */
-	public function countRecentlyAdded($includeDeactivated = false, $agency = null, $limit = 30){
+	public function countRecentlyAdded($includeDeactivated = FALSE, $agency = NULL, $limit = 30){
 		$query = $this->createQuery();
 		$constrains = array();
 		if(!$includeDeactivated){
@@ -164,10 +164,10 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 		$query->setLimit($limit);
 		return count($query->execute()->toArray());
 	}
-	
+
 	/**
 	 * Finds all references by the specified filter
-	 * 
+	 *
 	 * @param Tx_Typo3Agencies_Domain_Model_Filter $filter The filter the references must apply to
 	 * @param unknown_type $offset
 	 * @param unknown_type $rowsPerPage
@@ -175,7 +175,7 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 	 * @param unknown_type $includeDeactivated
 	 * @return array The references
 	 */
-	public function findAllByFilter(Tx_Typo3Agencies_Domain_Model_Filter $filter, $offset = null, $rowsPerPage = null, $justCount = false, $includeDeactivated = false) {
+	public function findAllByFilter(Tx_Typo3Agencies_Domain_Model_Filter $filter, $offset = NULL, $rowsPerPage = NULL, $justCount = FALSE, $includeDeactivated = FALSE) {
 		$query = $this->createQuery();
 		$where = Array();
 		if($includeDeactivated){
@@ -198,32 +198,88 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 		if($filter->isListed()){
 			$where[] = 'tx_typo3agencies_domain_model_reference.listed = 1';
 		}
-		
+
 		$limit = ' LIMIT ' . $offset . ', ' . $rowsPerPage;
-		if($justCount || $offset == null || $rowsPerPage == null){
+		if($justCount || $offset == NULL || $rowsPerPage == NULL){
 			$limit = '';
 		}
 		$query->statement('SELECT tx_typo3agencies_domain_model_reference.* FROM tx_typo3agencies_domain_model_reference left join tx_typo3agencies_domain_model_agency on tx_typo3agencies_domain_model_reference.agency = tx_typo3agencies_domain_model_agency.uid WHERE ' . implode(' AND ',$where) . $GLOBALS['TSFE']->sys_page->enableFields('tx_typo3agencies_domain_model_reference').' ORDER BY tx_typo3agencies_domain_model_agency.member DESC, tx_typo3agencies_domain_model_reference.crdate DESC'.$limit);
 		$result = $query->execute();
-		
+
 		if($justCount){
 			return count($result->toArray());
 		}
 		return $result;
 	}
-	
+
+	/**
+	 * @param Tx_Typo3Agencies_Domain_Model_Category $category
+	 * @param Tx_Typo3Agencies_Domain_Model_Industry $industry
+	 * @param Tx_Typo3Agencies_Domain_Model_Revenue $revenue
+	 * @param integer $membershipStatus
+	 * @param boolean $fortune500
+	 * @param integer $offset
+	 * @param integer $rowsPerPage
+	 * @param boolean $includeDeactivated
+	 *
+	 * @return mixed
+	 */
+	public function findByFilterSelection(Tx_Typo3Agencies_Domain_Model_Category $category = NULL, Tx_Typo3Agencies_Domain_Model_Industry $industry = NULL, Tx_Typo3Agencies_Domain_Model_Revenue $revenue = NULL, $membershipStatus = -1, $fortune500 = TRUE, $offset = NULL, $rowsPerPage = NULL, $includeDeactivated = FALSE) {
+		$query = $this->createQuery();
+
+		$andConditions = array();
+		if ($includeDeactivated === FALSE) {
+			$andConditions[] = $query->equals('deactivated', 0);
+		}
+
+		if ($category !== NULL) {
+			$andConditions[] = $query->equals('category', $category);
+		}
+
+		if ($industry !== NULL) {
+			$andConditions[] = $query->equals('industry', $industry);
+		}
+
+		if ($revenue !== NULL) {
+			$andConditions[] = $query->equals('revenue', $revenue);
+		}
+
+		if ($fortune500 === TRUE) {
+			$andConditions[] = $query->equals('listed', TRUE);
+		}
+
+		if ($membershipStatus !== -1 && intval($membershipStatus) > 0) {
+			$andConditions[] = $query->equals('agency.member', intval($membershipStatus));
+		}
+
+		$query->matching($query->logicalAnd($andConditions));
+
+		if ($rowsPerPage !== NULL) {
+			$query->setLimit(intval($rowsPerPage));
+		}
+
+		if ($offset !== NULL && intval($offset) > 0) {
+			$query->setOffset(intval($offset));
+		}
+
+		$query->setOrderings(array(
+			'crdate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING
+		));
+		return $query->execute();
+	}
+
 	/**
 	 * Counts the records with certain options
-	 * 
+	 *
 	 * @param int $selectedCategory
 	 * @param int $selectedIndustry
 	 * @param int $selectedRevenue
 	 * @param boolean $includeDeactivated
 	 * @return int Number of records
 	 */
-	public function countByOption($selectedCategory=0, $selectedIndustry = 0, $selectedRevenue = 0, $includeDeactivated = false) {
+	public function countByOption($selectedCategory=0, $selectedIndustry = 0, $selectedRevenue = 0, $includeDeactivated = FALSE) {
 		$query = $this->createQuery();
-		
+
 		if($includeDeactivated){
 			$where[] = '1=1';
 		} else {
@@ -242,7 +298,7 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 		$query->statement('SELECT * FROM tx_typo3agencies_domain_model_reference WHERE ' . implode(' AND ',$where) . $GLOBALS['TSFE']->sys_page->enableFields('tx_typo3agencies_domain_model_reference'));
 		return count($query->execute()->toArray());
 	}
-	
+
 	public function countByAgency($agency){
 		$query = $this->createQuery();
 		$query->matching($query->logicalAnd($query->equals('deactivated',0),$query->equals('agency',$agency)));
