@@ -193,6 +193,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 			$this->view->assign('languagesList', $this->getLanguages(FALSE));
 			$this->addCountries();
 			$this->view->assign('administrator', $this->administrator);
+			$this->view->assign('maxFiles', 3 - count(t3lib_div::trimExplode(',', $newReference->getScreenshotGallery(), 1)));
 			$this->view->assign('galleryImages', t3lib_div::trimExplode(',', $newReference->getScreenshotGallery(), 1));
 			$this->view->assign('referenceMaxReached', $this->validateMaximumReferences());
 		}
@@ -277,6 +278,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 					$this->view->assign('administrator', $this->administrator);
 					$this->view->assign('uploadPath', $this->settings['uploadPath']);
 					$this->view->assign('galleryImages', t3lib_div::trimExplode(',', $newReference->getScreenshotGallery(), 1));
+					$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
 				} else {
 					$newReference->setSorting($count);
 					if ($count >= $referenceMaxReached) {

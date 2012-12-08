@@ -24,22 +24,44 @@
 						</div><!-- b-form-row -->
 
 						<div class="b-form-row">
-							<label for="form-about-project"><f:translate key="uploadMainScreen">Upload main screen</f:translate></label>
-							<div class="b-form-inputs">
-								<div class="b-form-file">
-									<agency:form.upload property="screenshot" maxlength="1" class="multi-file"/>
-									<span class="form-file-main-text"><f:translate key="chooseFile">Choose file</f:translate></span> <span class="form-file-secondary-text"><f:translate key="limits">Limits: jpg/png, 600x480px, 500KB</f:translate></span>
-								</div><!-- .b-form-file -->
-							</div><!-- b-form-inputs -->
+							<f:if condition="{newReference.screenshot}">
+								<f:then>
+									<label for="screenshot"><f:translate key="screenshot">Screenshot</f:translate> 
+									<div class="b-form-inputs">
+										<div class="b-form-file MultiFile-label">
+											<!-- f:link.action controller="Reference" action="removeImage" arguments="{newReference : newReference, screenshot : 1}" class="MultiFile-remove" ><f:translate key="x">x</f:translate></f:link.action -->
+											<span class="MultiFile-title" >{newReference.screenshot}</span>
+											<input type="hidden" name="tx_typo3agencies_pi1[newReference][screenshot]" value="{newReference.screenshot}" />
+										</div><!-- .b-form-file -->
+									</div><!-- b-form-inputs -->
+								</f:then>
+								<f:else>
+									<label for="form-about-project"><f:translate key="uploadMainScreen">Upload main screen</f:translate></label>
+									<div class="b-form-inputs">
+										<div class="b-form-file">
+											<agency:form.upload property="screenshot" maxlength="1" class="multi-file"/>
+											<span class="form-file-main-text"><f:translate key="chooseFile">Choose file</f:translate></span> <span class="form-file-secondary-text"><f:translate key="limits">Limits: jpg/png, 600x480px, 500KB</f:translate></span>
+										</div><!-- .b-form-file -->
+									</div><!-- b-form-inputs -->
+								</f:else>
+							</f:if>
 						</div><!-- b-form-row -->
 
 						<div class="b-form-row">
 							<label for="form-about-project"><f:translate key="uploadOtherScreen">Upload other screens</f:translate></label>
 							<div class="b-form-inputs">
-								<div class="b-form-file">
-									<input type="file" maxlength="3" class="multi-file" name="tx_typo3agencies_pi1[newReference][screenshotGallery][]"/>
-									<span class="form-file-main-text"><f:translate key="chooseFile">Choose file</f:translate></span> <span class="form-file-secondary-text"><f:translate key="limits">Limits: jpg/png, 600x480px, 500KB</f:translate></span>
-								</div><!-- .b-form-file -->
+								<f:for each="{galleryImages}" as="image">
+									<div class="b-form-file MultiFile-label">
+										<span class="MultiFile-title" >{image}</span>
+									</div><!-- .b-form-file -->
+								</f:for>
+								<input type="hidden" name="tx_typo3agencies_pi1[newReference][screenshotGallery]" value="{newReference.screenshotGallery}" />
+								<f:if condition="{maxFiles} > 0">
+									<div class="b-form-file">
+										<input type="file" maxlength="{maxFiles}" class="multi-file" name="tx_typo3agencies_pi1[newReference][screenshotGallery][]"/>
+										<span class="form-file-main-text"><f:translate key="chooseFile">Choose file</f:translate></span> <span class="form-file-secondary-text"><f:translate key="limits">Limits: jpg/png, 600x480px, 500KB</f:translate></span>
+									</div><!-- .b-form-file -->
+								</f:if>
 							</div><!-- b-form-inputs -->
 						</div><!-- b-form-row -->
 
