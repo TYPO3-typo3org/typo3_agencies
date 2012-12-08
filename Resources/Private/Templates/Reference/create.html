@@ -54,8 +54,12 @@
 				</p>
 				<f:if condition="{galleryImages}">
 					<p class="b-project-gallery"><a rel="lightbox[gallery]" href="{uploadPath}/{galleryImages.0}"><f:translate key="openGallery">Open screenshot gallery</f:translate></a>
-					<f:for each="{galleryImages}" as="image">
-						<a rel="lightbox[gallery]" href="{uploadPath}/{image}"><img rel="lightbox[gallery]" src="{uploadPath}/{image}" style="height:0px;"/></a>
+					<f:for each="{galleryImages}" as="image" key="number">
+						<f:if condition="{number} != 0">
+							<f:then>
+								<a rel="lightbox[gallery]" href="{uploadPath}/{image}"><img rel="lightbox[gallery]" src="{uploadPath}/{image}" style="height:0px;"/></a>
+							</f:then>
+						</f:if>
 					</f:for>
 					</p>
 				</f:if>
