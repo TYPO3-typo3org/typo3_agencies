@@ -2,7 +2,7 @@
 <f:section name="content">
 
 	<div class="agency">
-		
+
 		<h1>
 			<f:if condition="{agency.name}">
 				<f:then>
@@ -13,7 +13,7 @@
 				</f:else>
 			</f:if>
 		</h1>
-		
+
 		<div class="cl">
 			<div class="s-sidebar">
 				<f:if condition="{isAdministrator}">
@@ -22,10 +22,10 @@
 						<f:form.hidden id="tx-sort-input-sort-sort" property="sort" />
 						<input type="hidden" name="type" value="12536" />
 					</f:form>
-					
+
 					<f:render partial="creditbox" arguments="{agency : agency, availableCredits : availableCredits, usedCredits : usedCredits}" />
 				</f:if>
-				
+
 				<f:render partial="filter" arguments="{categories : categories, industries : industries, revenues : revenues, filter : filter}" />
 
 			</div><!-- s-sidebar -->
@@ -56,13 +56,13 @@
 							<f:image src="{f:uri.resource(path:'Media/Images/membership/{agency.member}-widen.jpg')}" alt="" />
 						</div><!-- .agency-img -->
 						<div class="agency-desc">
-							<p>{agency.about}</p>
+							<p><f:format.nl2br>{agency.about}</f:format.nl2br></p>
 						</div><!-- .agency-desc -->
 					</div><!-- .b-agency -->
 				</div><!-- b-project -->
-				
+
 				<h2><strong><f:translate key="projectsOf">Project List</f:translate></strong></h2>
-				
+
 				<f:if condition="{agency.references}">
 					<ul class="b-projects-list" id="sortable">
 					<f:for each="{agency.references}" as="reference">
