@@ -33,10 +33,16 @@
 class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_AbstractEntity {
 
 	/**
+	 * @var Tx_Typo3Agencies_Domain_Repository_CountryRepository
+	 * @inject
+	 */
+	protected $countryRepository;
+
+	/**
 	 * Deactivate this reference
 	 * @var boolean
 	 */
-	protected $deactivated = false;
+	protected $deactivated = FALSE;
 
 	/**
 	 * The reference title.
@@ -185,7 +191,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	 *
 	 * @var boolean
 	 */
-	protected $listed = false;
+	protected $listed = FALSE;
 
 
 	/**
@@ -519,6 +525,16 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	}
 
 	/**
+	 * @return Tx_Typo3Agencies_Domain_Model_Country
+	 */
+	public function getCountryObject() {
+		if ($this->countryRepository == NULL) {
+			$this->countryRepository = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Repository_CountryRepository');
+		}
+		return $this->countryRepository->findOneByCnIso2($this->country);
+	}
+
+	/**
 	 * Sets the listed attribute for the company
 	 *
 	 * @param boolean $listed
@@ -600,7 +616,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 			$row = current($result);
 			return $row['tstamp'];
 		}
-		return false;
+		return FALSE;
 	}
 }
 ?>
