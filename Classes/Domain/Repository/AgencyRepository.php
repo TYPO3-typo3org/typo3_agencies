@@ -38,20 +38,20 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 		$query = $this->createQuery();
 		if(is_array($latlong)){
 			$query->statement($this->getStatement($filter, $latlong, $nearbyAdditionalWhere));
-			
+
 			$result = count($query->execute()->toArray());
 		} else {
 			$constrains = $this->getConstrains($query, $filter);
-	
+
 			if (!empty($constrains)) {
 				$query->matching($query->logicalAnd($constrains));
 			}
-			
+
 			$result = $query->execute()->count();
 		}
 
-		
-		
+
+
 		return $result;
 	}
 
@@ -111,7 +111,7 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 		}
 		return $constrains;
 	}
-	
+
 	/**
 	 * Return the sql statement - needed for distance query
 	 *
@@ -121,55 +121,50 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 	 */
 	protected function getStatement(Tx_Typo3Agencies_Domain_Model_Filter $filter, $latlong = null, $nearbyAdditionalWhere = null) {
 		$where = Array();
-		
-		$where[] = 'member > 0';
-		
+
+
 		$where[] = '(first_name <> \'\' OR last_name <> \'\' OR name <> \'\')';
-		
+
 		// Membership case
 		$members = $filter->getMembers();
+		$memberArray = array(0);
 		if (!empty($members)) {
-			$memberArray = Array();
 			foreach ($members as $member) {
-				$memberArray[] = 'member = '.$member;
-			}
-			if (!empty($memberArray)) {
-				$where[] = '('.implode(' OR ', $memberArray).')';
+				$memberArray[] = intval($member);
 			}
 		}
-		
+		if (!empty($memberArray)) {
+			$where[] = 'member IN (' . implode(',', $memberArray) . ')';
+		}
+
 		// Service case
 		if ($filter->getTrainingService()) {
-			$where[] = 'training_service = '.$filter->getTrainingService();
+			$where[] = 'training_service = ' . intval($filter->getTrainingService());
 		}
 		if ($filter->getHostingService()) {
-			$where[] = 'hosting_service = '.$filter->getHostingService();
+			$where[] = 'hosting_service = ' . intval($filter->getHostingService());
 		}
 		if ($filter->getDevelopmentService()) {
-			$where[] = 'development_service = '.$filter->getDevelopmentService();
+			$where[] = 'development_service = ' . intval($filter->getDevelopmentService());
 		}
-		
+
 		// Country case
 		if ($filter->getCountry()) {
-			$where[] = 'country = \''.$filter->getCountry().'\'';
+			$where[] = 'country = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($filter->getCountry(), 'tx_typo3agencies_domain_model_agency');
 		}
 
 		if (is_array($latlong) && $nearbyAdditionalWhere != null && $nearbyAdditionalWhere != ''){
-			$where[] = str_replace(Array('###LONGITUDE###','###LATITUDE###'),Array($latlong['long'],$latlong['lat']),$nearbyAdditionalWhere);
+			$where[] = str_replace(array('###LONGITUDE###', '###LATITUDE###'), array(floatval($latlong['long']), floatval($latlong['lat'])), $nearbyAdditionalWhere);
 		}
-		
+
 		if($filter->getFeUser() > 0){
-			$where[] = '(approved = 1 or FIND_IN_SET(administrator, '.$filter->getFeUser().'))';
+			$where[] = '(approved = 1 or FIND_IN_SET(administrator, '. intval($filter->getFeUser()) . '))';
 		} else {
 			$where[] = 'approved = 1';
 		}
-		
-		
-		$limit = ' LIMIT ' . $offset . ', ' . $rowsPerPage;
-		if($justCount || $offset == null || $rowsPerPage == null){
-			$limit = '';
-		}
-		$sql = 'SELECT * FROM tx_typo3agencies_domain_model_agency WHERE ' . implode(' AND ',$where) . $GLOBALS['TSFE']->sys_page->enableFields('tx_typo3agencies_domain_model_agency').' ORDER BY member DESC, name ASC, last_name ASC '.$limit;
+
+
+		$sql = 'SELECT * FROM tx_typo3agencies_domain_model_agency WHERE ' . implode(' AND ', $where ) . $GLOBALS['TSFE']->sys_page->enableFields('tx_typo3agencies_domain_model_agency').' ORDER BY member DESC, name ASC, last_name ASC';
 		return $sql;
 	}
 
@@ -192,21 +187,21 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 			if (!empty($constrains)) {
 				$query->matching($query->logicalAnd($constrains));
 			}
-			
+
 			if ($order) {
 				$orderering = $order->getOrderings();
 				$query->setOrderings($orderering);
 			}
-	
+
 			if ($offset) {
 				$query->setOffset((integer) $offset);
 			}
-	
+
 			if ($rowsPerPage) {
 				$query->setLimit((integer) $rowsPerPage);
 			}
 		}
-						
+
 		$result = $query->execute();
 		return $result;
 	}

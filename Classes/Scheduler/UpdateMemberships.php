@@ -124,7 +124,7 @@ class Tx_Typo3Agencies_Scheduler_UpdateMemberships extends tx_scheduler_Task {
 		$extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['typo3_agencies']);
 		$storagePid = (int) $extConf['storagePid'];
 		$this->clearCachePids = $extConf['clearCachePids'];
-		
+
 		define('TYPO3_MODE','FE');
 
 		require_once(PATH_t3lib.'class.t3lib_div.php');
@@ -155,7 +155,7 @@ class Tx_Typo3Agencies_Scheduler_UpdateMemberships extends tx_scheduler_Task {
 		// Creating a fake $TSFE object
 		// ***********************************
 		$id = isset($HTTP_GET_VARS['id'])?$HTTP_GET_VARS['id']:0;
-		$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $TYPO3_CONF_VARS, $id, '0', 1, '', '','','');
+		$GLOBALS['TSFE'] = t3lib_div::makeInstance('tslib_fe', $GLOBALS['TYPO3_CONF_VARS'], $id, '0', 1, '', '','','');
 		$GLOBALS['TSFE']->connectToMySQL();
 		$GLOBALS['TSFE']->initFEuser();
 		$GLOBALS['TSFE']->fe_user->dontSetCookie = true;

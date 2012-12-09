@@ -137,16 +137,10 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 		$query = $this->createQuery();
 		$constrains = array();
 		if(!$includeDeactivated){
-			if($ignore == 0){
-				$constrains[] = $query->equals('deactivated',0);
-			} else {
-				$constrains[] = $query->logicalAnd($query->equals('deactivated',0),$query->logicalNot($query->equals('uid',$ignore)));
-			}
+			$constrains[] = $query->equals('deactivated',0);
 		} else {
 			$constrains[] = $query->logicalOr(
 				$query->logicalAnd(
-					// Not in ignore
-					$query->logicalNot($query->equals('uid',$ignore)),
 					// AND deactivated = 0
 					$query->equals('deactivated',0)
 				),
@@ -184,26 +178,27 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 			$where[] = 'tx_typo3agencies_domain_model_reference.deactivated = 0';
 		}
 		if($filter->getSearchTerm() != ''){
-			$where[] = '(tx_typo3agencies_domain_model_reference.about LIKE \'%' . $filter->getSearchTerm() . '%\' OR tx_typo3agencies_domain_model_reference.title LIKE \'%' . $filter->getSearchTerm() . '%\' OR tx_typo3agencies_domain_model_reference.description LIKE \'%' . $filter->getSearchTerm() . '%\' OR tx_typo3agencies_domain_model_reference.tags LIKE \'%' . $filter->getSearchTerm() . '%\' OR tx_typo3agencies_domain_model_reference.conclusion LIKE \'%' . $filter->getSearchTerm() . '%\')';
+			$escapedSearchTerm = $GLOBALS['TYPO3_DB']->fullQuoteStr('%' . $filter->getSearchTerm() . '%');
+			$where[] = '(tx_typo3agencies_domain_model_reference.about LIKE ' . $escapedSearchTerm . ' OR tx_typo3agencies_domain_model_reference.title LIKE ' . $escapedSearchTerm . ' OR tx_typo3agencies_domain_model_reference.description LIKE ' . $escapedSearchTerm . ' OR tx_typo3agencies_domain_model_reference.tags LIKE ' . $escapedSearchTerm . ' OR tx_typo3agencies_domain_model_reference.conclusion LIKE ' . $escapedSearchTerm . ')';
 		}
 		if($filter->getCategory() > 0){
-			$where[] = 'tx_typo3agencies_domain_model_reference.category = ' . $filter->getCategory();
+			$where[] = 'tx_typo3agencies_domain_model_reference.category = ' . intval($filter->getCategory());
 		}
 		if($filter->getIndustry() > 0){
-			$where[] = 'tx_typo3agencies_domain_model_reference.industry = ' . $filter->getIndustry();
+			$where[] = 'tx_typo3agencies_domain_model_reference.industry = ' . intval($filter->getIndustry());
 		}
 		if($filter->getRevenue() > 0){
-			$where[] = 'tx_typo3agencies_domain_model_reference.revenue = ' . $filter->getRevenue();
+			$where[] = 'tx_typo3agencies_domain_model_reference.revenue = ' . intval($filter->getRevenue());
 		}
 		if($filter->isListed()){
 			$where[] = 'tx_typo3agencies_domain_model_reference.listed = 1';
 		}
 
-		$limit = ' LIMIT ' . $offset . ', ' . $rowsPerPage;
+		$limit = ' LIMIT ' . intval($offset) . ', ' . intval($rowsPerPage);
 		if($justCount || $offset == NULL || $rowsPerPage == NULL){
 			$limit = '';
 		}
-		$query->statement('SELECT tx_typo3agencies_domain_model_reference.* FROM tx_typo3agencies_domain_model_reference left join tx_typo3agencies_domain_model_agency on tx_typo3agencies_domain_model_reference.agency = tx_typo3agencies_domain_model_agency.uid WHERE ' . implode(' AND ',$where) . $GLOBALS['TSFE']->sys_page->enableFields('tx_typo3agencies_domain_model_reference').' ORDER BY tx_typo3agencies_domain_model_agency.member DESC, tx_typo3agencies_domain_model_reference.crdate DESC'.$limit);
+		$query->statement('SELECT tx_typo3agencies_domain_model_reference.* FROM tx_typo3agencies_domain_model_reference left join tx_typo3agencies_domain_model_agency on tx_typo3agencies_domain_model_reference.agency = tx_typo3agencies_domain_model_agency.uid WHERE ' . implode(' AND ', $where) . $GLOBALS['TSFE']->sys_page->enableFields('tx_typo3agencies_domain_model_reference').' ORDER BY tx_typo3agencies_domain_model_agency.member DESC, tx_typo3agencies_domain_model_reference.crdate DESC'.$limit);
 		$result = $query->execute();
 
 		if($justCount){
@@ -286,22 +281,22 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 			$where[] = 'deactivated = 0';
 		}
 		if($selectedCategory > 0){
-			$where[] = 'category = ' . $selectedCategory;
+			$where[] = 'category = ' . intval($selectedCategory);
 		}
 		if($selectedIndustry > 0){
-			$where[] = 'industry = ' . $selectedIndustry;
+			$where[] = 'industry = ' . intval($selectedIndustry);
 		}
 		if($selectedRevenue > 0){
-			$where[] = 'revenue = ' . $selectedRevenue;
+			$where[] = 'revenue = ' . intval($selectedRevenue);
 		}
 
-		$query->statement('SELECT * FROM tx_typo3agencies_domain_model_reference WHERE ' . implode(' AND ',$where) . $GLOBALS['TSFE']->sys_page->enableFields('tx_typo3agencies_domain_model_reference'));
+		$query->statement('SELECT * FROM tx_typo3agencies_domain_model_reference WHERE ' . implode(' AND ', $where) . $GLOBALS['TSFE']->sys_page->enableFields('tx_typo3agencies_domain_model_reference'));
 		return count($query->execute()->toArray());
 	}
 
 	public function countByAgency($agency){
 		$query = $this->createQuery();
-		$query->matching($query->logicalAnd($query->equals('deactivated',0),$query->equals('agency',$agency)));
+		$query->matching($query->logicalAnd($query->equals('deactivated', 0), $query->equals('agency', $agency)));
 		return count($query->execute()->toArray());
 	}
 }

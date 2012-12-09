@@ -595,7 +595,7 @@ class Tx_Typo3Agencies_Domain_Model_Reference extends Tx_Extbase_DomainObject_Ab
 	 * @return int
 	 */
 	public function getTstamp() {
-		$result = $GLOBALS['TYPO3_DB']->exec_SELECTquery('tstamp','tx_typo3agencies_domain_model_reference','uid = '.$this->getUid());
+		$result = $GLOBALS['TYPO3_DB']->exec_SELECTquery('tstamp', 'tx_typo3agencies_domain_model_reference', 'uid = ' . intval($this->getUid()));
 		if(!$result){
 			$row = current($result);
 			return $row['tstamp'];
