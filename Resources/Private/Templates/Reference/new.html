@@ -6,7 +6,7 @@
 		<f:if condition="{administrator}">
 			<f:then>
 				<h1><f:translate key="aNewProject">Edit/Create Project</f:translate></h1>
-				
+
 				<f:form method="post" controller="Reference" action="create" name="newReference" object="{newReference}" enctype="multipart/form-data">
 					<h2>Project Information</h2>
 					<div class="b-form b-form-edit">
@@ -26,7 +26,7 @@
 						<div class="b-form-row">
 							<f:if condition="{newReference.screenshot}">
 								<f:then>
-									<label for="screenshot"><f:translate key="screenshot">Screenshot</f:translate> 
+									<label for="screenshot"><f:translate key="screenshot">Screenshot</f:translate>
 									<div class="b-form-inputs">
 										<div class="b-form-file MultiFile-label">
 											<!-- f:link.action controller="Reference" action="removeImage" arguments="{newReference : newReference, screenshot : 1}" class="MultiFile-remove" ><f:translate key="x">x</f:translate></f:link.action -->
@@ -101,15 +101,16 @@
 						</div><!-- b-form-row -->
 						<div class="{agency:hasError(property: 'tags', then: 'b-form-row b-form-error', else: 'b-form-row')}">
 							<label for="form-tags"><f:translate key="tags">Tags</f:translate><f:translate key="required"> (required)</f:translate></label>
-							<div class="b-form-inputs">
-								<f:form.textfield property="tags" id="form-tags"/><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'tags'}" />
-							</div><!-- b-form-inputs -->
+							<div class="b-form-inputs"><div class="b-form-file">
+								<div class="MultiFile-wrap"><f:form.textfield property="tags" id="form-tags"/><f:render partial="error" arguments="{objectName: 'newReference', propertyName: 'tags'}" /></div>
+								<span class="form-file-main-text">Information:</span><span class="form-file-secondary-text"><i>Please seperate with &quot;,&quot; (comma)</i></small></span>
+							</div></div><!-- b-form-inputs -->
 						</div><!-- b-form-row -->
 					</div><!-- b-form -->
 
 
 					<h2><f:translate key="companyInformation">Company Information</f:translate></h2>
-			
+
 					<div class="b-form b-form-edit">
 						<div class="{agency:hasError(property: 'about', then: 'b-form-row b-form-error', else: 'b-form-row')}">
 							<label for="form-about-company"><f:translate key="aboutCompany">About the company</f:translate><f:translate key="required"> (required)</f:translate></label>
@@ -122,13 +123,13 @@
 							<div class="b-form-inputs">
 								<f:form.select property="revenue" value="{revenue}" optionValueField="uid" optionLabelField="title" options="{revenues}" id="form-company-revenue"></f:form.select>
 							</div><!-- b-form-inputs -->
-						</div><!-- b-form-row -->						
+						</div><!-- b-form-row -->
 						<div class="b-form-row">
 							<label for="form-country"><f:translate key="country">Country</f:translate></label>
 							<div class="b-form-inputs">
 								<f:form.select property="country" value="{country}" options="{countries}" id="form-country"></f:form.select>
 							</div><!-- b-form-inputs -->
-						</div><!-- b-form-row -->						
+						</div><!-- b-form-row -->
 						<div class="b-form-row">
 							<div class="b-form-inputs">
 								<f:form.submit class="bu bu-confirm" value="Preview" name="preview"/>
