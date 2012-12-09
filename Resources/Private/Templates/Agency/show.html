@@ -59,8 +59,14 @@
 					</div><!-- .b-agency -->
 				</div><!-- b-project -->
 
+				<f:if condition="{administrator}">
+					<f:if condition="{administrator} == {agency.administrator}">
+						<p class="b-project-toolbar">
+						<f:link.page pageUid="{settings.referencesPid}" additionalParams="{tx_typo3agencies_pi1:{action:'new',controller:'Reference',reference:topReference}}"><f:translate key="newProject">Add your project</f:translate></f:link.page>
+						</p>
+					</f:if>
+				</f:if>
 				<h2><strong><f:translate key="projectsOf">Project List</f:translate></strong></h2>
-
 				<f:if condition="{agency.references}">
 					<ul class="b-projects-list" id="sortable">
 					<f:for each="{agency.references}" as="reference">
