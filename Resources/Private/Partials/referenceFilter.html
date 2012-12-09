@@ -1,7 +1,8 @@
-<div class="b-box">
+{namespace agency=Tx_Typo3Agencies_ViewHelpers}
+<div class="b-box" xmlns:agency="http://www.w3.org/1999/html">
 	<h3>Filter Options</h3>
 
-	<f:form action="index" name="tx_typo3agencies_pi1">
+	<f:form action="index" id="caseStudyFilter" name="tx_typo3agencies_pi1">
 		<p class="form-row">
 			<label for="category"><f:translate key="category">Category</f:translate></label>
 			<select id="category">
@@ -35,3 +36,17 @@
 		</p>
 	</f:form>
 </div>
+
+<agency:script>
+$(document).ready(function() {
+	// PSL: Filter
+	if ($('#caseStudyFilter select').length > 0) {
+		$('#caseStudyFilter select').change(function() {
+			location.href = $(this).find('option:selected').attr('data-link');
+		});
+		$('#caseStudyFilter input[type=checkbox]').change(function() {
+			location.href = $(this).attr('data-link');
+		});
+	}
+});
+</agency:script>

@@ -2,8 +2,8 @@
 	<ul class="b-pager">
 		<f:if condition="{pager.page} != 1">
 			<f:then>
-				<li><f:link.action controller="Reference" action="index" arguments="{page : 1}"><f:translate key="first">First</f:translate></f:link.action></li>
-				<li><f:link.action controller="Reference" action="index" arguments="{page : pager.previousPage}"><f:translate key="previous">Previous</f:translate></f:link.action></li>
+				<li><f:link.action controller="Reference" addQueryString="true" action="index" arguments="{page : 1}"><f:translate key="first">First</f:translate></f:link.action></li>
+				<li><f:link.action controller="Reference" addQueryString="true" action="index" arguments="{page : pager.previousPage}"><f:translate key="previous">Previous</f:translate></f:link.action></li>
 			</f:then>
 			<f:else>
 				<li class="cur"><f:translate key="first">First</f:translate></li>
@@ -16,15 +16,15 @@
 			<li class="cur">{pageItem.value}</li>
 		</f:then>
 		<f:else>
-			<li><f:link.action controller="Reference" action="index" arguments="{page : pageItem.key}">{pageItem.value}</f:link.action></li>
+			<li><f:link.action controller="Reference" addQueryString="true" action="index" arguments="{page : pageItem.key}">{pageItem.value}</f:link.action></li>
 		</f:else>
 	</f:if>
 </f:for>
 <f:if condition="{pager.displayItems}">
 	<f:if condition="{pager.page} != {pager.LastPage}">
 		<f:then>
-			<li><f:link.action controller="Reference" action="index" arguments="{page : pager.nextPage}"><f:translate key="next">Next</f:translate></f:link.action></li>
-			<li><f:link.action controller="Reference" action="index" arguments="{page : pager.lastPage}"><f:translate key="last">Last</f:translate></f:link.action></li>
+			<li><f:link.action controller="Reference" action="index" addQueryString="true" arguments="{page : pager.nextPage}"><f:translate key="next">Next</f:translate></f:link.action></li>
+			<li><f:link.action controller="Reference" action="index" addQueryString="true" arguments="{page : pager.lastPage}"><f:translate key="last">Last</f:translate></f:link.action></li>
 		</f:then>
 		<f:else>
 			<li class="cur"><f:translate key="last">Last</f:translate></li>
