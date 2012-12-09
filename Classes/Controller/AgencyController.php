@@ -357,31 +357,14 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 */
 	public function updateAction(Tx_Typo3Agencies_Domain_Model_Agency $agency, $logo = false, $submit = false) {
 		if ($agency->getAdministrator() == $this->administrator) {
-			if($this->handleFiles($agency)){
-				$this->agencyRepository->update($agency);
-				$this->geoCodeAgency($agency);
-				$this->flashMessages->add(str_replace('%NAME%', $agency->getName(), $this->localization->translate('agencyUpdated', $this->extensionName)),'',t3lib_message_AbstractMessage::OK);
-
-				$references = $this->referenceRepository->findAllByAgency($agency, $showDeactivated);
-				$usedCredits = $this->referenceRepository->countByAgency($agency);
-				$agency->setReferences($references);
-				$this->view->assign('agency', $agency);
-				$this->view->assign('uploadPath', $this->settings['uploadPath']);
-				$this->view->assign('administrator', $this->administrator);
-				$this->view->assign('availableCredits',$agency->getCasestudies() - $usedCredits);
-				$this->view->assign('usedCredits',$usedCredits);
-				$this->addFilterOptions();
-
-				$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
-			} else {
-				$this->agencyRepository->update($agency);
-				$this->geoCodeAgency($agency);
-				$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
+			$this->agencyRepository->update($agency);
+			$this->geoCodeAgency($agency);
+			$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
+			if(!$this->handleFiles($agency)){
 				$this->redirect('edit','Agency',$this->extensionName,Array('agency'=>$agency));
 			}
-		} else {
-			$this->redirect('show', 'Agency',null,Array('agency'=>$agency));
 		}
+		$this->redirect('show', 'Agency', null, array('agency' => $agency));
 	}
 
 	/**
