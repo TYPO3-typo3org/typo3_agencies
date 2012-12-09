@@ -12,7 +12,7 @@ CREATE TABLE tx_typo3agencies_domain_model_industry (
 
 DROP TABLE IF EXISTS tx_typo3agencies_domain_model_revenue;
 CREATE TABLE tx_typo3agencies_domain_model_revenue (
-	uid int(11) unsigned DEFAULT '0' NOT NULL auto_increment,
+	uid int(11) unsigned NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 	title varchar(255) DEFAULT '' NOT NULL,
 	sorting int(3) unsigned DEFAULT '0' NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE tx_typo3agencies_domain_model_revenue (
 
 DROP TABLE IF EXISTS tx_typo3agencies_domain_model_category;
 CREATE TABLE tx_typo3agencies_domain_model_category (
-	uid int(11) unsigned DEFAULT '0' NOT NULL auto_increment,
+	uid int(11) unsigned NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
 	title varchar(255) DEFAULT '' NOT NULL,
 	PRIMARY KEY (uid),
