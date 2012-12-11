@@ -51,11 +51,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 			$this->redirect('show', 'Agency');
 		} else {
 			if ($listed == -1) {
-				if ($category == NULL && $industry == NULL && $revenue == NULL) {
-					$fortune500 = TRUE;
-				} else {
-					$fortune500 = FALSE;
-				}
+				$fortune500 = FALSE;
 			} else {
 				$fortune500 = ($listed == 1);
 			}
@@ -125,11 +121,7 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 		 * Builds an array of URL arguments
 		 */
 		$buildUrlValue = function($currentSelection, $overrideColumn, $overrideValue) {
-			if ($overrideValue === NULL) {
-				unset($currentSelection[$overrideColumn]);
-			} else {
-				$currentSelection[$overrideColumn] = $overrideValue;
-			}
+			$currentSelection[$overrideColumn] = $overrideValue;
 			return $currentSelection;
 		};
 
@@ -154,6 +146,11 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 					'ref.' . $column
 				);
 
+				$default = array(
+					'label' => $idFinder($currentSelection[$column]) !== NULL ? ' -- remove selection -- ' : ' -- please select --',
+					'value' => NULL
+				);
+				array_unshift($resultSet, $default);
 				foreach ($resultSet as $result) {
 					$result['link'] = $this->uriBuilder->uriFor('index', $buildUrlValue($currentSelection, $column, $result['value']));
 					if (!trim($result['label'])) {
@@ -161,12 +158,12 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 					}
 					$filterOptions[$column][$result['value']] = $result;
 					$filterOptions[$column][$result['value']]['value'] = intval($filterOptions[$column][$result['value']]['value']);
-					$filterOptions[$column][$result['value']]['selected'] = ($idFinder($currentSelection[$column]) == $filterOptions[$column][$result['value']]['value']);
+					$filterOptions[$column][$result['value']]['selected'] = ($idFinder($currentSelection[$column]) === $filterOptions[$column][$result['value']]['value']);
 				}
 			} else {
 				if ($column == 'listed') {
-					$filterOptions[$column]['selected'] =$currentSelection[$column];
-					$filterOptions[$column]['link'] = $this->uriBuilder->uriFor('index', $buildUrlValue($currentSelection, $column, $currentSelection[$column] ? 0 : 1));
+					$filterOptions[$column]['selected'] = $currentSelection[$column];
+					$filterOptions[$column]['link'] = $this->uriBuilder->uriFor('index', $buildUrlValue($currentSelection, $column, $currentSelection[$column] === TRUE ? -1 : 1));
 				}
 			}
 		}

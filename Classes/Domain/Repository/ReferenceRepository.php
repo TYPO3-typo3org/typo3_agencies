@@ -258,7 +258,7 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 		}
 
 		$query->setOrderings(array(
-			'crdate' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING
+			'revenue' => Tx_Extbase_Persistence_QueryInterface::ORDER_DESCENDING
 		));
 		return $query->execute();
 	}
