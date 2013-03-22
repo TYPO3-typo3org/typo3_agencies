@@ -214,12 +214,15 @@ $TCA['tx_typo3agencies_domain_model_reference'] = array(
 			'exclude' => 1,
 			'label' => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.agency',
 			'config' => Array (
-				'type' => 'group',
-				'internal_type' => 'db',
+				'type' => 'select',
 				'size' => 1,
 				'minitems' => 0,
 				'maxitems' => 1,
-				'allowed' => 'tx_typo3agencies_domain_model_agency',
+				'foreign_table' => 'tx_typo3agencies_domain_model_agency',
+				'items' => array (
+					array('', ''),
+					array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_reference.agency', '--div--'),
+				),
 				'wizards' => Array(
 					'suggest' => array(
 						'type' => 'suggest'
