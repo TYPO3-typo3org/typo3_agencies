@@ -167,10 +167,6 @@
 			 */
 			function setMarkers(map, locations) {
 
-				var shape = {
-				  coord: [1, 1, 1, 20, 18, 20, 18 , 1],
-				  type: 'poly'
-				};
 				var bounds = new google.maps.LatLngBounds();
 
 				if(locations.length) {
@@ -200,7 +196,6 @@
 							position: myLatLng,
 							map: map,
 							icon: image,
-							shape: shape,
 							title: location[0],
 							zIndex: location[3]
 						});
