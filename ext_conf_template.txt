@@ -1,5 +1,5 @@
 # cat=basic; type=string; label=Storage pid for agency records
 storagePid = 329
 
-# cat=basic; type=string; label=Clear the frontend cache for these pages after the scheduler task has run 
-clearCachePids = 128,435
+# cat=basic; type=string; label=Clear the frontend cache for these pages after the scheduler task has run
+clearCachePids = 128,598
