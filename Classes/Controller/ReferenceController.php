@@ -71,7 +71,6 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 			$this->pager->setCount($allReferences->count());
 
 			$this->view->assign('filterOptions', $this->buildDataForFilterModule($category, $industry, $revenue, $membershipType, $fortune500));
-			$this->view->assign('tagCloud', $this->generateTagCloudFromReferences($selectedReferences));
 			$this->view->assign('pager', $this->pager);
 			$this->view->assign('references', $selectedReferences);
 			$this->view->assign('administrator', $this->administrator);
@@ -201,33 +200,6 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 		}
 	}
 
-	/**
-	 * @param Traversable $references
-	 *
-	 * @return array
-	 */
-	protected function generateTagCloudFromReferences(Traversable $references) {
-		$tagCounter = array();
-		foreach ($references as $reference) { /** @var $reference Tx_Typo3Agencies_Domain_Model_Reference */
-			$tagsOfReference = t3lib_div::trimExplode(',', $reference->getTags(), 1);
-			foreach ($tagsOfReference as $tagId) {
-				$tagCounter[trim(strtolower($tagId))][$tagId] = 1;
-			}
-		}
-
-		$tagCloudArray = array();
-		foreach ($tagCounter as $tagId => $occurences) {
-			$tagCloudArray[] = array(
-				'tag' => trim(array_pop(array_keys($occurences))),
-				'occurrences' => count($occurences),
-				'href' => $this->uriBuilder->uriFor('index', Array('filterString' => 'tag#' . $tagId), 'Reference'),
-				'title' => NULL,
-				'style' => NULL
-			);
-		}
-
-		return $tagCloudArray;
-	}
 
 	/**
 	 * Updates the sorting of the references
