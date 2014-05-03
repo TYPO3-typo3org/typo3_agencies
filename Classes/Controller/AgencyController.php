@@ -41,14 +41,19 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 */
 	public function verifyCodeAction($agencyCode = NULL) {
 
-		$memberDataUtility = $this->objectManager->get('Tx_Typo3Agencies_Utility_MemberData'); /** @var $memberDataUtility Tx_Typo3Agencies_Utility_MemberData */
+		/** @var $memberDataUtility Tx_Typo3Agencies_Utility_MemberData */
+		//$memberDataUtility = $this->objectManager->get('Tx_Typo3Agencies_Utility_MemberData');
+
+		// Disabled because shop data do not exists anymore. Codesprint May 2nd-4th
+		$memberData = NULL;
 
 		if($agencyCode) {
-			$memberData = $memberDataUtility->getMemberDataByCode($agencyCode);
+			//$memberData = $memberDataUtility->getMemberDataByCode($agencyCode);
 
 			if($memberData !== NULL) {
 				if((int) $this->agencyRepository->countByCode($agencyCode) == 0) {
-						/* @var $newAgency Tx_Typo3Agencies_Domain_Model_Agency */
+
+					/* @var $newAgency Tx_Typo3Agencies_Domain_Model_Agency */
 					$newAgency = $this->objectManager->create('Tx_Typo3Agencies_Domain_Model_Agency');
 					$newAgency->setCode($agencyCode);
 					$newAgency->setAdministrator((int) $GLOBALS['TSFE']->fe_user->user['uid']);
