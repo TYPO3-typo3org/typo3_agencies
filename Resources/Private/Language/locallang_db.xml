@@ -89,6 +89,7 @@
 			<label index="tx_typo3agencies_domain_model_agency.code">Association Code</label>
 			<label index="tx_typo3agencies_domain_model_agency.internal_comment">Internal Comment</label>
 			<label index="tx_typo3agencies_domain_model_agency.payed_until_date">Payment received until</label>
+			<label index="tx_typo3agencies_domain_model_agency.next_review_date">Next review due date</label>
 			<label index="tx_typo3agencies_domain_model_industry.title">Title</label>
 
 		</languageKey>

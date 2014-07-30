@@ -86,6 +86,7 @@ CREATE TABLE tx_typo3agencies_domain_model_agency (
 
 	administrator int(11) unsigned DEFAULT '0' NOT NULL,
 	payed_until_date int(11) unsigned DEFAULT '0' NOT NULL,
+	next_review_date int(11) unsigned DEFAULT '0' NOT NULL,
 
 	internal_comment text NOT NULL,
 
