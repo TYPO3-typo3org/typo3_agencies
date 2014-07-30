@@ -50,6 +50,14 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		if($agencyCode) {
 			//$memberData = $memberDataUtility->getMemberDataByCode($agencyCode);
 
+			// fake $memberData because API is not working anymore
+			$memberData = array(
+				'caseStudies' => 0,
+				'isApproved' => 0,
+				'membershipLevel' => '',
+			);
+
+
 			if($memberData !== NULL) {
 				if((int) $this->agencyRepository->countByCode($agencyCode) == 0) {
 
@@ -95,10 +103,17 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	/**
 	 * Enter code, action
 	 *
+	 * @todo This is more like a list action now
 	 * @return void
 	 */
 	public function enterCodeAction() {
+		$agencies = $this->agencyRepository->findAllForUser((int) $GLOBALS['TSFE']->fe_user->user['uid']);
 
+		// ugly work around: just fake some code, because the API is not working anymore
+		$newCode = 'c0de' . t3lib_div::getRandomHexString(12);
+
+		$this->view->assign('agencies', $agencies);
+		$this->view->assign('newCode', $newCode);
 	}
 
 	 /**

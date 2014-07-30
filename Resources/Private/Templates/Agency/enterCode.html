@@ -9,22 +9,33 @@
 	<f:format.html>{settings.stepOneText}</f:format.html>
 	
 	<agency:flashMessages renderMode="div" class="tx-extbase-flash-message" />
-	
-	<f:form action="verifyCode">
-		<div class="b-form b-form-edit"> 
-			<div class="b-form-row"> 
-				<label for="form-input"><f:translate key="agencyCode">Agency Code:</f:translate><f:translate key="required"> (required)</f:translate></label> 
-				<div class="b-form-inputs"> 
-					<f:form.textfield name="agencyCode" />
-				</div><!-- b-form-inputs --> 
-			</div><!-- b-form-row --> 
-	
-			<div class="b-form-row"> 
-				<div class="b-form-inputs"> 
-					<button type="submit" class="bu bu-confirm"><b><f:translate key="validateCode">Validate code</f:translate></b></button> 
-				</div><!-- b-form-inputs --> 
-			</div><!-- b-form-row --> 
-	
-		</div><!-- .b-form b-form-edit --> 
-	</f:form>
+
+	<f:if condition="{agencies -> f:count}">
+		<f:then>
+			<table class="manage-keys">
+				<thead>
+				<tr>
+					<th>My Agencies</th>
+					<th></th>
+				</tr>
+				</thead>
+				<tbody>
+					<f:for each="{agencies}" as="agency">
+						<tr class="tr-odd">
+							<td>
+								<f:link.action action="verifyCode" arguments="{agencyCode:agency.code}" noCacheHash="1">
+									<f:if condition="{agency.name}" then="{agency.name}" else="[no title]" />
+								</f:link.action>
+							</td>
+							<td>
+								<f:link.action class="bu bu-mini" action="verifyCode" arguments="{agencyCode:agency.code}" noCacheHash="1">Edit</f:link.action>
+							</td>
+						</tr>
+						<li></li>
+					</f:for>
+				</tbody>
+			</table>
+		</f:then>
+	</f:if>
+	<p><f:link.action class="bu" action="verifyCode" arguments="{agencyCode:newCode}" noCacheHash="1">Get Listed Now!</f:link.action></p>
 </f:section>

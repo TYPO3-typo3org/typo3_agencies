@@ -26,7 +26,7 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 		'Agency' => 'enterCode,verifyCode,new,create,enterInformation,updateNewAgency,enterApprovalData,sendApprovalData'
 	),
 	array(
-		'Agency' => 'verifyCode,create,new,enterInformation,updateNewAgency,enterApprovalData,sendApprovalData'
+		'Agency' => 'enterCode,verifyCode,new,create,enterInformation,updateNewAgency,enterApprovalData,sendApprovalData'
 	)
 );
 
