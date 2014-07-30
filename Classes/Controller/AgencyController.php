@@ -241,6 +241,11 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 * @param Tx_Typo3Agencies_Domain_Model_Agency $agency The agency to geo code
 	 */
 	public function geoCodeAgency(Tx_Typo3Agencies_Domain_Model_Agency $agency) {
+
+		// The Geocoding API v2 has been turned down on September 9th, 2013.
+		// The Geocoding API v3 should be used now. Learn more at https://developers.google.com/maps/documentation/geocoding/
+		return;
+
 		// Initialize delay in geocode speed
 		$delay = 0;
 		$base_url = 'http://maps.google.com/maps/geo?output=xml&key=' . $this->settings['googleMapsKey'];
