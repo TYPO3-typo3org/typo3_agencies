@@ -551,7 +551,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		if(!$agency->getAdministrator()) {
 			return;
 		}
-		if ($agency->getAdministrator() !== $this->administrator) {
+		if ($agency->getAdministrator() !== intval($GLOBALS['TSFE']->fe_user->user['uid'])) {
 			$this->flashMessageContainer->add('You are not allowed to edit this agency', 'Access not allowed', t3lib_message_AbstractMessage::ERROR);
 			$this->redirect('enterCode');
 		}
