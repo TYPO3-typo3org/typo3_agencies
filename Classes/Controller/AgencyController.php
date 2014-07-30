@@ -119,10 +119,6 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 				$this->flashMessages->add($this->localization->translate('logoRemoved', $this->extensionName),'',t3lib_message_AbstractMessage::OK);
 			}
 			$this->handleFiles($newAgency);
-			if($submit){
-				$this->agencyRepository->update($agency);
-				$this->flashMessages->add(str_replace('%NAME%', $agency->getName(), $this->localization->translate('agencyUpdated', $this->extensionName)),'',t3lib_message_AbstractMessage::OK);
-			}
 			$this->addCountries();
 			$this->view->assign('newAgency', $newAgency);
 		}
