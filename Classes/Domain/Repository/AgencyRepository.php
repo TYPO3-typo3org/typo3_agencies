@@ -102,12 +102,24 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 			$constrains[] = $query->equals('country', $filter->getCountry());
 		}
 		if ($filter->getFeUser()) {
-			$_constrains = array();
-			$_constrains[] = $query->equals('administrator', $filter->getFeUser());
-			$_constrains[] = $query->equals('approved', true);
-			$constrains[] = $query->logicalOr($_constrains);
+			$constrains[] = $query->logicalOr(
+				$query->equals('administrator', $filter->getFeUser()),
+				$query->logicalAnd(
+					$query->equals('approved', true),
+					$query->logicalOr(
+						$query->equals('payed_until_date', 0),
+						$query->greaterThanOrEqual('payed_until_date', time())
+					)
+				)
+			);
 		} else {
-			$constrains[] = $query->equals('approved', true);
+			$constrains[] = $query->logicalAnd(
+				$query->equals('approved', true),
+				$query->logicalOr(
+					$query->equals('payed_until_date', 0),
+					$query->greaterThanOrEqual('payed_until_date', time())
+				)
+			);
 		}
 		return $constrains;
 	}
