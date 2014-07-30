@@ -23,12 +23,12 @@
 					<f:for each="{agencies}" as="agency">
 						<tr class="tr-odd">
 							<td>
-								<f:link.action action="verifyCode" arguments="{agencyCode:agency.code}" noCacheHash="1">
+								<f:link.action action="enterInformation" arguments="{newAgency:agency}" noCacheHash="1">
 									<f:if condition="{agency.name}" then="{agency.name}" else="[no title]" />
 								</f:link.action>
 							</td>
 							<td>
-								<f:link.action class="bu bu-mini" action="verifyCode" arguments="{agencyCode:agency.code}" noCacheHash="1">Edit</f:link.action>
+								<f:link.action class="bu bu-mini" action="enterInformation" arguments="{newAgency:agency}" noCacheHash="1">Edit</f:link.action>
 							</td>
 						</tr>
 						<li></li>
@@ -37,5 +37,5 @@
 			</table>
 		</f:then>
 	</f:if>
-	<p><f:link.action class="bu" action="verifyCode" arguments="{agencyCode:newCode}" noCacheHash="1">Get Listed Now!</f:link.action></p>
+	<p><f:link.action class="bu" action="enterInformation">Get Listed Now!</f:link.action></p>
 </f:section>

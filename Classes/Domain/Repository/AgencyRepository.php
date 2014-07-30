@@ -226,8 +226,13 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 	public function findAllForUser($userId) {
 		$query = $this->createQuery();
 		// a user wants to see his hidden records
-		$query->getQuerySettings()->setRespectEnableFields(FALSE);
-		$query->matching($query->equals('administrator', $userId));
+//		$query->getQuerySettings()->setRespectEnableFields(FALSE);
+		$query->matching(
+			$query->logicalAnd(
+				$query->equals('administrator', $userId),
+				$query->equals('deleted', '0')
+			)
+		);
 
 		$result = $query->execute();
 

@@ -36,6 +36,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 *
 	 * @param string $agencyCode
 	 * @dontvalidate $agencyCode
+	 * @deprecated Seems not necessary anymore, but might be linked in a template
 	 *
 	 * @return void
 	 */
@@ -61,22 +62,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 			if($memberData !== NULL) {
 				if((int) $this->agencyRepository->countByCode($agencyCode) == 0) {
 
-					/* @var $newAgency Tx_Typo3Agencies_Domain_Model_Agency */
-					$newAgency = $this->objectManager->create('Tx_Typo3Agencies_Domain_Model_Agency');
-					$newAgency->setCode($agencyCode);
-					$newAgency->setAdministrator((int) $GLOBALS['TSFE']->fe_user->user['uid']);
-
-					$approved = $memberData['isApproved'] == 1 ? true : false;
-					$allowedCaseStudies = $approved ? (int) $memberData['caseStudies'] : 0;
-
-					$newAgency->setApproved($approved);
-					$newAgency->setCaseStudies($allowedCaseStudies);
-					$newAgency->setMember($memberData['membershipLevel']);
-
-					$this->agencyRepository->add($newAgency);
-					$this->objectManager->get('Tx_Extbase_Persistence_Manager')->persistAll();
-
-					$this->redirect('enterInformation', 'Agency', $this->extensionName, array('newAgency' => $newAgency));
+					$this->redirect('enterInformation', 'Agency', $this->extensionName, array('newAgency' => NULL));
 
 				} else {
 						/* @var $newAgency Tx_Typo3Agencies_Domain_Model_Agency */
@@ -110,7 +96,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		$agencies = $this->agencyRepository->findAllForUser((int) $GLOBALS['TSFE']->fe_user->user['uid']);
 
 		// ugly work around: just fake some code, because the API is not working anymore
-		$newCode = 'c0de' . t3lib_div::getRandomHexString(12);
+		$newCode = $this->getRandomAgencyCode();
 
 		$this->view->assign('agencies', $agencies);
 		$this->view->assign('newCode', $newCode);
@@ -127,16 +113,21 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 */
 	public function enterInformationAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency = NULL, $logo = FALSE) {
 		$this->flashMessageContainer->getAllAndFlush();
-		if ($newAgency->getAdministrator() == $this->administrator) {
-			if ($logo) {
-				$newAgency->setLogo('');
-				$this->agencyRepository->update($newAgency);
-				$this->flashMessages->add($this->localization->translate('logoRemoved', $this->extensionName),'',t3lib_message_AbstractMessage::OK);
-			}
-			$this->handleFiles($newAgency);
-			$this->addCountries();
-			$this->view->assign('newAgency', $newAgency);
+
+		if($newAgency === NULL) {
+			$newAgency = $this->createNewAgency();
 		}
+
+		$this->redirectOnMissingAccessRights($newAgency);
+
+		if ($logo) {
+			$newAgency->setLogo('');
+			$this->agencyRepository->update($newAgency);
+			$this->flashMessages->add($this->localization->translate('logoRemoved', $this->extensionName),'',t3lib_message_AbstractMessage::OK);
+		}
+		$this->handleFiles($newAgency);
+		$this->addCountries();
+		$this->view->assign('newAgency', $newAgency);
 	}
 
 
@@ -147,11 +138,22 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
 	 */
 	public function updateNewAgencyAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
-		if ($newAgency->getAdministrator() == $this->administrator) {
-			$this->agencyRepository->update($newAgency);
-			$this->geoCodeAgency($newAgency);
-			$this->handleFiles($newAgency);
+		if(!$newAgency->getAdministrator()) {
+			$newAgency->setAdministrator((int) $GLOBALS['TSFE']->fe_user->user['uid']);
 		}
+
+		$this->redirectOnMissingAccessRights($newAgency);
+
+		if($newAgency->getUid() !== NULL) {
+			$this->agencyRepository->update($newAgency);
+		} else {
+			$this->agencyRepository->add($newAgency);
+		}
+		$this->objectManager->get('Tx_Extbase_Persistence_Manager')->persistAll();
+
+		$this->geoCodeAgency($newAgency);
+		$this->handleFiles($newAgency);
+
 		$this->forward('enterApprovalData', 'Agency', $this->extensionName, array('newAgency' => $newAgency));
 	}
 
@@ -164,13 +166,11 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 * @param array $referringArguments
 	 */
 	public function enterApprovalDataAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency, $errors = null, $referringArguments = null) {
-		if ($newAgency->getAdministrator() == $this->administrator) {
-			$this->view->assign('newAgency', $newAgency);
-			$this->view->assign('errors', $errors);
-			$this->view->assign('referringArguments', $referringArguments);
-		} else {
-			// TODO: forward to enter code screen with a flash error message
-		}
+		$this->redirectOnMissingAccessRights($newAgency);
+
+		$this->view->assign('newAgency', $newAgency);
+		$this->view->assign('errors', $errors);
+		$this->view->assign('referringArguments', $referringArguments);
 	}
 
 	/**
@@ -179,6 +179,8 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 * @param Tx_Typo3Agencies_Domain_Model_Agency $newAgency
 	 */
 	public function sendApprovalDataAction(Tx_Typo3Agencies_Domain_Model_Agency $newAgency) {
+		$this->redirectOnMissingAccessRights($newAgency);
+
 		if (!$this->request->getArgument('typo3version')) {
 			$this->forward(
 					'enterApprovalData',
@@ -544,6 +546,56 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 			}
 		}
 		return $ok;
+	}
+
+	/**
+	 * @param Tx_Typo3Agencies_Domain_Model_Agency $agency
+	 * @return null
+	 */
+	protected function redirectOnMissingAccessRights($agency) {
+		if(!$agency->getAdministrator()) {
+			return;
+		}
+		if ($agency->getAdministrator() !== $this->administrator) {
+			$this->flashMessageContainer->add('You are not allowed to edit this agency', 'Access not allowed', t3lib_message_AbstractMessage::ERROR);
+			$this->redirect('enterCode');
+		}
+	}
+
+	/**
+	 * a work-around to avoid a major refactoring of the code
+	 *
+	 * Previously the agency code was given out by the association and information
+	 * on the membership of an agency was fetched from the shop via an API.
+	 * Right now the shop is closed down and so this code does not have any use.
+	 *
+	 * @return string
+	 */
+	protected function getRandomAgencyCode() {
+		return 'c0de' . t3lib_div::getRandomHexString(12);
+	}
+
+	/**
+	 * returns a new (non-persisted) Agency Domain Model that is hidden by default
+	 *
+	 * @param null|string $agencyCode
+	 * @return Tx_Typo3Agencies_Domain_Model_Agency
+	 */
+	protected function createNewAgency($agencyCode = NULL) {
+		if($agencyCode === NULL) {
+			$agencyCode = $this->getRandomAgencyCode();
+		}
+		/* @var $newAgency Tx_Typo3Agencies_Domain_Model_Agency */
+		$newAgency = $this->objectManager->create('Tx_Typo3Agencies_Domain_Model_Agency');
+		$newAgency->setCode($agencyCode);
+		$newAgency->setAdministrator((int) $GLOBALS['TSFE']->fe_user->user['uid']);
+
+		// do not list agency by default
+		$newAgency->setApproved(FALSE);
+		$newAgency->setCaseStudies(0);
+		$newAgency->setMember('');
+
+		return $newAgency;
 	}
 
 }
