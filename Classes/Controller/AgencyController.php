@@ -94,12 +94,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 */
 	public function enterCodeAction() {
 		$agencies = $this->agencyRepository->findAllForUser((int) $GLOBALS['TSFE']->fe_user->user['uid']);
-
-		// ugly work around: just fake some code, because the API is not working anymore
-		$newCode = $this->getRandomAgencyCode();
-
 		$this->view->assign('agencies', $agencies);
-		$this->view->assign('newCode', $newCode);
 	}
 
 	 /**
