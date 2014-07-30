@@ -86,6 +86,8 @@ CREATE TABLE tx_typo3agencies_domain_model_agency (
 
 	administrator int(11) unsigned DEFAULT '0' NOT NULL,
 
+	internal_comment text NOT NULL,
+
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,
