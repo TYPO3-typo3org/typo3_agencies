@@ -85,6 +85,7 @@ CREATE TABLE tx_typo3agencies_domain_model_agency (
 	longitude decimal(24,14) DEFAULT '0.00000000000000' NOT NULL,
 
 	administrator int(11) unsigned DEFAULT '0' NOT NULL,
+	payed_until_date int(11) unsigned DEFAULT '0' NOT NULL,
 
 	internal_comment text NOT NULL,
 
