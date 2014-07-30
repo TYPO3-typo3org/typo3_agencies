@@ -47,5 +47,7 @@ plugin.tx_typo3agencies {
 		recentCaseStudies = 30;
 		
 		pdfTypeNum = 123
+
+		applicationEmailAddress = backoffice@typo3.org
 	}
 }

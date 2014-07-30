@@ -27,6 +27,7 @@ plugin.tx_typo3agencies {
 		
 		pdfTypeNum = {$plugin.tx_typo3agencies.settings.pdfTypeNum}
 
+		applicationEmailAddress = {$plugin.tx_typo3agencies.settings.applicationEmailAddress}
 	}
 	persistence {
 		storagePid = {$plugin.tx_typo3agencies.persistence.storagePid},0

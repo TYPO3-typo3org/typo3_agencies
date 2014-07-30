@@ -205,7 +205,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 
 			$mail = t3lib_div::makeInstance('t3lib_mail_Message');
 			$mail->setFrom(array($newAgency->getEmail() => $newAgency->getName()));
-			$mail->setTo(array('psl@typo3.org' => 'Agency Listing'));
+			$mail->setTo(array($this->settings['applicationEmailAddress'] => 'Agency Listing'));
 			$mail->setSubject('PSL approval request from ' . $newAgency->getName());
 			$mail->setBody($bodyContent);
 			$mail->send();
