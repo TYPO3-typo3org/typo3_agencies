@@ -38,7 +38,7 @@ plugin.tx_typo3agencies {
 		agenciesPid = 128
 		
 		# cat=plugin.tx_typo3agencies//a; type=int+; label=PageId where the references are to be displayed
-		referencesPid = 435
+		referencesPid = 598
 		
 		# cat=plugin.tx_typo3agencies//a; type=string; label=Google Maps key
 		googleMapsKey = ABQIAAAAI8h9wp9zHObSISxQvh-vPxSo8EnW8AKoLXqLvL-qXcC2LypMvBS6BRiIkAGbVo_izK4SeLFoCzHpxg
