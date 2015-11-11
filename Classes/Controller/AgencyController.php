@@ -240,7 +240,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	public function indexAction() {
 
 		// Add Google API
-		$this->response->addAdditionalHeaderData('<script src="http://maps.google.com/maps/api/js?sensor=true&language=en"></script>');
+		$this->response->addAdditionalHeaderData('<script src="https://maps.google.com/maps/api/js?sensor=true&language=en"></script>');
 
 		$this->view->assign('countries', $this->agencyRepository->findAllCountries());
 		$this->view->assign('imagePath', t3lib_extMgm::extRelPath('typo3_agencies') . 'Resources/Public/Media/Images/');
@@ -260,7 +260,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 
 		// Initialize delay in geocode speed
 		$delay = 0;
-		$base_url = 'http://maps.google.com/maps/geo?output=xml&key=' . $this->settings['googleMapsKey'];
+		$base_url = 'https://maps.google.com/maps/geo?output=xml&key=' . $this->settings['googleMapsKey'];
 
 		$geocode_pending = true;
 
@@ -418,7 +418,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 
 		if($filterObject->getLocation() != ''){
 			//geocode the location
-			$url = 'http://maps.google.com/maps/geo?'.
+			$url = 'https://maps.google.com/maps/geo?'.
 			$this->buildURL('q', $filterObject->getLocation()).
 			$this->buildURL('output', 'csv').
 			$this->buildURL('key', $this->settings['googleMapsKey']);
