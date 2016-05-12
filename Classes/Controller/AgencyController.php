@@ -303,28 +303,29 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 	 * @return string The rendered view
 	 */
 	public function showAction(Tx_Typo3Agencies_Domain_Model_Agency $agency = null) {
-		if ($agency == null) {
+		if ($agency === null) {
 			$agency = $this->agency;
 		}
 
-		$GLOBALS['TSFE']->page['title'] = $GLOBALS['TSFE']->indexedDocTitle =
-			$agency->getName();
 		$isAdministrator = false;
-		if ($agency->getAdministrator() == $this->administrator) {
-			$isAdministrator = true;
+		if ($agency instanceof Tx_Typo3Agencies_Domain_Model_Agency) {
+			$GLOBALS['TSFE']->page['title'] = $GLOBALS['TSFE']->indexedDocTitle = $agency->getName();
+			if ($agency->getAdministrator() == $this->administrator) {
+				$isAdministrator = true;
+			}
+			$references = $this->referenceRepository->findAllByAgency($agency, $isAdministrator);
+			$usedCredits = $this->referenceRepository->countByAgency($agency);
+			$agency->setReferences($references);
+			$this->view->assign('agency', $agency);
+			$this->view->assign('isAdministrator', $isAdministrator);
+			$this->view->assign('uploadPath', $this->settings['uploadPath']);
+			$this->view->assign('administrator', $this->administrator);
+			$this->view->assign('redirect','show');
+			$this->view->assign('redirectController','Agency');
+			$this->view->assign('availableCredits',$agency->getCasestudies() - $usedCredits);
+			$this->view->assign('usedCredits',$usedCredits);
+			$this->addFilterOptions();
 		}
-		$references = $this->referenceRepository->findAllByAgency($agency, $isAdministrator);
-		$usedCredits = $this->referenceRepository->countByAgency($agency);
-		$agency->setReferences($references);
-		$this->view->assign('agency', $agency);
-		$this->view->assign('isAdministrator', $isAdministrator);
-		$this->view->assign('uploadPath', $this->settings['uploadPath']);
-		$this->view->assign('administrator', $this->administrator);
-		$this->view->assign('redirect','show');
-		$this->view->assign('redirectController','Agency');
-		$this->view->assign('availableCredits',$agency->getCasestudies() - $usedCredits);
-		$this->view->assign('usedCredits',$usedCredits);
-		$this->addFilterOptions();
 	}
 
 	/**
