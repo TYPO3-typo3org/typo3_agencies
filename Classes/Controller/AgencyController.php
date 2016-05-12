@@ -419,24 +419,23 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 
 		if ($filterObject instanceof Tx_Typo3Agencies_Domain_Model_Filter &&  $filterObject->getLocation() != ''){
 			//geocode the location
-			$url = 'https://maps.google.com/maps/geo?'.
-			$this->buildURL('q', $filterObject->getLocation()).
-			$this->buildURL('output', 'csv').
-			$this->buildURL('key', $this->settings['googleMapsKey']);
+			$url = 'https://maps.googleapis.com/maps/api/geocode/json?'.
+			$this->buildURL('address', $filterObject->getLocation());
+			#$this->buildURL('output', 'csv').
+			#$this->buildURL('key', $this->settings['googleMapsKey']);
 
-			$csv = t3lib_div::getURL($url);
-			$csv = explode(',', $csv);
+			$result = json_decode(t3lib_div::getURL($url));
 
-			switch($csv[0]) {
-				case 200:
+			switch($result->status) {
+				case 'OK':
 					/*
 					 * Geocoding worked!
 					 * 200:  OK
 					 */
 					if (TYPO3_DLOG) t3lib_div::devLog('Google: '.$filterObject->getLocation(), 'typo3_agencies', -1, $filterObject->getLocation());
 					if (TYPO3_DLOG) t3lib_div::devLog('Google Answer', 'typo3_agencies', -1, $csv);
-					$latlong['lat'] = $csv[2];
-					$latlong['long'] = $csv[3];
+					$latlong['lat'] = $result->results[0]->geometry->location->lat;
+					$latlong['long'] = $result->results[0]->geometry->location->lng;
 					break;
 				case 500:
 				case 610:
@@ -464,9 +463,14 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		}
 
 		// Query the repository
-		$agencies = $this->agencyRepository->findAllByFilter($filterObject, $order, $offset, $pager->getItemsPerPage(), $latlong, $this->settings['nearbyAdditionalWhere']);
-		$allAgencies = $this->agencyRepository->findAllByFilter($filterObject, null, null, null, $latlong, $this->settings['nearbyAdditionalWhere']);
-		$count = $this->agencyRepository->countAllByFilter($filterObject, $latlong, $this->settings['nearbyAdditionalWhere']);
+		if (is_array($latlong)) {
+			$agencies = $this->agencyRepository->findAllByFilter($filterObject, $order, $offset, $pager->getItemsPerPage(), $latlong, $this->settings['nearbyAdditionalWhere']);
+			$allAgencies = $this->agencyRepository->findAllByFilter($filterObject, null, null, null, $latlong, $this->settings['nearbyAdditionalWhere']);
+		} else {
+			$agencies = $this->agencyRepository->findBySearchString($filterObject->getLocation());
+			$allAgencies = $agencies;
+		}
+		$count = count($allAgencies);
 		$pager->setCount($count);
 
 		// Assign values
