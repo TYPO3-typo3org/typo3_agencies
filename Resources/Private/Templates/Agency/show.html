@@ -60,7 +60,9 @@
 							<div class="b-agency">
 								<div class="agency-img">
 									<f:if condition="{agency.logo}">
-										<f:image src="{uploadPath}/{agency.logo}" alt="" width="178" />
+										<f:link.external uri="{agency.link}" target="_blank">
+											<f:image src="{uploadPath}/{agency.logo}" alt="" width="178" />
+										</f:link.external>
 									</f:if>
 									<f:image src="{f:uri.resource(path:'Media/Images/membership/{agency.member}-widen.jpg')}"
 											 alt="" />
