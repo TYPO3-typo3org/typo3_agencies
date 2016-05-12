@@ -1,6 +1,17 @@
 {namespace agency=Tx_Typo3Agencies_ViewHelpers}
 <f:layout name="default" />
 <f:section name="content">
+    <f:if condition="{reference.deactivated}">
+    <f:then>
+	<div class="tx-extbase-flash-message">
+	    <div class="typo3-message message-notice">
+		<p>
+		<strong>Case study "{reference.title}" is deactivated!</strong>
+		</p>
+	    </div>
+	</div>
+    </f:then>
+    <f:else>
 	<div class="hgroup">
 		<h1>{reference.title}</h1>
 	</div>
@@ -132,4 +143,6 @@
 		</div><!-- s-body -->
 
 	</div><!-- cl -->
+    </f:else>
+    </f:if>
 </f:section>
