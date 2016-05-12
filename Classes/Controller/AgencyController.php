@@ -417,7 +417,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 		$offset = ($pager->getPage() - 1) * $pager->getItemsPerPage();
 		$count = 0;
 
-		if($filterObject->getLocation() != ''){
+		if ($filterObject instanceof Tx_Typo3Agencies_Domain_Model_Filter &&  $filterObject->getLocation() != ''){
 			//geocode the location
 			$url = 'https://maps.google.com/maps/geo?'.
 			$this->buildURL('q', $filterObject->getLocation()).
