@@ -1,10 +1,8 @@
 <f:layout name="default" />
 <f:section name="content">
-
 	<f:if condition="{agency}">
 		<f:then>
 			<div class="agency">
-
 				<h1>
 					<f:if condition="{agency.name}">
 						<f:then>
@@ -15,8 +13,6 @@
 						</f:else>
 					</f:if>
 				</h1>
-
-
 				<div class="cl">
 					<div class="s-sidebar">
 						<f:if condition="{isAdministrator}">
@@ -50,6 +46,14 @@
 									</p>
 								</f:if>
 							</f:if>
+							<f:if condition="agency.email">
+								<div class="csc-textpic-right">
+									<div class="csc-textpic-imagewrap">
+										<f:link.page class="bu bu-mini" pageUid="{settings.mailformPID}" additionalParams="{email:'{agency.email}'}">Contact</f:link.page>
+									</div>
+								</div>
+							</f:if>
+
 							<p>
 								{agency.address} </br>
 								{agency.zip} {agency.city} </br>
