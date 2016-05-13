@@ -449,7 +449,9 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 				$filterObject, NULL, 0, 0, $latLong, $this->settings['nearbyAdditionalWhere']
 			);
 		}
-		$agenciesArray = $agencies->toArray();
+		if ($agencies !== NULL) {
+			$agenciesArray = $agencies->toArray();
+		}
 		if ($filterObject->getLocation() !== '' && (empty($latLong) || empty($agenciesArray))) {
 			// search for the name or city
 			$agencies = $this->agencyRepository->findByNameOrCity($filterObject, $order);
