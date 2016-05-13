@@ -8,7 +8,7 @@
 				<f:if condition="{administrator} == {agency.administrator}">
 					<f:then>
 						<h1><f:translate key="editAgency">Edit/Create Agency Profile</f:translate></h1>
-						
+
 						<f:form method="post" controller="Agency" action="update" name="agency" object="{agency}" enctype="multipart/form-data">
 							<div class="b-form b-form-edit">
 								<div class="{agency:hasError(property: 'name', then: 'b-form-row b-form-error', else: 'b-form-row')}">
@@ -66,7 +66,7 @@
 												</div><!-- .b-form-sub-column -->
 												<div class="b-form-sub-column">
 													<label for="form-development-service"><f:translate key="development">Development</f:translate></label>
-													<f:form.checkbox property="developmentService" value="1" id="form-development-service" />											
+													<f:form.checkbox property="developmentService" value="1" id="form-development-service" />
 												</div><!-- .b-form-sub-column -->
 											</div><!-- b-form-sub-row -->
 										</div><!-- b-form-boxes -->
@@ -95,23 +95,91 @@
 									<div class="b-form-inputs">
 										<f:form.textfield property="zip" id="form-zip"/><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'zip'}" />
 									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->	
+								</div><!-- b-form-row -->
 								<div class="{agency:hasError(property: 'contact', then: 'b-form-row b-form-error', else: 'b-form-row')}">
 									<label for="form-contact-person"><f:translate key="contact">Contact Person:</f:translate><f:translate key="required"> (required)</f:translate></label>
 									<div class="b-form-inputs">
 										<f:form.textfield property="contact" id="form-contact-person"/><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'contact'}" />
 									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->	
+								</div><!-- b-form-row -->
 								<div class="{agency:hasError(property: 'email', then: 'b-form-row b-form-error', else: 'b-form-row')}">
-									<label for="form-email"><f:translate key="email">Email:</f:translate><f:translate key="required"> (required)</f:translate></label>
+									<label for="form-email">
+										<f:translate key="email">Email:</f:translate>
+										<f:translate key="required"> (required)</f:translate>
+									</label>
 									<div class="b-form-inputs">
-										<f:form.textfield property="email" id="form-email"/><f:render partial="error" arguments="{objectName: 'agency', propertyName: 'email'}" />
+										<f:form.textfield property="email" id="form-email"/>
+										<f:render partial="error"
+												  arguments="{objectName: 'agency', propertyName: 'email'}"/>
 									</div><!-- b-form-inputs -->
-								</div><!-- b-form-row -->	
+								</div><!-- b-form-row -->
+
+								<f:if condition="{settings.formSheet} == 1">
+									<div class="{agency:hasError(property: 'ownPageT3ver', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+										<label for="form--own_page_t3ver"><f:translate key="tx_typo3agencies_domain_model_agency.own_page_t3ver" /> </label>
+										<div class="b-form-inputs">
+											<f:form.textfield property="ownPageT3ver" id="form--own_page_t3ver"/>
+											<f:render partial="error"
+													  arguments="{objectName: 'agency', propertyName: 'ownPageT3ver'}"/>
+										</div>
+									</div>
+									<div class="{agency:hasError(property: 'certifiedIntegrators', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+										<label for="form--certified_integrators"><f:translate key="tx_typo3agencies_domain_model_agency.certified_integrators" /> </label>
+										<div class="b-form-inputs">
+											<f:form.textfield property="certifiedIntegrators"
+															  id="form--certified_integrators"/>
+											<f:render partial="error"
+													  arguments="{objectName: 'agency', propertyName: 'certifiedIntegrators'}"/>
+										</div>
+									</div>
+									<div class="{agency:hasError(property: 'publishedExtkeys', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+										<label for="form--published_extkeys"><f:translate key="tx_typo3agencies_domain_model_agency.published_extkeys" /> </label>
+										<div class="b-form-inputs">
+											<f:form.textfield property="publishedExtkeys" id="form--published_extkeys"/>
+											<f:render partial="error"
+													  arguments="{objectName: 'agency', propertyName: 'publishedExtkeys'}"/>
+										</div>
+									</div>
+									<div class="{agency:hasError(property: 'financialInvolvement', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+										<label for="form--financial_involvement"><f:translate key="tx_typo3agencies_domain_model_agency.financial_involvement" /> </label>
+										<div class="b-form-inputs">
+											<f:form.textarea property="financialInvolvement" rows="3" cols="20" id="form--financial_involvement"/>
+											<f:render partial="error"
+													  arguments="{objectName: 'agency', propertyName: 'financialInvolvement'}"/>
+										</div>
+									</div>
+									<div class="{agency:hasError(property: 'activeInvolvement', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+										<label for="form--active_involvement"><f:translate key="tx_typo3agencies_domain_model_agency.active_involvement" /> </label>
+										<div class="b-form-inputs">
+											<f:form.textarea property="activeInvolvement" rows="3" cols="20" id="form--active_involvement"/>
+											<f:render partial="error"
+													  arguments="{objectName: 'agency', propertyName: 'activeInvolvement'}"/>
+										</div>
+									</div>
+									<div class="{agency:hasError(property: 'lastT3pages', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+										<label for="form--last_t3pages"><f:translate key="tx_typo3agencies_domain_model_agency.last_t3pages" /> </label>
+										<div class="b-form-inputs">
+											<f:form.textarea property="lastT3pages" rows="3" cols="20" id="form--last_t3pages"/>
+											<f:render partial="error"
+													  arguments="{objectName: 'agency', propertyName: 'lastT3pages'}"/>
+										</div>
+									</div>
+									<div class="{agency:hasError(property: 'onlineReferences', then: 'b-form-row b-form-error', else: 'b-form-row')}">
+										<label for="form--online_references"><f:translate key="tx_typo3agencies_domain_model_agency.online_references" /> </label>
+										<div class="b-form-inputs">
+											<f:form.textarea property="onlineReferences" rows="3" cols="20" id="form--online_references"/>
+											<f:render partial="error"
+													  arguments="{objectName: 'agency', propertyName: 'onlineReferences'}"/>
+										</div>
+									</div>
+								</f:if>
 								<div class="b-form-row">
 									<div class="b-form-inputs">
 										<f:form.submit class="bu bu-confirm" value="Submit"/>
-										<f:link.action controller="Agency" action="show" arguments="{agency : agency}" class="bu bu-secondary"><f:translate key="cancel">Cancel</f:translate></f:link.action>
+										<f:link.action controller="Agency" action="show" arguments="{agency : agency}"
+													   class="bu bu-secondary">
+											<f:translate key="cancel">Cancel</f:translate>
+										</f:link.action>
 									</div><!-- b-form-inputs -->
 								</div><!-- b-form-row -->
 							</div><!-- b-form -->

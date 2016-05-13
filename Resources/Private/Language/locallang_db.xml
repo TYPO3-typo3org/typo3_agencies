@@ -94,6 +94,19 @@
 			<label index="tx_typo3agencies_domain_model_industry.title">Title</label>
 			<label index="tx_typo3agencies_domain_model_agency.references">References</label>
 			<label index="tx_typo3agencies_domain_model_agency.reftab">References</label>
+			<label index="tx_typo3agencies_domain_model_agency.own_page_t3ver">Our website runs on TYPO3 version</label>
+			<label index="tx_typo3agencies_domain_model_agency.certified_integrators">Name of the certified TYPO3 integrator (needs to be a permanent employee)</label>
+			<label index="tx_typo3agencies_domain_model_agency.published_extkeys">Extension key of your published extension</label>
+			<label index="tx_typo3agencies_domain_model_agency.financial_involvement">Your TYPO3 financial involvement</label>
+			<label index="tx_typo3agencies_domain_model_agency.active_involvement">Your TYPO3 active involvement</label>
+			<label index="tx_typo3agencies_domain_model_agency.last_t3pages">At least eight TYPO3 references visible online</label>
+			<label index="tx_typo3agencies_domain_model_agency.online_references">Online references</label>
+			<label index="tx_typo3agencies_domain_model_agency.proof_own_page_t3ver">Proof: TYPO3 version</label>
+			<label index="tx_typo3agencies_domain_model_agency.proof_certified_integrators">Proof: TYPO3 integrator</label>
+			<label index="tx_typo3agencies_domain_model_agency.proof_published_extkeys">Proof: Extension key of your published extension</label>
+			<label index="tx_typo3agencies_domain_model_agency.proof_financial_involvement">Proof: Your TYPO3 financial involvement</label>
+			<label index="tx_typo3agencies_domain_model_agency.proof_active_involvement">Proof: Your TYPO3 active involvement</label>
+			<label index="tx_typo3agencies_domain_model_agency.proof_online_references">Proof: References</label>
 
 		</languageKey>
 	</data>

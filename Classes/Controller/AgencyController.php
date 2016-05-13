@@ -380,7 +380,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 			$this->geoCodeAgency($agency);
 			$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
 			if(!$this->handleFiles($agency)){
-				$this->redirect('edit','Agency',$this->extensionName,Array('agency'=>$agency));
+				$this->redirect('edit', 'Agency', $this->extensionName, array('agency' => $agency));
 			}
 		}
 		$this->redirect('show', 'Agency', null, array('agency' => $agency));

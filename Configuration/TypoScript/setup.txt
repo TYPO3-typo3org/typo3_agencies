@@ -30,6 +30,9 @@ plugin.tx_typo3agencies {
 		applicationEmailAddress = {$plugin.tx_typo3agencies.settings.applicationEmailAddress}
 
 		mailformPID = {$plugin.tx_typo3agencies.settings.mailformPID}
+
+		# Feature toggle for formSheet
+		formSheet = 0
 	}
 	persistence {
 		storagePid = {$plugin.tx_typo3agencies.persistence.storagePid},0
