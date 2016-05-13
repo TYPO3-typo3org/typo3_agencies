@@ -204,6 +204,7 @@ class Tx_Typo3Agencies_Controller_BaseController extends Tx_Extbase_MVC_Controll
 					2 => $this->localization->translate('page2',$this->extensionName),
 					3 => $this->localization->translate('page3',$this->extensionName),
 					4 => $this->localization->translate('page4',$this->extensionName));
+					5 => $this->localization->translate('page5',$this->extensionName));
 		if(!$includeDescription){
 			unset($values[0]);
 		}

@@ -44,24 +44,40 @@
 						<f:translate key="revenue">Revenue</f:translate>
 					</td>
 					<td>
-						{reference.revenue.title}<f:translate key="euro"> EUR</f:translate>
+						<f:if condition="{reference.revenue}">
+							<f:then>{reference.revenue.title} <f:translate key="euro"> EUR</f:translate></f:then>
+							<f:else>unknown</f:else>
+						</f:if>
 					</td>
 				</tr>
-				<tr>
-					<td>
+				<f:if condition="{reference.pages}">
+				    <f:then>
+					<tr>
+					    <td>
 						<f:translate key="pages">Number of pages</f:translate>
-					</td>
-					<td>
-						<f:translate key="page{reference.pages}">appr. 1000</f:translate>
-					</td>
-				</tr>
+					    </td>
+					    <td>
+						<f:translate key="page{reference.pages}">{reference.pages}</f:translate>
+					    </td>
+					</tr>
+				    </f:then>
+				</f:if>
 				<tr>
 					<td>
 						<f:translate key="languages">Languages</f:translate>
 					</td>
-					<td>
-						{reference.languages}
-					</td>
+					<f:if condition="{reference.languages} < 10">
+					    <f:then>
+						<td>
+							{reference.languages}
+						</td>
+					    </f:then>
+					    <f:else>
+						<td>
+						    10 or more
+						</td>
+					    </f:else>
+					</f:if>
 				</tr>
 				<tr>
 					<td>
