@@ -626,6 +626,14 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 		return $ok;
 	}
 
+	/**
+	 * Slider (cacheable) action for this controller. Displays a list of references.
+	 *
+	 */
+	public function sliderAction() {
+		$this->view->assign('references', $this->referenceRepository->findAllForSlider());
+	}
+
 }
 
 ?>

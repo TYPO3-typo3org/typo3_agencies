@@ -30,6 +30,16 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 	)
 );
 
+Tx_Extbase_Utility_Extension::configurePlugin(
+	$_EXTKEY,
+	'Pi3',
+	array (
+		'Reference' => 'slider',	// The first controller and its first action will be the default
+	),
+	array(
+	)
+);
+
 
 /**
  * Scheduler Cron Job
@@ -39,5 +49,3 @@ $TYPO3_CONF_VARS['SC_OPTIONS']['scheduler']['tasks']['Tx_Typo3Agencies_Scheduler
 	'title' => 'LLL:EXT:'.$_EXTKEY.'/Resources/Private/Language/locallang.xml:membershipUpdater.name',
 	'description' => 'LLL:EXT:'.$_EXTKEY.'/Resources/Private/Language/locallang.xml:membershipUpdater.description',
 );
-
-?>

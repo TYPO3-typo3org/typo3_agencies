@@ -299,5 +299,28 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 		$query->matching($query->logicalAnd($query->equals('deactivated', 0), $query->equals('agency', $agency)));
 		return count($query->execute()->toArray());
 	}
+
+	/**
+	 * Finds all references by the specified agency
+	 *
+	 * @param Tx_Typo3Agencies_Domain_Model_Agency $agency The company the references must refer to
+	 * @param boolean $includeDeactivated
+	 * @return array The references
+	 */
+	public function findAllForSlider() {
+		$query = $this->createQuery();
+		$query->setLimit(5);
+		// DB-Backend laden:
+		$backend = t3lib_div::makeInstance('Tx_Extbase_Persistence_Storage_Typo3DbBackend');
+		// Teile des Query extrahieren:
+		$parameters = array();
+		$statementParts = $backend->parseQuery($query, $parameters);
+		// Teile des Query ändern:
+		$statementParts['orderings'][] = 'RAND()';
+		// Wieder zusammensetzen:
+		$statement = $backend->buildQuery($statementParts, $parameters);
+		$query->statement($statement, $parameters);
+		$query->matching($query->logicalAnd($query->equals('deactivated',0)));
+		return $query->execute();
+	}
 }
-?>

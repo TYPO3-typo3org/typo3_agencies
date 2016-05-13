@@ -18,6 +18,12 @@ Tx_Extbase_Utility_Extension::registerPlugin(
 	'Create agency profile'
 );
 
+Tx_Extbase_Utility_Extension::registerPlugin(
+	$_EXTKEY,
+	'Pi3',
+	'Slider view for case studies'
+);
+
 		
 $TCA['tt_content']['types']['list']['subtypes_addlist']['typo3agencies_pi2'] = 'pi_flexform';
 t3lib_extMgm::addPiFlexFormValue('typo3agencies_pi2', 'FILE:EXT:'.$_EXTKEY.'/Configuration/FlexForms/Pi2.xml');  
@@ -133,6 +139,4 @@ $extensionName = t3lib_div::underscoredToUpperCamelCase($_EXTKEY);
 $pluginSignature = strtolower($extensionName) . '_pi1';  
  
 $TCA['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
-t3lib_extMgm::addPiFlexFormValue($pluginSignature, 'FILE:EXT:'.$_EXTKEY.'/Configuration/FlexForms/ControllerActions.xml');  
-
-?>
+t3lib_extMgm::addPiFlexFormValue($pluginSignature, 'FILE:EXT:'.$_EXTKEY.'/Configuration/FlexForms/ControllerActions.xml');

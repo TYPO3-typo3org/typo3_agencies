@@ -1,0 +1,22 @@
+<f:layout name="default" />
+
+<f:section name="content">
+	<div id="references">
+		<h5>{references.0.title}</h5>
+		<div class="scrollable">
+			<div class="items">
+				<f:for each="{references}" as="item">
+					<f:if condition="{item.screenshot}">
+						<div>
+							<f:link.action pageUid="{settings.referencesPid}" action="show" controller="Reference" title="TYPO3 case study {item.title}" arguments="{reference:item}">
+								<f:image src="uploads/tx_typo3_agencies/pics/{item.screenshot}" width="310" height="150c" alt="screenshot of {item.title}" title="TYPO3 case study {item.title}"></f:image>
+							</f:link.action>
+						</div>
+					</f:if>
+				</f:for>
+			</div>
+		</div>
+		<div class="prev" title="previous"><f:translate key="previous" /></div>
+		<div class="next" title="next"><f:translate key="next" /></div>
+	</div>
+</f:section>
