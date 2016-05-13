@@ -1,5 +1,4 @@
 <?php
-
 /* * *************************************************************
  *  Copyright notice
  *
@@ -30,19 +29,15 @@
  */
 class Tx_Typo3Agencies_Utility_MemberData {
 
-
 	protected $baseApiUrl = 'http://shopadmin.typo3.org/?type=31337';
-
-
 
 	/**
 	 * Get data array from association.TYPO3.org
 	 *
-	 * @param string $agencyCode
-	 *
+	 * @param string $authCode
 	 * @return array
 	 */
-	public function getMemberDataByCode($authCode = NULLL) {
+	public function getMemberDataByCode($authCode = NULL) {
 		if($authCode === NULL) {
 			return NULL;
 		}
@@ -56,17 +51,14 @@ class Tx_Typo3Agencies_Utility_MemberData {
 		}
 	}
 
-
 	/**
-	 * @return void
+	 * @return mixed
 	 */
 	public function getAllMemberData() {
 		$agencyData = t3lib_div::getURL($this->baseApiUrl . '&tx_ptassoc_admin%5Baction%5D=getAll');
 		$decodedData = $this->decodeMemberData($agencyData);
-
 		return $decodedData;
 	}
-
 
 	/**
 	 * @param $rawData
@@ -75,7 +67,6 @@ class Tx_Typo3Agencies_Utility_MemberData {
 	public function decodeMemberData($rawData) {
 		return json_decode($rawData,1);
 	}
-
 }
 
 ?>
