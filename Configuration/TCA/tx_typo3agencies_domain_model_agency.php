@@ -259,8 +259,7 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 				'minitems' => 1,
 				'maxitems' => 1,
 				'items' => Array(
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.member.no_member', -1),
-					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.member', 0),
+					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.member',''),
 					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.member.4', '4'), #Platenium
 					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.member.3', '3'), #Gold
 					Array('LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.member.2', '2'), #Silver

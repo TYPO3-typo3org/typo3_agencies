@@ -79,8 +79,7 @@
 			<label index="tx_typo3agencies_domain_model_agency.longitude">Longitude</label>
 			<label index="tx_typo3agencies_domain_model_agency.country">Country</label>
 			<label index="tx_typo3agencies_domain_model_agency.contact">Contact Person</label>
-			<label index="tx_typo3agencies_domain_model_agency.member">TYPO3 Association member</label>
-			<label index="tx_typo3agencies_domain_model_agency.member.no_member">No member</label>
+			<label index="tx_typo3agencies_domain_model_agency.member">TYPO3 Association Member</label>
 			<label index="tx_typo3agencies_domain_model_agency.member.1">Bronze member</label>
 			<label index="tx_typo3agencies_domain_model_agency.member.2">Silver member</label>
 			<label index="tx_typo3agencies_domain_model_agency.member.3">Gold member</label>
