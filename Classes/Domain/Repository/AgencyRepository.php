@@ -41,7 +41,7 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 
 			$result = count($query->execute()->toArray());
 		} else {
-			$constrains = $this->getConstrains($query, $filter);
+			$constrains = $this->getConstraints($query, $filter);
 
 			if (!empty($constrains)) {
 				$query->matching($query->logicalAnd($constrains));
@@ -62,7 +62,7 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 	 * @param Tx_Typo3Agencies_Domain_Model_Filter $filter The filter the references must apply to
 	 * @return array The references
 	 */
-	protected function getConstrains(Tx_Extbase_Persistence_QueryInterface $query, Tx_Typo3Agencies_Domain_Model_Filter $filter) {
+	protected function getConstraints(Tx_Extbase_Persistence_QueryInterface $query, Tx_Typo3Agencies_Domain_Model_Filter $filter) {
 		$constrains = array();
 
 		$constrains[] = $query->greaterThan('member', 0);
@@ -77,12 +77,8 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 		// Membership case
 		$members = $filter->getMembers();
 		if (!empty($members)) {
-			$_constrains = array();
 			foreach ($members as $member) {
 				$_constrains[] = $query->equals('member', $member);
-			}
-			if (!empty($_constrains)) {
-				$constrains[] = $query->logicalOr($_constrains);
 			}
 		}
 
@@ -128,13 +124,12 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 	 * Return the sql statement - needed for distance query
 	 *
 	 * @param Tx_Typo3Agencies_Domain_Model_Filter $filter The filter the references must apply to
-	 * @param array $latlong Array of latitude and longitude
+	 * @param array $latLong Array of latitude and longitude
+	 * @param string $nearbyAdditionalWhere
 	 * @return array The references
 	 */
-	protected function getStatement(Tx_Typo3Agencies_Domain_Model_Filter $filter, $latlong = null, $nearbyAdditionalWhere = null) {
-		$where = Array();
-
-
+	protected function getStatement(Tx_Typo3Agencies_Domain_Model_Filter $filter, $latLong = array(), $nearbyAdditionalWhere = '') {
+		$where = array();
 		$where[] = '(first_name <> \'\' OR last_name <> \'\' OR name <> \'\')';
 
 		// Membership case
@@ -165,8 +160,8 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 			$where[] = 'country = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($filter->getCountry(), 'tx_typo3agencies_domain_model_agency');
 		}
 
-		if (is_array($latlong) && $nearbyAdditionalWhere != null && $nearbyAdditionalWhere != ''){
-			$where[] = str_replace(array('###LONGITUDE###', '###LATITUDE###'), array(floatval($latlong['long']), floatval($latlong['lat'])), $nearbyAdditionalWhere);
+		if (!empty($latLong) && $nearbyAdditionalWhere != ''){
+			$where[] = str_replace(array('###LONGITUDE###', '###LATITUDE###'), array(floatval($latLong['long']), floatval($latLong['lat'])), $nearbyAdditionalWhere);
 		}
 
 		if($filter->getFeUser() > 0){
@@ -187,22 +182,24 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 	 * @param Tx_Typo3Agencies_Domain_Model_Order $order The order
 	 * @param int $offset
 	 * @param int $rowsPerPage
-	 * @param array $latlong Array of latitude and longitude
+	 * @param array $latLong Array of latitude and longitude
+	 * @param string $nearbyAdditionalWhere
 	 * @return array The references
 	 */
-	public function findAllByFilter(Tx_Typo3Agencies_Domain_Model_Filter $filter, Tx_Typo3Agencies_Domain_Model_Order $order = null, $offset = null, $rowsPerPage = null, $latlong = null, $nearbyAdditionalWhere = null) {
+	public function findAllByFilter(Tx_Typo3Agencies_Domain_Model_Filter $filter, Tx_Typo3Agencies_Domain_Model_Order $order = null, $offset = 0, $rowsPerPage = 0, $latLong = array(), $nearbyAdditionalWhere = '') {
 		$query = $this->createQuery();
-		if(is_array($latlong)){
-			$query->statement($this->getStatement($filter, $latlong, $nearbyAdditionalWhere));
+		if (!empty($latLong)) {
+			$query->statement($this->getStatement($filter, $latLong, $nearbyAdditionalWhere));
 		} else {
-			$constrains = $this->getConstrains($query, $filter);
-			if (!empty($constrains)) {
-				$query->matching($query->logicalAnd($constrains));
+			$constraints = $this->getConstraints($query, $filter);
+
+			if (!empty($constraints)) {
+				$query->matching($query->logicalAnd($constraints));
 			}
 
 			if ($order) {
-				$orderering = $order->getOrderings();
-				$query->setOrderings($orderering);
+				$ordering = $order->getOrderings();
+				$query->setOrderings($ordering);
 			}
 
 			if ($offset) {
@@ -252,17 +249,35 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 	}
 
 	/**
-	 * @param string $searchString
+	 * @param Tx_Typo3Agencies_Domain_Model_Filter $filter
+	 * @param Tx_Typo3Agencies_Domain_Model_Order $order
 	 * @return array|\Tx_Extbase_Persistence_QueryResultInterface
 	 */
-	public function findBySearchString($searchString) {
+	public function findByNameOrCity(Tx_Typo3Agencies_Domain_Model_Filter $filter, Tx_Typo3Agencies_Domain_Model_Order $order) {
 		$query = $this->createQuery();
-		$searchString = '%' . mysql_real_escape_string($searchString) . '%';
+		$searchString = '%' . mysql_real_escape_string($filter->getLocation()) . '%';
+
+		if ($order) {
+			$ordering = $order->getOrderings();
+			$query->setOrderings($ordering);
+		}
+
 		$query->matching(
-			$query->logicalOr(
+			$query->logicalAnd(
 				array(
-					$query->like('name', $searchString),
-					$query->like('city', $searchString)
+					$query->equals('approved', TRUE),
+					$query->logicalOr(
+						array(
+							$query->equals('payed_until_date', 0),
+							$query->greaterThanOrEqual('payed_until_date', time())
+						)
+					),
+					$query->logicalOr(
+						array(
+							$query->like('name', $searchString),
+							$query->like('city', $searchString)
+						)
+					)
 				)
 			)
 		);

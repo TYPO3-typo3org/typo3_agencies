@@ -425,6 +425,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 			#$this->buildURL('key', $this->settings['googleMapsKey']);
 
 			$result = json_decode(t3lib_div::getURL($url));
+			$latLong = array();
 
 			switch($result->status) {
 				case 'OK':
@@ -432,45 +433,23 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 					 * Geocoding worked!
 					 * 200:  OK
 					 */
-					if (TYPO3_DLOG) t3lib_div::devLog('Google: '.$filterObject->getLocation(), 'typo3_agencies', -1, $filterObject->getLocation());
-					if (TYPO3_DLOG) t3lib_div::devLog('Google Answer', 'typo3_agencies', -1, $csv);
-					$latlong['lat'] = $result->results[0]->geometry->location->lat;
-					$latlong['long'] = $result->results[0]->geometry->location->lng;
-					break;
-				case 500:
-				case 610:
-					/*
-					 * Geocoder can't run at all, so disable this service and
-					 * try the other geocoders instead.
-					 * 500: Undefined error.  Geocoding may be blocked.
-					 * 610: Bad API Key.
-					 */
-					if (TYPO3_DLOG) t3lib_div::devLog('Google: '.$csv[0].': '.$filterObject->getLocation().'. Disabling.', 'typo3_agencies', 3, $filterObject->getLocation());
-					$latlong = null;
+					$latLong['lat'] = $result->results[0]->geometry->location->lat;
+					$latLong['long'] = $result->results[0]->geometry->location->lng;
 					break;
 				default:
-					/*
-					 * Something is wrong with this address. Might work for other
-					 * addresses though.
-					 * 601: No address to geocode.
-					 * 602: Unknown address.
-					 * 603: Can't geocode for contractual reasons.
-					 */
-					if (TYPO3_DLOG) t3lib_div::devLog('Google: '.$csv[0].': '.$filterObject->getLocation().'. Disabling.', 'typo3_agencies', 2, $filterObject->getLocation());
-					$latlong = null;
-					break;
 			}
 		}
 
 		// Query the repository
-		if (is_array($latlong)) {
-			$agencies = $this->agencyRepository->findAllByFilter($filterObject, $order, $offset, $pager->getItemsPerPage(), $latlong, $this->settings['nearbyAdditionalWhere']);
-			$allAgencies = $this->agencyRepository->findAllByFilter($filterObject, null, null, null, $latlong, $this->settings['nearbyAdditionalWhere']);
+		if (!empty($latLong) || $filterObject->getLocation() === '') {
+			$agencies = $this->agencyRepository->findAllByFilter($filterObject, $order, $offset, $pager->getItemsPerPage(), $latLong, $this->settings['nearbyAdditionalWhere']);
+			$allAgencies = $this->agencyRepository->findAllByFilter($filterObject, NULL, 0, 0, $latLong, $this->settings['nearbyAdditionalWhere']);
 		} else {
-			$agencies = $this->agencyRepository->findBySearchString($filterObject->getLocation());
+			// search for the name or city
+			$agencies = $this->agencyRepository->findByNameOrCity($filterObject, $order);
 			$allAgencies = $agencies;
 		}
-		$count = count($allAgencies);
+		$count = count($allAgencies->toArray());
 		$pager->setCount($count);
 
 		// Assign values
