@@ -38,7 +38,8 @@
 			<label index="page1">&lt;100</label>
 			<label index="page2">100-500</label>
 			<label index="page3">500-1000</label>
-			<label index="page4">&gt;1000</label>
+			<label index="page4">1000-10000</label>
+			<label index="page5">&gt;10000</label>
 			<label index="aboutAgency">About the agency</label>
 			<label index="projectsOf">Project List</label>
 			<label index="onlyFortune">Search or filter only companies within the Fortune1000</label>

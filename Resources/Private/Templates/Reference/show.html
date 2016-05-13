@@ -29,12 +29,23 @@
 							<f:else><p class="n-m">unknown</p></f:else>
 						</f:if>
 					</li>
+					    <f:if condition="{reference.pages}">
+						<f:then>
+						    <li>
+							<p class="n-m"><strong><f:translate key="pages">Number of pages</f:translate>:</strong></p>
+							<p class="n-m"><f:translate key="page{reference.pages}">{reference.pages}</f:translate></p>
+						    </li>
+						</f:then>
+					    </f:if>
 					<li>
-						<p class="n-m"><strong><f:translate key="pages">Number of pages</f:translate>:</strong></p>
-						<p class="n-m"><f:translate key="page{reference.pages}"> appr. 1000</f:translate></p>
-					</li>
-					<li>
-						<p class="n-m"><strong><f:translate key="languages">Languages</f:translate>:</strong> {reference.languages}</p>
+					    <f:if condition="{reference.languages} < 10">
+						<f:then>
+						    <p class="n-m"><strong><f:translate key="languages">Languages</f:translate>:</strong> {reference.languages}</p>
+						</f:then>
+						<f:else> 
+						    <p class="n-m"><strong><f:translate key="languages">Languages</f:translate>:</strong> 10 or more</p>
+						</f:else>
+					    </f:if>
 					</li>
 					<li>
 						<p class="n-m"><strong><f:translate key="country">Country</f:translate>:</strong> {reference.countryObject.cnShortEn}</p>
