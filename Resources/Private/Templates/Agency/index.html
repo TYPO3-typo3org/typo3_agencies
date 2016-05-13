@@ -187,7 +187,15 @@
 								image.url = imagePath + 'membership/gold-marker.png';
 								break;
 							case 4: // platinum
-								image.url = imagePath + 'membership/platinum-marker.png';
+								image = new google.maps.MarkerImage(
+									imagePath + 'membership/platinum-marker.png',
+									// This marker is 54 pixels wide by 47 pixels tall.
+									new google.maps.Size(54, 47),
+									// The origin for this image is 0,0.
+									new google.maps.Point(0,0),
+									// The anchor for this image is the base of the flagpole at 15,47.
+									new google.maps.Point(15, 47)
+								);
 								break;
 						}
 
@@ -216,15 +224,12 @@
 			 */
 			function getImage() {
 				var image = new google.maps.MarkerImage(null,
-
-						  // This marker is 20 pixels wide by 32 pixels tall.
-						  new google.maps.Size(45, 51),
-
+						  // This marker is 37 pixels wide by 31 pixels tall.
+						  new google.maps.Size(37, 31),
 						  // The origin for this image is 0,0.
 						  new google.maps.Point(0,0),
-
-						  // The anchor for this image is the base of the flagpole at 0,32.
-						  new google.maps.Point(10, 30));
+						  // The anchor for this image is the base of the flagpole at 10,31.
+						  new google.maps.Point(10, 31));
 
 				return image;
 			}
