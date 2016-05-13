@@ -442,9 +442,15 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 
 		// Query the repository
 		if (!empty($latLong) || $filterObject->getLocation() === '') {
-			$agencies = $this->agencyRepository->findAllByFilter($filterObject, $order, $offset, $pager->getItemsPerPage(), $latLong, $this->settings['nearbyAdditionalWhere']);
-			$allAgencies = $this->agencyRepository->findAllByFilter($filterObject, NULL, 0, 0, $latLong, $this->settings['nearbyAdditionalWhere']);
-		} else {
+			$agencies = $this->agencyRepository->findAllByFilter(
+				$filterObject, $order, $offset, $pager->getItemsPerPage(), $latLong, $this->settings['nearbyAdditionalWhere']
+			);
+			$allAgencies = $this->agencyRepository->findAllByFilter(
+				$filterObject, NULL, 0, 0, $latLong, $this->settings['nearbyAdditionalWhere']
+			);
+		}
+		$agenciesArray = $agencies->toArray();
+		if (empty($latLong) || empty($agenciesArray)) {
 			// search for the name or city
 			$agencies = $this->agencyRepository->findByNameOrCity($filterObject, $order);
 			$allAgencies = $agencies;
