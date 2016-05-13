@@ -92,6 +92,22 @@ CREATE TABLE tx_typo3agencies_domain_model_agency (
 
 	referenceses int(11) unsigned DEFAULT '0' NOT NULL,
 
+	own_page_t3ver varchar(255) DEFAULT '' NOT NULL,
+	certified_integrators int(11) unsigned DEFAULT '0' NOT NULL,
+	published_extkeys varchar(255) DEFAULT '' NOT NULL,
+	financial_involvement text NOT NULL,
+	active_involvement text NOT NULL,
+	last_t3pages text NOT NULL,
+	online_references varchar(255) DEFAULT '' NOT NULL,
+
+	proof_own_page_t3ver tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	proof_certified_integrators tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	proof_published_extkeys tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	proof_financial_involvement tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	proof_active_involvement tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	proof_last_t3pages tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	proof_online_references tinyint(4) unsigned DEFAULT '0' NOT NULL,
+
 	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
 	crdate int(11) unsigned DEFAULT '0' NOT NULL,
 	deleted tinyint(4) unsigned DEFAULT '0' NOT NULL,

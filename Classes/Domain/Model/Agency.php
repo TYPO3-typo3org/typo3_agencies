@@ -208,6 +208,95 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	 *  @var float
 	 */
 	protected $longitude = 0;
+
+	/**
+	 * Our website runs on TYPO3 version: Input Field
+	 *
+	 * @var string
+	 */
+	protected $ownPageT3ver = '';
+
+	/**
+	 * Name of the certified TYPO3 integrator (needs to be a permanent employee):
+	 *
+	 * @var string
+	 */
+	protected $certifiedIntegrators = '';
+
+	/**
+	 * Extension key of your published extension:
+	 *
+	 * @var string
+	 */
+	protected $publishedExtkeys = '';
+
+	/**
+	 * Your TYPO3 financial involvement: Textarea
+	 *
+	 * @var string
+	 */
+	protected $financialInvolvement = '';
+
+	/**
+	 * Your TYPO3 active involvement: Textarea
+	 *
+	 * @var string
+	 */
+	protected $activeInvolvement = '';
+
+	/**
+	 * At least eight TYPO3 references visible online: 8 URL Fields
+	 *
+	 * @var string
+	 */
+	protected $lastT3pages = '';
+
+	/**
+	 * Online references:URL Field
+	 * @var string
+	 */
+	protected $onlineReferences = '';
+
+	/**
+	 * Proof: TYPO3 version
+	 *
+	 * @var bool
+	 */
+	protected $proofOwnPageT3ver = false;
+
+	/**
+	 * Proof: TYPO3 integrator
+	 *
+	 * @var bool
+	 */
+	protected $proofCertifiedIntegrators = false;
+
+	/**
+	 * Proof: Extension key of your published extension:
+	 *
+	 * @var bool
+	 */
+	protected $proofPublishedExtkeys = false;
+
+	/**
+	 * Proof: Your TYPO3 financial involvement:
+	 *
+	 * @var bool
+	 */
+	protected $proofFinancialInvolvement = false;
+
+	/**
+	 * Proof: Your TYPO3 active involvement: Texture
+	 *
+	 * @var bool
+	 */
+	protected $proofActiveInvolvement = false;
+
+	/**
+	 * Proof: References
+	 * @var bool
+	 */
+	protected $proofOnlineReferences = false;
 	
 	/**
 	 * Constructs a new Agency
@@ -688,6 +777,166 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 		}
 
 		return $countryName;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getOwnPageT3ver()
+	{
+		return $this->ownPageT3ver;
+	}
+
+	/**
+	 * @param string $ownPageT3ver
+	 */
+	public function setOwnPageT3ver($ownPageT3ver)
+	{
+		$this->ownPageT3ver = $ownPageT3ver;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCertifiedIntegrators()
+	{
+		return $this->certifiedIntegrators;
+	}
+
+	/**
+	 * @param string $certifiedIntegrators
+	 */
+	public function setCertifiedIntegrators($certifiedIntegrators)
+	{
+		$this->certifiedIntegrators = $certifiedIntegrators;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPublishedExtkeys()
+	{
+		return $this->publishedExtkeys;
+	}
+
+	/**
+	 * @param string $publishedExtkeys
+	 */
+	public function setPublishedExtkeys($publishedExtkeys)
+	{
+		$this->publishedExtkeys = $publishedExtkeys;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFinancialInvolvement()
+	{
+		return $this->financialInvolvement;
+	}
+
+	/**
+	 * @param string $financialInvolvement
+	 */
+	public function setFinancialInvolvement($financialInvolvement)
+	{
+		$this->financialInvolvement = $financialInvolvement;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getActiveInvolvement()
+	{
+		return $this->activeInvolvement;
+	}
+
+	/**
+	 * @param string $activeInvolvement
+	 */
+	public function setActiveInvolvement($activeInvolvement)
+	{
+		$this->activeInvolvement = $activeInvolvement;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getLastT3pages()
+	{
+		return $this->lastT3pages;
+	}
+
+	/**
+	 * @param string $lastT3pages
+	 */
+	public function setLastT3pages($lastT3pages)
+	{
+		$this->lastT3pages = $lastT3pages;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getOnlineReferences()
+	{
+		return $this->onlineReferences;
+	}
+
+	/**
+	 * @param string $onlineReferences
+	 */
+	public function setOnlineReferences($onlineReferences)
+	{
+		$this->onlineReferences = $onlineReferences;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isProofOwnPageT3ver()
+	{
+		return $this->proofOwnPageT3ver;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isProofCertifiedIntegrators()
+	{
+		return $this->proofCertifiedIntegrators;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isProofPublishedExtkeys()
+	{
+		return $this->proofPublishedExtkeys;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isProofFinancialInvolvement()
+	{
+		return $this->proofFinancialInvolvement;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isProofActiveInvolvement()
+	{
+		return $this->proofActiveInvolvement;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isProofOnlineReferences()
+	{
+		return $this->proofOnlineReferences;
 	}
 }
 ?>
