@@ -251,6 +251,26 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 		return $result;
 	}
 
+	/**
+	 * @param string $searchString
+	 * @return array|\Tx_Extbase_Persistence_QueryResultInterface
+	 */
+	public function findBySearchString($searchString) {
+		$query = $this->createQuery();
+		$searchString = '%' . mysql_real_escape_string($searchString) . '%';
+		$query->matching(
+			$query->logicalOr(
+				array(
+					$query->like('name', $searchString),
+					$query->like('city', $searchString)
+				)
+			)
+		);
+
+		return $query->execute();
+	}
+
+
 }
 
 ?>

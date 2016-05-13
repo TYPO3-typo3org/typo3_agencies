@@ -4,27 +4,27 @@
 plugin.tx_typo3agencies {
 	settings {
 		uploadPath = {$plugin.tx_typo3agencies.settings.uploadPath}
-		
+
 		platinumMax = {$plugin.tx_typo3agencies.settings.platinumMax}
 		goldMax = {$plugin.tx_typo3agencies.settings.goldMax}
 		silverMax = {$plugin.tx_typo3agencies.settings.silverMax}
 		bronzeMax = {$plugin.tx_typo3agencies.settings.bronzeMax}
-		
+
 		pageBrowser {
 			itemsPerPage = {$plugin.tx_typo3agencies.settings.pageBrowser.itemsPerPage}
 		}
-		
+
 		agenciesPid = {$plugin.tx_typo3agencies.settings.agenciesPid}
 		referencesPid = {$plugin.tx_typo3agencies.settings.referencesPid}
-		
+
 		clearCachePids = {$plugin.tx_typo3agencies.settings.referencesPid},{$plugin.tx_typo3agencies.settings.agenciesPid}
-		
+
 		googleMapsKey = {$plugin.tx_typo3agencies.settings.googleMapsKey}
-		
-		nearbyAdditionalWhere = 6367.41*SQRT(2*(1-cos(RADIANS(latitude))*cos(RADIANS(###LATITUDE###))*(sin(RADIANS(longitude))*sin(RADIANS(###LONGITUDE###))+cos(RADIANS(longitude))*cos(RADIANS(###LONGITUDE###)))-sin(RADIANS(latitude))*sin(RADIANS(###LATITUDE###)))) <= 50
-		
+
+		nearbyAdditionalWhere = 6367.41*SQRT(2*(1-cos(RADIANS(latitude))*cos(RADIANS(###LATITUDE###))*(sin(RADIANS(longitude))*sin(RADIANS(###LONGITUDE###))+cos(RADIANS(longitude))*cos(RADIANS(###LONGITUDE###)))-sin(RADIANS(latitude))*sin(RADIANS(###LATITUDE###)))) <= 100
+
 		recentCaseStudies = {$plugin.tx_typo3agencies.settings.recentCaseStudies}
-		
+
 		pdfTypeNum = {$plugin.tx_typo3agencies.settings.pdfTypeNum}
 
 		applicationEmailAddress = {$plugin.tx_typo3agencies.settings.applicationEmailAddress}
@@ -32,7 +32,7 @@ plugin.tx_typo3agencies {
 	persistence {
 		storagePid = {$plugin.tx_typo3agencies.persistence.storagePid},0
 		enableAutomaticCacheClearing = 1
-		
+
 		classes {
 			Tx_Typo3Agencies_Domain_Model_Country {
 				mapping {
@@ -45,7 +45,7 @@ plugin.tx_typo3agencies {
 	}
 	features {
 		rewrittenPropertyMapper = 1
-	}			
+	}
 	view {
 		templateRootPath = {$plugin.tx_typo3agencies.view.templateRootPath}
 		partialRootPath = {$plugin.tx_typo3agencies.view.partialRootPath}
@@ -226,7 +226,7 @@ pdf_generator {
   config.pdf_generator2.pdfversion = {$pdf_generator2.pdfversion}
   config.pdf_generator2.cssmedia = {$pdf_generator2.cssmedia}
   config.pdf_generator2.use_pdflib = {$pdf_generator2.use_pdflib}
-  
+
   config.pdf_generator2.top = {$pdf_generator2.top}
   config.pdf_generator2.bottom = {$pdf_generator2.bottom}
   config.pdf_generator2.left = {$pdf_generator2.left}
