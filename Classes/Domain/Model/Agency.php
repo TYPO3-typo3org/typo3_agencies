@@ -676,5 +676,18 @@ class Tx_Typo3Agencies_Domain_Model_Agency extends Tx_Extbase_DomainObject_Abstr
 	public function setCasestudies($caseStudies) {
 		$this->casestudies = $caseStudies;
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getCountryName() {
+		$countryName = '';
+		if (!empty($this->country) ) {
+			$info  = t3lib_div::makeInstance('tx_staticinfotables_div');
+			$countryName = $info->getTitleFromIsoCode('static_countries', $this->country);
+		}
+
+		return $countryName;
+	}
 }
 ?>

@@ -16,6 +16,7 @@
 					</f:if>
 				</h1>
 
+
 				<div class="cl">
 					<div class="s-sidebar">
 						<f:if condition="{isAdministrator}">
@@ -50,6 +51,12 @@
 								</f:if>
 							</f:if>
 							<p>
+								{agency.address} </br>
+								{agency.zip} {agency.city} </br>
+								{agency.countryName}
+							</p>
+
+							<p>
 								<f:link.external uri="{agency.link}" target="_blank"><strong>{agency.link}</strong>
 								</f:link.external>
 							</p>
@@ -74,6 +81,9 @@
 								</div><!-- .agency-desc -->
 							</div><!-- .b-agency -->
 						</div><!-- b-project -->
+						<div class="hr">
+							<hr />
+						</div>
 
 						<f:if condition="{administrator}">
 							<f:if condition="{administrator} == {agency.administrator}">
