@@ -437,32 +437,37 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 	}
 
 	/**
-	 * Shows the delete view
+	 * Deletes the given reference and redirects the user to his agency page.
+	 * If no user is logged in, a redirect to the reference list is performed.
+	 * If the user has no permission to delete the given reference he is redirected to his agency page.
+	 * After deleting the reference the page cache is cleared.
 	 *
 	 * @param Tx_Typo3Agencies_Domain_Model_Reference $reference The reference to delete
-	 * @param string $redirectController    The controller to redirect to
-	 * @param string $redirect    The agency action to redirect to
 	 *
 	 * @return void
 	 * @dontvalidate $reference
 	 */
-	public function deleteAction(Tx_Typo3Agencies_Domain_Model_Reference $reference, $redirectController = NULL, $redirect = NULL) {
-		if ($this->agency && $reference->getAgency()->getUid() == $this->agency->getUid()) {
-			$this->referenceRepository->remove($reference);
-			$this->flashMessages->add(str_replace('%NAME%', $reference->getTitle(), $this->localization->translate('referenceRemoved', $this->extensionName)), '', t3lib_message_AbstractMessage::OK);
+	public function deleteAction(Tx_Typo3Agencies_Domain_Model_Reference $reference) {
 
-			$this->view->assign('redirectController', $redirectController);
-			$this->view->assign('redirect', $redirect);
-			$this->view->assign('reference', $reference);
-			$this->view->assign('administrator', $this->administrator);
-			$this->view->assign('uploadPath', $this->settings['uploadPath']);
-			$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
+		if (!isset($this->agency)) {
+			$this->flashMessages->add('You need to be logged in to delete references.', '', t3lib_message_AbstractMessage::ERROR);
+			$this->redirect('list');
 		}
-		if (isset($redirect) && isset($redirectController)) {
-			$this->redirect($redirect, $redirectController, $this->extensionName, Array('reference' => $reference, 'redirectController' => $redirectController, 'redirect' => $redirect));
-		} else {
-			$this->redirect('index');
+
+		if ($reference->getAgency()->getUid() !== $this->agency->getUid()) {
+			$this->flashMessages->add('You are not allowed to delete this reference.', '', t3lib_message_AbstractMessage::ERROR);
+			$this->redirect('show', 'Agency', $this->extensionName, array('agency' => $this->agency), $this->settings['agenciesPid']);
 		}
+
+		$this->referenceRepository->remove($reference);
+		$this->flashMessages->add(
+			str_replace('%NAME%', $reference->getTitle(), $this->localization->translate('referenceRemoved', $this->extensionName)),
+			'',
+			t3lib_message_AbstractMessage::OK
+		);
+
+		$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
+		$this->redirect('show', 'Agency', $this->extensionName, array('agency' => $this->agency), $this->settings['agenciesPid']);
 	}
 
 	/**
