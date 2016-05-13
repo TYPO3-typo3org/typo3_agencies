@@ -450,7 +450,7 @@ class Tx_Typo3Agencies_Controller_AgencyController extends Tx_Typo3Agencies_Cont
 			);
 		}
 		$agenciesArray = $agencies->toArray();
-		if (empty($latLong) || empty($agenciesArray)) {
+		if ($filterObject->getLocation() !== '' && (empty($latLong) || empty($agenciesArray))) {
 			// search for the name or city
 			$agencies = $this->agencyRepository->findByNameOrCity($filterObject, $order);
 			$allAgencies = $agencies;
