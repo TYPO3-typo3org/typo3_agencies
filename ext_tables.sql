@@ -74,7 +74,7 @@ CREATE TABLE tx_typo3agencies_domain_model_agency (
 	first_name varchar(100) DEFAULT '' NOT NULL,
 	last_name varchar(100) DEFAULT '' NOT NULL,
 
-	member tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	member tinyint(4) DEFAULT '0' NOT NULL,
 	approved tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	casestudies tinyint(4) unsigned DEFAULT '0' NOT NULL,
 	code varchar(100) DEFAULT '' NOT NULL,
