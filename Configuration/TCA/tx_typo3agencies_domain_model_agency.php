@@ -53,6 +53,39 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 				'type' => 'check'
 			)
 		),
+		'endtime' => array(
+			'exclude' => 1,
+			'l10n_mode' => 'mergeIfNotBlank',
+			'label' => 'LLL:EXT:lang/locallang_general.xml:LGL.endtime',
+			'config' => array(
+				'type' => 'input',
+				'size' => 13,
+				'max' => 20,
+				'eval' => 'datetime',
+				'checkbox' => 0,
+				'default' => 0,
+				'range' => array(
+					'lower' => mktime(0, 0, 0, date('m'), date('d'), date('Y'))
+				),
+			),
+		),
+		'related_member' => Array (
+			'exclude' => 1,
+			'label'   => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.related_member',
+			'config' => Array (
+				'type' => 'group',
+				'internal_type' => 'db',
+				'size' => 1,
+				'minitems' => 0,
+				'maxitems' => 1,
+				'allowed' => 'tx_t3omembership_domain_model_member',
+				'wizards' => Array(
+					'suggest' => array(
+						'type' => 'suggest'
+					)
+				),
+			)
+		),
 		'name' => array(
 			'exclude' => 0,
 			'label'   => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.name',
@@ -426,7 +459,19 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 		),
 	),
 	'types' => array(
-		'1' => array('showitem' => '--div--;LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.generaltab,sys_language_uid, hidden, name, address, zip, city, country, link, email, contact, logo, about, size, latitude, longitude, training_service, hosting_service, development_service, administrator, --div--;LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.assoctab, member, approved, casestudies, code, internal_comment, payed_until_date, next_review_date, --div--;LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.reftab, referenceses,--div--;Fragebogen,own_page_t3ver, certified_integrators, published_extkeys, financial_involvement, active_involvement, last_t3pages, online_references, --palette--;Proof;proof')
+		'1' => array(
+			'showitem' => '
+				--div--;LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.generaltab,
+				sys_language_uid, hidden, related_member, logo, about, size,
+				training_service, hosting_service, development_service, latitude, longitude,
+				--div--;LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.internaltab,
+				approved, administrator, casestudies, payed_until_date, next_review_date, internal_comment, code, --palette--;Proof;proof,
+				--div--;LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.assoctab,
+				member, name, address, zip, city, country, link, email, contact, endtime,
+				--div--;LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.reftab,
+				referenceses
+			'
+		)
 	),
 	'palettes' => array(
 		'1' => array('showitem' => ''),

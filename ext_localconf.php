@@ -49,3 +49,12 @@ $TYPO3_CONF_VARS['SC_OPTIONS']['scheduler']['tasks']['Tx_Typo3Agencies_Scheduler
 	'title' => 'LLL:EXT:'.$_EXTKEY.'/Resources/Private/Language/locallang.xml:membershipUpdater.name',
 	'description' => 'LLL:EXT:'.$_EXTKEY.'/Resources/Private/Language/locallang.xml:membershipUpdater.description',
 );
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tceforms.php']['getMainFieldsClass'][] =
+	'Tx_Typo3Agencies_Hooks_BackendForms';
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['processDatamapClass'][] =
+	'Tx_Typo3Agencies_Hooks_DataHandler';
+
+$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['t3o_membership']['importMemberTaksHooks'][] =
+	'Tx_Typo3Agencies_Hooks_DataHandler';

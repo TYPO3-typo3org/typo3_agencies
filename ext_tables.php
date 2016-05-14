@@ -80,7 +80,8 @@ $TCA['tx_typo3agencies_domain_model_agency'] = Array (
 		'delete' 			=> 'deleted',
 		'dividers2tabs' => TRUE,
 		'enablecolumns' 	=> Array(
-			'disabled' => 'hidden'
+			'disabled' => 'hidden',
+			'endtime' => 'endtime',
 			),
 		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'Configuration/TCA/tx_typo3agencies_domain_model_agency.php',
 		'iconfile' 			=> t3lib_extMgm::extRelPath($_EXTKEY) . 'Resources/Public/Icons/icon_tx_typo3agencies_domain_model_agency.gif'

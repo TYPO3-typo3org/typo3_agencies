@@ -17,6 +17,8 @@ return array(
 	'tx_typo3agencies_domain_repository_categoryrepository' => $extensionClassesPath . 'Domain/Repository/CategoryRepository.php',
 	'tx_typo3agencies_controller_referencecontroller' => $extensionClassesPath . 'Controller/ReferenceController.php',
 	'tx_typo3agencies_controller_agencycontroller' => $extensionClassesPath . 'Controller/AgencyController.php',
+	'tx_typo3agencies_hooks_backendforms' => $extensionClassesPath . 'Hooks/BackendForms.php',
+	'tx_typo3agencies_hooks_datahandler' => $extensionClassesPath . 'Hooks/DataHandler.php',
 	'tx_typo3agencies_viewhelpers_haserrorviewhelper' => $extensionClassesPath . 'ViewHelpers/HasErrorViewHelper.php',
 	'tx_typo3agencies_viewhelpers_imageviewhelper' => $extensionClassesPath . 'ViewHelpers/ImageViewHelper.php',
 
