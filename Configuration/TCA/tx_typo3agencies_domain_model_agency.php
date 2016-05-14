@@ -265,9 +265,9 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 				'minitems'      => 0
 			)
 		),
-		'administrator' => Array (		
+		'administrator' => Array (
 			'exclude' => 1,
-			'label'   => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.administrator',		
+			'label'   => 'LLL:EXT:typo3_agencies/Resources/Private/Language/locallang_db.xml:tx_typo3agencies_domain_model_agency.administrator',
 			'config' => Array (
 				'type' => 'group',
 				'internal_type' => 'db',
@@ -478,5 +478,3 @@ $TCA['tx_typo3agencies_domain_model_agency'] = array(
 		'proof' => array('showitem' => 'proof_own_page_t3ver, --linebreak--, proof_certified_integrators, --linebreak--, proof_published_extkeys, --linebreak--, proof_financial_involvement, --linebreak--, proof_active_involvement, --linebreak--, proof_last_t3pages, --linebreak--, proof_online_references', 'canNotCollapse' => 1)
 	)
 );
-
-?>
