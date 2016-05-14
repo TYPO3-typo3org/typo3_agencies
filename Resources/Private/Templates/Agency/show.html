@@ -99,10 +99,10 @@
 								</p>
 							</f:if>
 						</f:if>
-						<h2><strong>
-							<f:translate key="projectsOf">Project List</f:translate>
-						</strong></h2>
 						<f:if condition="{agency.references}">
+							<h2><strong>
+								<f:translate key="projectsOf">Project List</f:translate>
+							</strong></h2>
 							<ul class="b-projects-list" id="sortable">
 								<f:for each="{agency.references}" as="reference">
 									<f:if condition="{reference.deactivated} == 1">
