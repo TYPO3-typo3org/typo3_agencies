@@ -44,18 +44,13 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 	 * @param Tx_Typo3Agencies_Domain_Model_Industry $industry
 	 * @param Tx_Typo3Agencies_Domain_Model_Revenue $revenue
 	 * @param integer $membershipType
-	 * @param integer $listed
+	 * @param string $listed
 	 */
-	public function indexAction(Tx_Typo3Agencies_Domain_Model_Category $category = NULL, Tx_Typo3Agencies_Domain_Model_Industry $industry = NULL, Tx_Typo3Agencies_Domain_Model_Revenue $revenue = NULL, $membershipType = -1, $listed = -1) {
+	public function indexAction(Tx_Typo3Agencies_Domain_Model_Category $category = NULL, Tx_Typo3Agencies_Domain_Model_Industry $industry = NULL, Tx_Typo3Agencies_Domain_Model_Revenue $revenue = NULL, $membershipType = -1, $listed = FALSE) {
 		if ($this->settings['showAgencyIfLoggedIn'] == 1 && $this->administrator > 0) {
 			$this->redirect('show', 'Agency');
 		} else {
-			if ($listed == -1) {
-				$fortune500 = FALSE;
-			} else {
-				$fortune500 = ($listed == 1);
-			}
-
+			$fortune500 = ( $listed === '1' );
 			$this->pager = t3lib_div::makeInstance('Tx_Typo3Agencies_Domain_Model_Pager');
 			$this->pager->setItemsPerPage($this->settings['pageBrowser']['itemsPerPage']);
 
