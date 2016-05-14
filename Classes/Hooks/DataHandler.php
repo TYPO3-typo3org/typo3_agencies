@@ -25,7 +25,7 @@ class Tx_Typo3Agencies_Hooks_DataHandler
      *
      * @var array
      */
-    protected $memberPslMapping = array(
+    public static $memberPslMapping = array(
         1 => 4, // Platinum
         2 => 3, // Gold
         3 => 2, // Silver
@@ -124,7 +124,7 @@ class Tx_Typo3Agencies_Hooks_DataHandler
      * @param int $agencyUid
      * @param array $memberData
      */
-    protected function updateRelatedAgencyData($agencyUid, array $memberData)
+    public function updateRelatedAgencyData($agencyUid, array $memberData)
     {
         $agencyData = array(
             'name' => $memberData['name'],
@@ -137,7 +137,7 @@ class Tx_Typo3Agencies_Hooks_DataHandler
             'last_name' => $memberData['lastname'],
             'endtime' => $memberData['endtime'],
             'contact' => $memberData['firstname'] . ' ' . $memberData['lastname'],
-            'member' => $this->memberPslMapping[$memberData['membership']],
+            'member' => self::$memberPslMapping[$memberData['membership']],
         );
         $this->getDatabaseConnection()->exec_UPDATEquery(
             'tx_typo3agencies_domain_model_agency',

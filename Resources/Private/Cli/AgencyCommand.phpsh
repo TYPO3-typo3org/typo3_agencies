@@ -1,0 +1,14 @@
+<?php
+defined('TYPO3_cliMode') or die('Not allowed.');
+
+$command = !empty($_SERVER['argv'][1]) ? $_SERVER['argv'][1] : '';
+$commandMethod = $command . 'Command';
+
+$agencyCommandController = t3lib_div::makeInstance('Tx_Typo3Agencies_Command_AgencyCommandController');
+if (!method_exists($agencyCommandController, $commandMethod)) {
+    echo "\n" . 'The command method ' . $commandMethod . ' does not exist in Tx_Typo3Agencies_Command_AgencyCommandController ' . "\n\n";
+    echo 'Available commands:' . "\n";
+    echo '- connectMembers - Tries to fiend a mathing member for all agencies.' . "\n\n";
+    exit(1);
+}
+$agencyCommandController->$commandMethod();

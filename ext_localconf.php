@@ -58,3 +58,8 @@ $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_tcemain.php']['proc
 
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['t3o_membership']['importMemberTaksHooks'][] =
 	'Tx_Typo3Agencies_Hooks_DataHandler';
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['GLOBAL']['cliKeys']['agency'] = array(
+	'EXT:typo3_agencies/Resources/Private/Cli/AgencyCommand.phpsh',
+	'_CLI_lowlevel'
+);

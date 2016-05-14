@@ -1,6 +1,7 @@
 <?php
 $extensionClassesPath = t3lib_extMgm::extPath('typo3_agencies') . 'Classes/';
 return array(
+	'tx_typo3agencies_command_agencycommandcontroller' => $extensionClassesPath . 'Command/AgencyCommandController.php',
 	'tx_typo3agencies_domain_model_reference' => $extensionClassesPath . 'Domain/Model/Reference.php',
 	'tx_typo3agencies_domain_model_agency' => $extensionClassesPath . 'Domain/Model/Agency.php',
 	'tx_typo3agencies_domain_model_filter' => $extensionClassesPath . 'Domain/Model/Filter.php',
