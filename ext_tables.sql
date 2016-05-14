@@ -49,7 +49,7 @@ CREATE TABLE tx_typo3agencies_domain_model_reference (
 	l18n_diffsource mediumblob NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid),
+	KEY parent (pid)
 );
 
 #
@@ -129,7 +129,7 @@ CREATE TABLE tx_typo3agencies_domain_model_agency (
 	l18n_diffsource mediumblob NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY parent (pid),
+	KEY parent (pid)
 );
 
 CREATE TABLE tx_typo3agencies_domain_model_industry (
