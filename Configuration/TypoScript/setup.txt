@@ -58,6 +58,8 @@ plugin.tx_typo3agencies {
 	}
 }
 
+plugin.tx_t3omembership.settings.agenciesPid = {$plugin.tx_typo3agencies.settings.agenciesPid}
+
 [globalVar = GP:tx_typo3agencies_pi1|action = edit] && [globalVar = GP:tx_typo3agencies_pi1|controller = Agency]
 tt_content.list.20.typo3agencies_pi1 = USER_INT
 plugin.tx_typo3agencies = USER_INT
