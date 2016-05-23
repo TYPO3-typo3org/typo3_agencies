@@ -397,6 +397,10 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 
 			$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
 		}
+		if (t3lib_extMgm::isLoaded('solr')) {
+		    $garbageCollector = t3lib_div::makeInstance('tx_solr_garbagecollector');
+		    $garbageCollector->collectGarbage('tx_typo3agencies_domain_model_reference', $reference->getUid());
+		}
 		if (isset($redirect) && isset($redirectController)) {
 			$this->redirect($redirect, $redirectController, $this->extensionName, Array('reference' => $reference, 'redirectController' => $redirectController, 'redirect' => $redirect));
 		} else {
@@ -420,9 +424,20 @@ class Tx_Typo3Agencies_Controller_ReferenceController extends Tx_Typo3Agencies_C
 			} else {
 				$reference->setDeactivated(FALSE);
 				$this->referenceRepository->update($reference);
+				//we need to persist immediatly, since otherwise the following
+				//solr actions fail du to the additionalWhereClause.
+				$this->objectManager->get('Tx_Extbase_Persistence_Manager')->persistAll(); 
 				$this->flashMessages->add(str_replace('%NAME%', $reference->getTitle(), $this->localization->translate('referenceReactivated', $this->extensionName)), '', t3lib_message_AbstractMessage::OK);
 			}
 			$GLOBALS['TSFE']->clearPageCacheContent_pidList($this->settings['clearCachePids']);
+		}
+		if (t3lib_extMgm::isLoaded('solr')) { 
+		    $connectionManager	= t3lib_div::makeInstance('tx_solr_ConnectionManager'); 
+		    $indexQueue		= t3lib_div::makeInstance('tx_solr_indexqueue_Queue');
+		    $indexQueue->updateItem('tx_typo3agencies_domain_model_reference', $reference->getUid());
+		    foreach ( $connectionManager->getAllConnections() as $connection ) {
+			$connection->commit(FALSE, FALSE, FALSE);
+		    }
 		}
 		if (isset($redirect) && isset($redirectController)) {
 			$this->redirect($redirect, $redirectController, $this->extensionName, Array('reference' => $reference, 'redirectController' => $redirectController, 'redirect' => $redirect));
