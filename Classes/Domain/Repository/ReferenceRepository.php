@@ -301,26 +301,21 @@ class Tx_Typo3Agencies_Domain_Repository_ReferenceRepository extends Tx_Extbase_
 	}
 
 	/**
-	 * Finds all references by the specified agency
+	 * Finds 5 random references for slider
 	 *
-	 * @param Tx_Typo3Agencies_Domain_Model_Agency $agency The company the references must refer to
-	 * @param boolean $includeDeactivated
-	 * @return array The references
+	 * @return Tx_Extbase_Persistence_QueryResultInterface|array
 	 */
 	public function findAllForSlider() {
 		$query = $this->createQuery();
 		$query->setLimit(5);
-		// DB-Backend laden:
+		$query->matching($query->logicalAnd($query->equals('deactivated', 0)));
+		/** @var Tx_Extbase_Persistence_Storage_Typo3DbBackend $backend */
 		$backend = t3lib_div::makeInstance('Tx_Extbase_Persistence_Storage_Typo3DbBackend');
-		// Teile des Query extrahieren:
 		$parameters = array();
 		$statementParts = $backend->parseQuery($query, $parameters);
-		// Teile des Query ändern:
 		$statementParts['orderings'][] = 'RAND()';
-		// Wieder zusammensetzen:
-		$statement = $backend->buildQuery($statementParts, $parameters);
+		$statement = $backend->buildQuery($statementParts);
 		$query->statement($statement, $parameters);
-		$query->matching($query->logicalAnd($query->equals('deactivated',0)));
 		return $query->execute();
 	}
 }
