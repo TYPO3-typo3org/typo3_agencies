@@ -65,7 +65,7 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 	protected function getConstraints(Tx_Extbase_Persistence_QueryInterface $query, Tx_Typo3Agencies_Domain_Model_Filter $filter) {
 		$constrains = array();
 
-		$constrains[] = $query->greaterThan('member', 0);
+
 
 		// Special case: remove certain type of record from the result set
 		$_constrains = array();
@@ -76,10 +76,18 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 
 		// Membership case
 		$members = $filter->getMembers();
-		if (!empty($members)) {
+
+        if (!empty($members)) {
+
+	        $_constrains = array();
 			foreach ($members as $member) {
 				$_constrains[] = $query->equals('member', $member);
 			}
+	        $constrains[] = $query->logicalOr($_constrains);
+		}
+		else {
+			// get all membershiptypes
+			$constrains[] = $query->greaterThan('member', 0);
 		}
 
 		// Service case
@@ -192,7 +200,6 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 			$query->statement($this->getStatement($filter, $latLong, $nearbyAdditionalWhere));
 		} else {
 			$constraints = $this->getConstraints($query, $filter);
-
 			if (!empty($constraints)) {
 				$query->matching($query->logicalAnd($constraints));
 			}
@@ -200,6 +207,7 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 			if ($order) {
 				$ordering = $order->getOrderings();
 				$query->setOrderings($ordering);
+
 			}
 
 			if ($offset) {
@@ -210,9 +218,9 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 				$query->setLimit((integer) $rowsPerPage);
 			}
 		}
+        $result = $query->execute();
 
-		$result = $query->execute();
-		return $result;
+        return $result;
 	}
 
 	/**
@@ -244,7 +252,6 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 		);
 
 		$result = $query->execute();
-
 		return $result;
 	}
 
@@ -286,6 +293,28 @@ class Tx_Typo3Agencies_Domain_Repository_AgencyRepository extends Tx_Extbase_Per
 	}
 
 
-}
 
+
+/**
+ * Debugs a SQL query from a QueryResult
+ *
+ * @param $queryResult
+ * @param boolean $explainOutput
+ * @return void
+ */
+public function debugQuery($queryResult, $explainOutput = FALSE){
+    $GLOBALS['TYPO3_DB']->debugOutput = 2;
+    if($explainOutput){
+        $GLOBALS['TYPO3_DB']->explainOutput = true;
+    }
+    $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = true;
+    $queryResult->toArray();
+    t3lib_div::debug($GLOBALS['TYPO3_DB']->debug_lastBuiltQuery);
+
+
+    $GLOBALS['TYPO3_DB']->store_lastBuiltQuery = false;
+    $GLOBALS['TYPO3_DB']->explainOutput = false;
+    $GLOBALS['TYPO3_DB']->debugOutput = false;
+}
+}
 ?>
