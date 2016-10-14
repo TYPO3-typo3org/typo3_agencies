@@ -12,10 +12,10 @@
 
 $EM_CONF[$_EXTKEY] = array(
 	'title' => 'Agency extension for typo3.org',
-	'description' => 'Displayes TYPO3 agencies and references',
+	'description' => 'Displays TYPO3 agencies and references',
 	'category' => 'fe',
 	'shy' => 0,
-	'version' => '1.1.1',
+	'version' => '1.1.2',
 	'dependencies' => 'extbase,fluid',
 	'conflicts' => '',
 	'priority' => '',
